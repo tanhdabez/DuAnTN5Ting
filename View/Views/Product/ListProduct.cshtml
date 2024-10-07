@@ -1,0 +1,89 @@
+﻿@model IEnumerable<View.Models.ProductViewModel>
+
+@{
+    ViewData["Title"] = "ListProduct";
+}
+<div class="card">
+    <div class="card-header">
+        <h3 class="card-title">Quản Lý Sản Phẩm</h3>
+    </div>
+    <!-- /.card-header -->
+    <div class="card-body">
+        <p>
+            <a asp-action="SetProduct" class="btn btn-success">Create New</a>
+        </p>
+        <table id="example1" class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th>
+                        Mã Sản Phẩm
+                    </th>
+                    <th>
+                        Tên Sản Phẩm
+                    </th>
+                    <th>
+                        Giá
+                    </th>
+                    <th>
+                        Năm Sản Xuất
+                    </th>
+                    <th>
+                        Mô tả
+                    </th>
+                    <th>
+                        Loại Áo
+                    </th>
+                    <th>
+                        Thương Hiệu
+                    </th>
+                    <th>
+                        Nơi Sản Xuất
+                    </th>
+                    <th>
+                        Vật Liệu
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.MaSanPham)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.TenSanPham)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.GiaSanPham)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.NamSanXuat)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.MoTa)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.LoaiSanPham)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Brand)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.NhaSanXuat)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.TenVatLieu)
+                        </td>
+                        <td>
+                            @Html.ActionLink("Edit", "SetProduct", new { id = item.Id }, new { @class = "btn btn-warning btn-sm" })
+                            @Html.ActionLink("Details", "GetProductsById", new { id = item.Id }, new { @class = "btn btn-info btn-sm" })
+                            @Html.ActionLink("Delete", "DeleteProduct", new { id = item.Id }, new { @class = "btn btn-danger btn-sm" })
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
