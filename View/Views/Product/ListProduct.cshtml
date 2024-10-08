@@ -42,6 +42,9 @@
                     <th>
                         Vật Liệu
                     </th>
+                    <th>
+                        Hình Ảnh
+                    </th>
                     <th></th>
                 </tr>
             </thead>
@@ -75,6 +78,19 @@
                         </td>
                         <td>
                             @Html.DisplayFor(modelItem => item.TenVatLieu)
+                        </td>
+                        <td>
+                            @if (item.HinhAnh != null && item.HinhAnh.Any())
+                            {
+                                foreach (var imageUrl in item.HinhAnh)
+                                {
+                                    <img src="@imageUrl" alt="@item.TenSanPham" style="width: 100px; height: auto;" />
+                                }
+                            }
+                            else
+                            {
+                                <p></p>
+                            }
                         </td>
                         <td>
                             @Html.ActionLink("Edit", "SetProduct", new { id = item.Id }, new { @class = "btn btn-warning btn-sm" })

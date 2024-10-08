@@ -1,6 +1,7 @@
 ﻿using Controller.DTO;
+using Controller.Models;
 using DemoBanQuanAo.Models;
-using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace DemoBanQuanAo.Service
 {
@@ -30,30 +31,36 @@ namespace DemoBanQuanAo.Service
         {
             try
             {
-
-                var findMaterial = _dbContext.Material.FirstOrDefault(x => x.Id == material.Id);
-                if (findMaterial == null)
+                if (string.IsNullOrEmpty(material.Id))
                 {
+                    // Kiểm tra mã sản phẩm có trùng không
                     var findMa = _dbContext.Material.FirstOrDefault(x => x.Ma == material.Ma);
                     if (findMa == null)
                     {
-                        material.Id = Guid.NewGuid().ToString();
+                        // Tạo mới Material
+                        material.Id = Guid.NewGuid().ToString(); // Sinh ID mới
                         material.NgayTao = DateTime.Now;
                         material.NgayCapNhat = DateTime.Now;
                         _dbContext.Material.Add(material);
                     }
                     else
                     {
+                        // Nếu trùng mã, trả về false
                         return false;
                     }
                 }
                 else
                 {
-
-                    findMaterial.Ten = material.Ten;
-                    findMaterial.NgayCapNhat = DateTime.Now;
-                    findMaterial.TrangThai = material.TrangThai;
-                    _dbContext.Material.Update(findMaterial);
+                    // Nếu có Id, tìm kiếm Material và cập nhật
+                    var findMaterial = _dbContext.Material.FirstOrDefault(x => x.Id == material.Id);
+                    if (findMaterial != null)
+                    {
+                        // Cập nhật các trường
+                        findMaterial.Ten = material.Ten;
+                        findMaterial.NgayCapNhat = DateTime.Now;
+                        findMaterial.TrangThai = material.TrangThai;
+                        _dbContext.Material.Update(findMaterial);
+                    }
                 }
                 _dbContext.SaveChanges();
                 return true;
@@ -306,25 +313,32 @@ namespace DemoBanQuanAo.Service
 
         public IEnumerable<ProductDto> GetProducts()
         {
-            var result = _dbContext.Product
-                .Select(p => new ProductDto
-                {
-                    Id = p.Id.ToString(),
-                    MaSanPham = p.Ma,
-                    TenSanPham = p.Ten,
-                    GiaSanPham = p.Gia,
-                    NamSanXuat = p.NamSX,
-                    MoTa = p.MoTa,
-                    LoaiSanPham = p.ProductType.Ten,
-                    Brand = p.Brand.Ten,
-                    NhaSanXuat = p.Manufacturer.Ten,
-                    TenVatLieu = p.Material.Ten,
-                    IdLoaiSanPham = p.ProductType.Id.ToString(),
-                    IdBrand = p.Brand.Id.ToString(),
-                    IdNhaSanXuat = p.Manufacturer.Id.ToString(),
-                    IdVatLieu = p.Material.Id.ToString(),
-                })
+            var products = _dbContext.Product
+                .Include(p => p.ProductType)          // Bao gồm ProductType
+                .Include(p => p.Brand)                 // Bao gồm Brand
+                .Include(p => p.Manufacturer)          // Bao gồm Manufacturer
+                .Include(p => p.Material)              // Bao gồm Material
+                .Include(p => p.ProductImages)         // Bao gồm ProductImages
                 .ToList();
+
+            var result = products.Select(p => new ProductDto
+            {
+                Id = p.Id.ToString(),
+                MaSanPham = p.Ma,
+                TenSanPham = p.Ten,
+                GiaSanPham = p.Gia,
+                NamSanXuat = p.NamSX,
+                MoTa = p.MoTa,
+                LoaiSanPham = p.ProductType != null ? p.ProductType.Ten : null,
+                Brand = p.Brand != null ? p.Brand.Ten : null,
+                NhaSanXuat = p.Manufacturer != null ? p.Manufacturer.Ten : null,
+                TenVatLieu = p.Material != null ? p.Material.Ten : null,
+                IdLoaiSanPham = p.ProductType != null ? p.ProductType.Id.ToString() : null,
+                IdBrand = p.Brand != null ? p.Brand.Id.ToString() : null,
+                IdNhaSanXuat = p.Manufacturer != null ? p.Manufacturer.Id.ToString() : null,
+                IdVatLieu = p.Material != null ? p.Material.Id.ToString() : null,
+                HinhAnh = p.ProductImages != null ? p.ProductImages.Select(pi => pi.ImageUrl).ToList() : new List<string>()
+            }).ToList();
 
             return result;
         }
@@ -353,13 +367,51 @@ namespace DemoBanQuanAo.Service
 
             return result;
         }
-        public bool SetProduct(Product Product)
+        public void SetProductImages(string productId, List<string> imageUrls)
+        {
+            // Lấy danh sách ảnh hiện tại của sản phẩm
+            var existingImages = _dbContext.ProductImage.Where(img => img.ProductId == productId).ToList();
+
+            // Xóa các ảnh không còn trong danh sách mới
+            foreach (var existingImage in existingImages)
+            {
+                if (!imageUrls.Contains(existingImage.ImageUrl))
+                {
+                    _dbContext.ProductImage.Remove(existingImage);
+                }
+            }
+
+            // Thêm các ảnh mới chưa có trong danh sách hiện tại
+            foreach (var imageUrl in imageUrls)
+            {
+                // Nếu ảnh không tồn tại, thêm mới
+                if (!existingImages.Any(img => img.ImageUrl == imageUrl))
+                {
+                    var productImage = new ProductImage
+                    {
+                        Id = Guid.NewGuid().ToString(), // Tạo ID cho ảnh mới
+                        ImageUrl = imageUrl,
+                        ProductId = productId // Gán ProductId cho ảnh
+                    };
+                    _dbContext.ProductImage.Add(productImage);
+                }
+                else
+                {
+                    // Nếu cần, cập nhật ảnh hiện tại (nếu có thuộc tính nào cần cập nhật)
+                    var existingImage = existingImages.First(img => img.ImageUrl == imageUrl);
+                    // Ở đây bạn có thể thêm logic cập nhật nếu cần thiết
+                    // Ví dụ: existingImage.PropertyName = newValue;
+                }
+            }
+
+            _dbContext.SaveChanges(); // Lưu tất cả thay đổi vào cơ sở dữ liệu
+        }
+
+        public string SetProduct(Product Product, List<string> imageUrls)
         {
             try
             {
                 // Kiểm tra xem có bất kỳ giá trị nào là chuỗi rỗng và gán giá trị null nếu cần
-                
-
                 var findProduct = _dbContext.Product.FirstOrDefault(x => x.Id == Product.Id);
                 if (findProduct == null)
                 {
@@ -371,10 +423,14 @@ namespace DemoBanQuanAo.Service
                         Product.ProductTypeId = string.IsNullOrEmpty(Product.ProductTypeId) ? null : Product.ProductTypeId;
                         Product.ManufacturerId = string.IsNullOrEmpty(Product.ManufacturerId) ? null : Product.ManufacturerId;
                         _dbContext.Product.Add(Product);
+                        // Gọi hàm thêm ảnh sau khi thêm sản phẩm
+                        SetProductImages(Product.Id, imageUrls);
+                        return "Thêm sản phẩm thành công!";
                     }
                     else
                     {
-                        return false;
+                        // Nếu trùng mã, trả về thông báo
+                        return "Trùng mã sản phẩm!";
                     }
                 }
                 else
@@ -415,10 +471,12 @@ namespace DemoBanQuanAo.Service
                         findProduct.ManufacturerId = null; // Hoặc không làm gì nếu bạn muốn giữ giá trị cũ
                     }
                     findProduct.MaterialId = Product.MaterialId;
+                    // Cập nhật ảnh
+                    SetProductImages(findProduct.Id, imageUrls);
                     _dbContext.Product.Update(findProduct);
+                    return "Thêm sản phẩm thành công!";
                 }
                 _dbContext.SaveChanges();
-                return true;
             }
             catch (Exception ex)
             {

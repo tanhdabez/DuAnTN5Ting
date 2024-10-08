@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Controller.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace DemoBanQuanAo.Models
 {
@@ -22,8 +23,13 @@ namespace DemoBanQuanAo.Models
         public DbSet<ProductDetailSize> ProductDetailSize { get; set; }
         public DbSet<Size> Size { get; set; }
         public DbSet<Material> Material { get; set; }
+        public DbSet<ProductImage> ProductImage { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<ProductImage>()
+            .HasOne(p => p.Product)
+            .WithMany(p => p.ProductImages)
+            .HasForeignKey(p => p.ProductId);
             // Bảng Product Detail (không có quan hệ với Manufacturer)
             modelBuilder.Entity<ProductDetail>()
                 .HasOne(p => p.Product)

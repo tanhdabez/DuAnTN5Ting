@@ -240,7 +240,7 @@ namespace Controller.Controllers
                 MaterialId = ProductDto.IdVatLieu ?? null
             };
 
-            var result = _productService.SetProduct(product);
+            var result = _productService.SetProduct(product, ProductDto.HinhAnh);
             return Ok(result);
         }
 
