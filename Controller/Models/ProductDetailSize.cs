@@ -18,9 +18,6 @@ namespace DemoBanQuanAo.Models
         [ForeignKey("Size")]
         public string SizeId { get; set; }
 
-        public DateTime NgayTao { get; set; }
-        public DateTime NgayCapNhat { get; set; }
-        public string TrangThai { get; set; }
 
         public ProductDetail ProductDetail { get; set; }
         public Size Size { get; set; }

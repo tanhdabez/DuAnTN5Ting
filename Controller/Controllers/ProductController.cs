@@ -240,7 +240,7 @@ namespace Controller.Controllers
                 MaterialId = ProductDto.IdVatLieu ?? null
             };
 
-            var result = _productService.SetProduct(product, ProductDto.HinhAnh);
+            var result = _productService.SetProduct(product, ProductDto.HinhAnh, ProductDto.SoLuong, ProductDto.ColorId, ProductDto.SizeId );
             return Ok(result);
         }
 
@@ -249,6 +249,69 @@ namespace Controller.Controllers
         {
             var result = _productService.DeleteProduct(id);
             return Ok(result);
+        }
+
+        //Color
+        [HttpPost("SetColor")]
+        public async Task<ActionResult<ColorDto>> SetColor([FromBody] ColorDto ColorDto)
+        {
+            // Tạo hoặc cập nhật Color
+            var Color = new Color
+            {
+                Id = ColorDto.Id, // Nếu Id là rỗng, tạo ID mới
+                Ma = ColorDto.Ma,
+                Ten = ColorDto.Ten,
+
+            };
+
+            var result = _productService.SetColor(Color);
+
+            // Chuyển đổi lại Color sang ColorDto
+            return Ok(result);
+        }
+        [HttpGet("GetColors")]
+        public ActionResult<List<ColorDto>> GetColors()
+        {
+            try
+            {
+                var ColorDtos = _productService.GetColors();
+                return Ok(ColorDtos);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Lỗi xảy ra: {ex.Message}");
+            }
+        }
+        //Size
+        [HttpPost("SetSize")]
+        public async Task<ActionResult<SizeDto>> SetSize([FromBody] SizeDto SizeDto)
+        {
+            // Tạo hoặc cập nhật Size
+            var Size = new Size
+            {
+                Id = SizeDto.Id, // Nếu Id là rỗng, tạo ID mới
+                Ma = SizeDto.Ma,
+                Ten = SizeDto.Ten,
+
+            };
+
+            var result = _productService.SetSize(Size);
+
+            // Chuyển đổi lại Size sang SizeDto
+            return Ok(result);
+        }
+        [HttpGet("GetSizes")]
+        public ActionResult<List<SizeDto>> GetSizes()
+        {
+            try
+            {
+                var SizeDtos = _productService.GetSizes();
+                return Ok(SizeDtos);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Lỗi xảy ra: {ex.Message}");
+            }
         }
     }
 }

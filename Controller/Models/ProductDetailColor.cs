@@ -18,10 +18,6 @@ namespace DemoBanQuanAo.Models
         [ForeignKey("Color")]
         public string ColorId { get; set; }
 
-        public DateTime NgayTao { get; set; }
-        public DateTime NgayCapNhat { get; set; }
-        public string TrangThai { get; set; }
-
         public ProductDetail ProductDetail { get; set; }
         public Color Color { get; set; }
     }

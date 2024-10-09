@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Newtonsoft.Json;
 using System.Text;
-using View.Dto;
 using View.Models;
 
 namespace View.Controllers
@@ -66,7 +65,7 @@ namespace View.Controllers
         }
 
         // Thêm hoặc cập nhật sản phẩm
-        public async Task<IActionResult> SetProduct(ProductAddViewModel product)
+        public async Task<IActionResult> SetProduct(ProductAddViewModel product, List<IFormFile> HinhAnhs)
         {
             // Gán ID nếu chưa có
             product.Id ??= string.Empty;
@@ -75,24 +74,33 @@ namespace View.Controllers
             product.NhaSanXuat ??= string.Empty;
             product.TenVatLieu ??= string.Empty;
             product.IdLoaiSanPham ??= string.Empty;
+            product.IdBrand ??= string.Empty;
             product.IdNhaSanXuat ??= string.Empty;
-            product.IdVatLieu ??= string.Empty;
+            product.MoTa ??= string.Empty;
 
-            // Xử lý hình ảnh
-            List<string> imagePaths = new List<string>();
-            if (product.HinhAnh != null && product.HinhAnh.Length > 0)
+            // Danh sách chứa đường dẫn hình ảnh
+            product.HinhAnh = new List<string>();
+            // Đường dẫn lưu tệp
+            var uploadDir = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images");
+            // Kiểm tra và tạo thư mục nếu chưa tồn tại
+            if (!Directory.Exists(uploadDir))
             {
-                foreach (var file in product.HinhAnh)
+                Directory.CreateDirectory(uploadDir);
+            }
+            // Lưu các hình ảnh và lấy đường dẫn
+            if (HinhAnhs != null && HinhAnhs.Count > 0)
+            {
+                foreach (var file in HinhAnhs)
                 {
                     if (file.Length > 0)
                     {
-                        // Tạo đường dẫn lưu tệp hình ảnh
-                        var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images", file.FileName);
+                        var fileName = Path.GetFileName(file.FileName);
+                        var filePath = Path.Combine(uploadDir, fileName); // Đường dẫn lưu tệp
                         using (var stream = new FileStream(filePath, FileMode.Create))
                         {
-                            await file.CopyToAsync(stream);
+                            await file.CopyToAsync(stream); // Lưu tệp vào server
                         }
-                        imagePaths.Add(file.FileName); // Thêm đường dẫn tệp vào danh sách
+                        product.HinhAnh.Add($"/images/{fileName}"); // Thêm đường dẫn vào danh sách
                     }
                 }
             }
@@ -100,24 +108,9 @@ namespace View.Controllers
             // Gọi API để lưu sản phẩm
             string apiUrl = "https://localhost:44370/Product/SetProduct";
 
-            // Tạo DTO cho sản phẩm
-            var productDto = new ProductDto
-            {
-                Id = product.Id,
-                MaSanPham = product.MaSanPham,
-                TenSanPham = product.TenSanPham,
-                GiaSanPham = product.GiaSanPham,
-                NamSanXuat = product.NamSanXuat,
-                MoTa = product.MoTa,
-                IdLoaiSanPham = product.IdLoaiSanPham,
-                IdBrand = product.IdBrand,
-                IdNhaSanXuat = product.IdNhaSanXuat,
-                IdVatLieu = product.IdVatLieu,
-                HinhAnh = imagePaths // Gán đường dẫn hình ảnh vào DTO
-            };
-
+            
             // Chuyển đổi ProductDto thành JSON
-            var jsonProduct = JsonConvert.SerializeObject(productDto);
+            var jsonProduct = JsonConvert.SerializeObject(product);
             var content = new StringContent(jsonProduct, Encoding.UTF8, "application/json");
 
             // Gọi API để lưu sản phẩm
@@ -145,11 +138,27 @@ namespace View.Controllers
         }
 
         // Xóa sản phẩm (chỉ lấy danh sách sản phẩm cho ví dụ)
-        public async Task<IActionResult> DeleteProduct()
+        public async Task<IActionResult> DeleteProduct(List<string> productIds)
         {
-            var products = await GetApiDataAsync<List<ProductViewModel>>("https://localhost:44370/Product/DeleteProduct");
-            return View(products);
+            var jsonProduct = JsonConvert.SerializeObject(productIds);
+            var content = new StringContent(jsonProduct, Encoding.UTF8, "application/json");
+
+            // Gọi API để xóa sản phẩm
+            var response = await _httpClient.PostAsync("https://localhost:44370/Product/DeleteProduct", content);
+
+            if (response.IsSuccessStatusCode)
+            {
+                // Xử lý thành công nếu cần, có thể chuyển hướng đến trang danh sách sản phẩm
+                return RedirectToAction("ListProduct"); // Điều hướng đến hành động khác
+            }
+            else
+            {
+                // Xử lý lỗi nếu có
+                ModelState.AddModelError(string.Empty, "Có lỗi xảy ra khi xóa sản phẩm.");
+                return View(); // Trả về view hiện tại với thông báo lỗi
+            }
         }
+
 
         // Danh sách vật liệu
         public async Task<IActionResult> ListMaterial()
@@ -204,6 +213,74 @@ namespace View.Controllers
         {
             var productTypes = await GetApiDataAsync<List<ProductTypeViewModel>>("https://localhost:44370/Product/GetProductTypes");
             return View(productTypes);
+        }
+
+        // Danh sách Màu
+        public async Task<IActionResult> ListColor()
+        {
+            var Colors = await GetApiDataAsync<List<ColorViewModel>>("https://localhost:44370/Product/GetColors");
+            return View(Colors);
+        }
+
+        // Thêm hoặc cập nhật màu
+        public async Task<IActionResult> SetColor(ColorViewModel Color)
+        {
+            Color.Id ??= string.Empty; // Gán chuỗi rỗng nếu ID null
+            string apiUrl = "https://localhost:44370/Product/SetColor";
+            var jsonColor = JsonConvert.SerializeObject(Color);
+            var content = new StringContent(jsonColor, Encoding.UTF8, "application/json");
+
+            var response = await _httpClient.PostAsync(apiUrl, content);
+
+            if (response.IsSuccessStatusCode)
+            {
+                var result = await response.Content.ReadAsStringAsync();
+
+                if (result.ToLower() == "false")
+                {
+                    ModelState.AddModelError("", "Mã vật liệu đã bị trùng.");
+                    return View(Color);
+                }
+
+                return RedirectToAction("ListColor");
+            }
+
+            ModelState.AddModelError("", "Lưu vật liệu không thành công.");
+            return View(Color);
+        }
+
+        // Danh sách Size
+        public async Task<IActionResult> ListSize()
+        {
+            var Sizes = await GetApiDataAsync<List<SizeViewModel>>("https://localhost:44370/Product/GetSizes");
+            return View(Sizes);
+        }
+
+        // Thêm hoặc cập nhật Size
+        public async Task<IActionResult> SetSize(SizeViewModel Size)
+        {
+            Size.Id ??= string.Empty; // Gán chuỗi rỗng nếu ID null
+            string apiUrl = "https://localhost:44370/Product/SetSize";
+            var jsonSize = JsonConvert.SerializeObject(Size);
+            var content = new StringContent(jsonSize, Encoding.UTF8, "application/json");
+
+            var response = await _httpClient.PostAsync(apiUrl, content);
+
+            if (response.IsSuccessStatusCode)
+            {
+                var result = await response.Content.ReadAsStringAsync();
+
+                if (result.ToLower() == "false")
+                {
+                    ModelState.AddModelError("", "Mã Size đã bị trùng.");
+                    return View(Size);
+                }
+
+                return RedirectToAction("ListSize");
+            }
+
+            ModelState.AddModelError("", "Lưu Size không thành công.");
+            return View(Size);
         }
     }
 }

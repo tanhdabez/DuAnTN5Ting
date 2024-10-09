@@ -31,7 +31,7 @@ namespace View.Models
         public string IdNhaSanXuat { get; set; } 
 
         public string IdVatLieu { get; set; }
-        public List<string> HinhAnh { get; set; }
+        public List<string> HinhAnhs { get; set; }
     }
     //public class ProductAddViewModel
     //{
@@ -79,7 +79,11 @@ namespace View.Models
         public string IdNhaSanXuat { get; set; }
         public string TenVatLieu { get; set; }
         public string IdVatLieu { get; set; }
-        public IFormFile[] HinhAnh { get; set; }
+        public List<int> SoLuong { get; set; }
+        public List<string> HinhAnh { get; set; }
+        public List<string> ColorId { get; set; }
+        public List<string> SizeId { get; set; }
+
     }
 
     public class MaterialViewModel
@@ -109,5 +113,17 @@ namespace View.Models
         public string Ma { get; set; }
         public string Ten { get; set; }
         public string TrangThai { get; set; }
+    }
+    public class ColorViewModel
+    {
+        public string Id { get; set; }
+        public string Ma { get; set; }
+        public string Ten { get; set; }
+    }
+    public class SizeViewModel
+    {
+        public string Id { get; set; }
+        public string Ma { get; set; }
+        public string Ten { get; set; }
     }
 }

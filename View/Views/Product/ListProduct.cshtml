@@ -8,10 +8,12 @@
         <h3 class="card-title">Quản Lý Sản Phẩm</h3>
     </div>
     <!-- /.card-header -->
+
     <div class="card-body">
-        <p>
+        <div class="d-flex justify-content-between mb-2">
             <a asp-action="SetProduct" class="btn btn-success">Create New</a>
-        </p>
+            <button type="submit" class="btn btn-danger" id="btnDeleteAll">Delete Selected</button>
+        </div>
         <table id="example1" class="table table-bordered table-striped">
             <thead>
                 <tr>
@@ -80,9 +82,9 @@
                             @Html.DisplayFor(modelItem => item.TenVatLieu)
                         </td>
                         <td>
-                            @if (item.HinhAnh != null && item.HinhAnh.Any())
+                            @if (item.HinhAnhs != null && item.HinhAnhs.Any())
                             {
-                                foreach (var imageUrl in item.HinhAnh)
+                                foreach (var imageUrl in item.HinhAnhs)
                                 {
                                     <img src="@imageUrl" alt="@item.TenSanPham" style="width: 100px; height: auto;" />
                                 }
@@ -95,7 +97,10 @@
                         <td>
                             @Html.ActionLink("Edit", "SetProduct", new { id = item.Id }, new { @class = "btn btn-warning btn-sm" })
                             @Html.ActionLink("Details", "GetProductsById", new { id = item.Id }, new { @class = "btn btn-info btn-sm" })
-                            @Html.ActionLink("Delete", "DeleteProduct", new { id = item.Id }, new { @class = "btn btn-danger btn-sm" })
+                            <form method="post" action="/Product/DeleteProduct" style="display:inline;">
+                                <input type="hidden" name="productIds" value="@item.Id" />
+                                <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Bạn có chắc chắn muốn xóa sản phẩm này?');">Delete</button>
+                            </form>
                         </td>
                     </tr>
                 }

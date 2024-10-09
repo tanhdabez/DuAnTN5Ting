@@ -407,81 +407,190 @@ namespace DemoBanQuanAo.Service
             _dbContext.SaveChanges(); // Lưu tất cả thay đổi vào cơ sở dữ liệu
         }
 
-        public string SetProduct(Product Product, List<string> imageUrls)
+        public string SetProduct(Product product, List<string> imageUrls, List<int> quantities, List<string> colorIds, List<string> sizeIds)
         {
             try
             {
-                // Kiểm tra xem có bất kỳ giá trị nào là chuỗi rỗng và gán giá trị null nếu cần
-                var findProduct = _dbContext.Product.FirstOrDefault(x => x.Id == Product.Id);
+                // Kiểm tra nếu kích thước của quantities, colorIds và sizeIds không khớp
+                if (quantities.Count != colorIds.Count || quantities.Count != sizeIds.Count)
+                {
+                    return "Số lượng không khớp với số sự kết hợp màu sắc và kích thước.";
+                }
+
+                var findProduct = _dbContext.Product.AsNoTracking().FirstOrDefault(x => x.Id == product.Id);
+
                 if (findProduct == null)
                 {
-                    var findMa = _dbContext.Product.FirstOrDefault(x => x.Ma == Product.Ma);
+                    var findMa = _dbContext.Product.FirstOrDefault(x => x.Ma == product.Ma);
+
                     if (findMa == null)
                     {
-                        Product.Id = Guid.NewGuid().ToString();
-                        Product.BrandId = string.IsNullOrEmpty(Product.BrandId) ? null : Product.BrandId;
-                        Product.ProductTypeId = string.IsNullOrEmpty(Product.ProductTypeId) ? null : Product.ProductTypeId;
-                        Product.ManufacturerId = string.IsNullOrEmpty(Product.ManufacturerId) ? null : Product.ManufacturerId;
-                        _dbContext.Product.Add(Product);
-                        // Gọi hàm thêm ảnh sau khi thêm sản phẩm
-                        SetProductImages(Product.Id, imageUrls);
-                        return "Thêm sản phẩm thành công!";
+                        // Thêm mới sản phẩm nếu không tìm thấy sản phẩm có Id và mã
+                        product.Id = Guid.NewGuid().ToString();
+                        product.BrandId = string.IsNullOrEmpty(product.BrandId) ? null : product.BrandId;
+                        product.ProductTypeId = string.IsNullOrEmpty(product.ProductTypeId) ? null : product.ProductTypeId;
+                        product.ManufacturerId = string.IsNullOrEmpty(product.ManufacturerId) ? null : product.ManufacturerId;
+
+                        _dbContext.Product.Add(product);
+                        SetProductImages(product.Id, imageUrls);
+
+                        // Thêm ProductDetails cho các màu sắc, kích thước và số lượng
+                        for (int i = 0; i < quantities.Count; i++)
+                        {
+                            var productDetail = new ProductDetail
+                            {
+                                Id = Guid.NewGuid().ToString(),
+                                ProductId = product.Id,
+                                SoLuong = quantities[i], // Số lượng tương ứng
+                                NgayTao = DateTime.Now,
+                                NgayCapNhat = DateTime.Now,
+                                TrangThai = quantities[i] > 0 ? "Còn hàng" : "Hết hàng"
+                            };
+
+                            _dbContext.ProductDetail.Add(productDetail);
+
+                            // Thêm màu sắc cho ProductDetail
+                            var productDetailColor = new ProductDetailColor
+                            {
+                                Id = Guid.NewGuid().ToString(),
+                                ProductDetailId = productDetail.Id,
+                                ColorId = colorIds[i] // Màu sắc tương ứng
+                            };
+                            _dbContext.ProductDetailColor.Add(productDetailColor);
+
+                            // Thêm kích thước cho ProductDetail
+                            var productDetailSize = new ProductDetailSize
+                            {
+                                Id = Guid.NewGuid().ToString(),
+                                ProductDetailId = productDetail.Id,
+                                SizeId = sizeIds[i] // Kích thước tương ứng
+                            };
+                            _dbContext.ProductDetailSize.Add(productDetailSize);
+                        }
                     }
                     else
                     {
-                        // Nếu trùng mã, trả về thông báo
                         return "Trùng mã sản phẩm!";
                     }
                 }
                 else
                 {
+                    // Cập nhật sản phẩm nếu đã tồn tại
+                    findProduct.Ten = product.Ten;
+                    findProduct.Gia = product.Gia;
+                    findProduct.NamSX = product.NamSX;
+                    findProduct.MoTa = product.MoTa;
+                    findProduct.ProductTypeId = string.IsNullOrEmpty(product.ProductTypeId) ? null : product.ProductTypeId;
+                    findProduct.BrandId = string.IsNullOrEmpty(product.BrandId) ? null : product.BrandId;
+                    findProduct.ManufacturerId = string.IsNullOrEmpty(product.ManufacturerId) ? null : product.ManufacturerId;
+                    findProduct.MaterialId = product.MaterialId;
 
-                    findProduct.Ten = Product.Ten;
-                    findProduct.Gia = Product.Gia;
-                    findProduct.NamSX = Product.NamSX;
-                    findProduct.MoTa = Product.MoTa;
-                    //findProduct.ProductTypeId = Product.ProductTypeId;
-                    //findProduct.BrandId = Product.BrandId;
-                    //findProduct.ManufacturerId = Product.ManufacturerId;
-                    // Chỉ cập nhật khi không null hoặc không rỗng
-                    if (!string.IsNullOrEmpty(Product.ProductTypeId))
-                    {
-                        findProduct.ProductTypeId = Product.ProductTypeId;
-                    }
-                    else
-                    {
-                        findProduct.ProductTypeId = null; // Hoặc không làm gì nếu bạn muốn giữ giá trị cũ
-                    }
-
-                    if (!string.IsNullOrEmpty(Product.BrandId))
-                    {
-                        findProduct.BrandId = Product.BrandId;
-                    }
-                    else
-                    {
-                        findProduct.BrandId = null; // Hoặc không làm gì nếu bạn muốn giữ giá trị cũ
-                    }
-
-                    if (!string.IsNullOrEmpty(Product.ManufacturerId))
-                    {
-                        findProduct.ManufacturerId = Product.ManufacturerId;
-                    }
-                    else
-                    {
-                        findProduct.ManufacturerId = null; // Hoặc không làm gì nếu bạn muốn giữ giá trị cũ
-                    }
-                    findProduct.MaterialId = Product.MaterialId;
-                    // Cập nhật ảnh
                     SetProductImages(findProduct.Id, imageUrls);
-                    _dbContext.Product.Update(findProduct);
-                    return "Thêm sản phẩm thành công!";
+
+                    // Cập nhật hoặc thêm ProductDetails
+                    var existingDetails = _dbContext.ProductDetail.Where(pd => pd.ProductId == findProduct.Id).ToList();
+                    var existingDetailIds = existingDetails.Select(ed => ed.Id).ToList();
+
+                    for (int i = 0; i < quantities.Count; i++)
+                    {
+                        // Tìm ProductDetail dựa trên ProductId, ColorId và SizeId
+                        var existingDetail = existingDetails.FirstOrDefault(pd =>
+                            pd.ProductId == product.Id &&
+                            _dbContext.ProductDetailColor.Any(pdc => pdc.ProductDetailId == pd.Id && pdc.ColorId == colorIds[i]) &&
+                            _dbContext.ProductDetailSize.Any(pds => pds.ProductDetailId == pd.Id && pds.SizeId == sizeIds[i])
+                        );
+
+                        if (existingDetail != null)
+                        {
+                            // Cập nhật số lượng và trạng thái cho ProductDetail đã tồn tại
+                            existingDetail.NgayCapNhat = DateTime.Now;
+                            existingDetail.SoLuong = quantities[i];
+                            existingDetail.TrangThai = quantities[i] > 0 ? "Còn hàng" : "Hết hàng";
+
+                            _dbContext.ProductDetail.Update(existingDetail);
+                        }
+                        else
+                        {
+                            // Thêm ProductDetail mới nếu không tìm thấy
+                            var productDetail = new ProductDetail
+                            {
+                                Id = Guid.NewGuid().ToString(),
+                                ProductId = findProduct.Id,
+                                SoLuong = quantities[i],
+                                NgayTao = DateTime.Now,
+                                NgayCapNhat = DateTime.Now,
+                                TrangThai = quantities[i] > 0 ? "Còn hàng" : "Hết hàng"
+                            };
+
+                            _dbContext.ProductDetail.Add(productDetail);
+                            _dbContext.SaveChanges(); // Lưu trước khi thêm màu sắc và kích thước
+
+                            // Thêm màu sắc và kích thước mới
+                            AddProductDetailColor(productDetail.Id, colorIds[i]);
+                            AddProductDetailSize(productDetail.Id, sizeIds[i]);
+                        }
+                    }
+
                 }
                 _dbContext.SaveChanges();
+
+                return findProduct == null ? "Thêm sản phẩm thành công!" : "Cập nhật sản phẩm thành công!";
             }
             catch (Exception ex)
             {
                 throw new Exception($"Lỗi xảy ra: {ex.Message}", ex);
             }
+        }
+        // Hàm để cập nhật màu sắc cho ProductDetail
+        private void UpdateProductDetailColor(string productDetailId, string colorId)
+        {
+            var existingColor = _dbContext.ProductDetailColor.FirstOrDefault(pdc => pdc.ProductDetailId == productDetailId && pdc.ColorId == colorId);
+            if (existingColor == null)
+            {
+                _dbContext.ProductDetailColor.Add(new ProductDetailColor
+                {
+                    Id = Guid.NewGuid().ToString(),
+                    ProductDetailId = productDetailId,
+                    ColorId = colorId
+                });
+            }
+        }
+
+        // Hàm để cập nhật kích thước cho ProductDetail
+        private void UpdateProductDetailSize(string productDetailId, string sizeId)
+        {
+            var existingSize = _dbContext.ProductDetailSize.FirstOrDefault(pds => pds.ProductDetailId == productDetailId && pds.SizeId == sizeId);
+            if (existingSize == null)
+            {
+                _dbContext.ProductDetailSize.Add(new ProductDetailSize
+                {
+                    Id = Guid.NewGuid().ToString(),
+                    ProductDetailId = productDetailId,
+                    SizeId = sizeId
+                });
+            }
+        }
+
+        // Hàm để thêm màu sắc cho ProductDetail
+        private void AddProductDetailColor(string productDetailId, string colorId)
+        {
+            _dbContext.ProductDetailColor.Add(new ProductDetailColor
+            {
+                Id = Guid.NewGuid().ToString(),
+                ProductDetailId = productDetailId,
+                ColorId = colorId
+            });
+        }
+
+        // Hàm để thêm kích thước cho ProductDetail
+        private void AddProductDetailSize(string productDetailId, string sizeId)
+        {
+            _dbContext.ProductDetailSize.Add(new ProductDetailSize
+            {
+                Id = Guid.NewGuid().ToString(),
+                ProductDetailId = productDetailId,
+                SizeId = sizeId
+            });
         }
         public bool DeleteProduct(List<string> id)
         {
@@ -489,11 +598,21 @@ namespace DemoBanQuanAo.Service
             {
                 foreach (var item in id)
                 {
-                    var findProduct = _dbContext.Product.Find(item);
-                    if (findProduct != null)
+                    var findProduct = _dbContext.Product.Where(x=>x.Id == item).ToList();
+                    var image = _dbContext.ProductImage.Where(x=> x.ProductId == item).ToList();
+                    var productdetail = _dbContext.ProductDetail.Where(x=>x.ProductId==item).ToList();
+                    foreach (var pdt in productdetail)
                     {
-                        _dbContext.Product.Remove(findProduct); // Xóa mục nếu tìm thấy
+                        var productdetailcolor = _dbContext.ProductDetailColor.Where(x => x.ProductDetailId == pdt.Id).ToList();
+                        var productdetailsize = _dbContext.ProductDetailSize.Where(x => x.ProductDetailId == pdt.Id).ToList();
+                        _dbContext.RemoveRange(productdetailcolor);
+                        _dbContext.RemoveRange(productdetailsize);
                     }
+                    _dbContext.RemoveRange(findProduct);
+                    _dbContext.RemoveRange(image);
+                    _dbContext.RemoveRange(productdetail);
+                    _dbContext.SaveChanges();
+
                 }
                 _dbContext.SaveChanges();
                 return true;
@@ -505,6 +624,175 @@ namespace DemoBanQuanAo.Service
             }
         }
 
+        public bool SetProductDetail(ProductDetail productDetail, List<string> colorIds, List<string> sizeIds)
+        {
+            try
+            {
+                var findProductDetail = _dbContext.ProductDetail.FirstOrDefault(x => x.Id == productDetail.Id);
+                var existingDetailColors = _dbContext.ProductDetailColor
+                                                        .Where(x => x.ProductDetailId == productDetail.Id)
+                                                        .ToList();
+                var existingDetailSizes = _dbContext.ProductDetailSize
+                                                       .Where(x => x.ProductDetailId == productDetail.Id)
+                                                       .ToList();
 
+                if (findProductDetail == null)
+                {
+                    // Nếu chưa tồn tại, thêm ProductDetail mới
+                    productDetail.Id = Guid.NewGuid().ToString();
+                    productDetail.NgayTao = DateTime.Now;
+                    productDetail.NgayCapNhat = DateTime.Now;
+
+                    _dbContext.ProductDetail.Add(productDetail);
+
+                    // Thêm mới mối quan hệ giữa ProductDetail và Color
+                    foreach (var colorId in colorIds)
+                    {
+                        var productDetailColor = new ProductDetailColor
+                        {
+                            Id = Guid.NewGuid().ToString(),
+                            ProductDetailId = productDetail.Id,
+                            ColorId = colorId
+                        };
+                        _dbContext.ProductDetailColor.Add(productDetailColor);
+                    }
+
+                    // Thêm mới mối quan hệ giữa ProductDetail và Size
+                    foreach (var sizeId in sizeIds)
+                    {
+                        var productDetailSize = new ProductDetailSize
+                        {
+                            Id = Guid.NewGuid().ToString(),
+                            ProductDetailId = productDetail.Id,
+                            SizeId = sizeId
+                        };
+                        _dbContext.ProductDetailSize.Add(productDetailSize);
+                    }
+                }
+                else
+                {
+                    // Nếu ProductDetail đã tồn tại, cập nhật thông tin
+                    findProductDetail.SoLuong = productDetail.SoLuong;
+                    findProductDetail.NgayCapNhat = DateTime.Now;
+
+                    // Cập nhật trạng thái dựa trên số lượng sản phẩm
+                    findProductDetail.TrangThai = findProductDetail.SoLuong > 0 ? "Còn hàng" : "Hết hàng";
+
+                    // Cập nhật màu sắc
+                    var colorsToAdd = colorIds.Except(existingDetailColors.Select(x => x.ColorId)).ToList();
+                    var colorsToRemove = existingDetailColors.Where(x => !colorIds.Contains(x.ColorId)).ToList();
+
+                    _dbContext.ProductDetailColor.RemoveRange(colorsToRemove);
+                    foreach (var colorId in colorsToAdd)
+                    {
+                        var productDetailColor = new ProductDetailColor
+                        {
+                            Id = Guid.NewGuid().ToString(),
+                            ProductDetailId = findProductDetail.Id,
+                            ColorId = colorId
+                        };
+                        _dbContext.ProductDetailColor.Add(productDetailColor);
+                    }
+
+                    // Cập nhật kích thước
+                    var sizesToAdd = sizeIds.Except(existingDetailSizes.Select(x => x.SizeId)).ToList();
+                    var sizesToRemove = existingDetailSizes.Where(x => !sizeIds.Contains(x.SizeId)).ToList();
+
+                    _dbContext.ProductDetailSize.RemoveRange(sizesToRemove);
+                    foreach (var sizeId in sizesToAdd)
+                    {
+                        var productDetailSize = new ProductDetailSize
+                        {
+                            Id = Guid.NewGuid().ToString(),
+                            ProductDetailId = findProductDetail.Id,
+                            SizeId = sizeId
+                        };
+                        _dbContext.ProductDetailSize.Add(productDetailSize);
+                    }
+                }
+
+                _dbContext.SaveChanges();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Lỗi xảy ra: {ex.Message}", ex);
+            }
+        }
+
+        //Màu
+        public bool SetColor(Color color)
+        {
+            try
+            {
+                var findColor = _dbContext.Color.FirstOrDefault(x => x.Id == color.Id);
+                if (findColor == null)
+                {
+                    color.Id = Guid.NewGuid().ToString();
+                    _dbContext.Color.Add(color);
+                    _dbContext.SaveChanges();
+
+                }
+                else
+                {
+                    findColor.Ten = color.Ten;
+                    _dbContext.Color.Update(color);
+                    _dbContext.SaveChanges();
+                }
+                return true;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Lỗi xảy ra: {ex.Message}", ex);
+            }
+        }
+        public List<ColorDto> GetColors()
+        {
+            var Colors = _dbContext.Color.ToList();
+            var ColorDtos = Colors.Select(m => new ColorDto
+            {
+                Id = m.Id.ToString(),
+                Ma = m.Ma,
+                Ten = m.Ten,
+            }).ToList();
+            return ColorDtos;
+        }
+        //Size
+        public bool SetSize(Size Size)
+        {
+            try
+            {
+                var findSize = _dbContext.Size.FirstOrDefault(x => x.Id == Size.Id);
+                if (findSize == null)
+                {
+                    Size.Id = Guid.NewGuid().ToString();
+                    _dbContext.Size.Add(Size);
+                    _dbContext.SaveChanges();
+
+                }
+                else
+                {
+                    findSize.Ten = Size.Ten;
+                    _dbContext.Size.Update(Size);
+                    _dbContext.SaveChanges();
+                }
+                return true;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Lỗi xảy ra: {ex.Message}", ex);
+            }
+        }
+        public List<SizeDto> GetSizes()
+        {
+            var Sizes = _dbContext.Size.ToList();
+            var SizeDtos = Sizes.Select(m => new SizeDto
+            {
+                Id = m.Id.ToString(),
+                Ma = m.Ma,
+                Ten = m.Ten,
+            }).ToList();
+            return SizeDtos;
+        }
     }
 }

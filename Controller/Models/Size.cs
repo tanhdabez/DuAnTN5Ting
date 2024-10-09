@@ -14,9 +14,6 @@ namespace DemoBanQuanAo.Models
         [Required]
         [MaxLength(50)]
         public string Ten { get; set; }
-        public DateTime NgayTao { get; set; }
-        public DateTime NgayCapNhat { get; set; }
-        public string TrangThai { get; set; }
 
         public ICollection<ProductDetailSize> ProductDetailSizes { get; set; }
     }
