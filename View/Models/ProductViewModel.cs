@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.AspNetCore.Mvc.Rendering;
+using System.ComponentModel.DataAnnotations;
 
 namespace View.Models
 {
@@ -83,7 +84,8 @@ namespace View.Models
         public List<string> HinhAnh { get; set; }
         public List<string> ColorId { get; set; }
         public List<string> SizeId { get; set; }
-
+        public List<string> SelectedColors { get; set; } = new List<string>();
+        public List<string> SelectedSizes { get; set; } = new List<string>();
     }
 
     public class MaterialViewModel
