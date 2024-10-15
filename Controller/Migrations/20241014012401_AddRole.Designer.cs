@@ -4,6 +4,7 @@ using DemoBanQuanAo.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Controller.Migrations
 {
     [DbContext(typeof(DbContextShop))]
-    partial class DbContextShopModelSnapshot : ModelSnapshot
+    [Migration("20241014012401_AddRole")]
+    partial class AddRole
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -77,60 +79,6 @@ namespace Controller.Migrations
                     b.ToTable("Bill");
                 });
 
-<<<<<<< HEAD
-            modelBuilder.Entity("Controller.Models.Address", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("CustomerId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("DiaChiChiTiet")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("HoVaTen")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("MaPhuongXa")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("MaQuanHuyen")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("MaTinh")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("SDT")
-                        .HasColumnType("int");
-
-                    b.Property<string>("TenPhuongXa")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("TenQuanHuyen")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("TenTinh")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CustomerId");
-
-                    b.ToTable("Address");
-                });
-
-=======
->>>>>>> 69ac4bd3d4df17389183460d78b304a10ceee29b
             modelBuilder.Entity("Controller.Models.ProductImage", b =>
                 {
                     b.Property<string>("Id")
@@ -552,37 +500,12 @@ namespace Controller.Migrations
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
 
-<<<<<<< HEAD
-                    b.Property<DateTime>("NgayCapNhat")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("NgayTao")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Ten")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("TrangThai")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("UserId");
-
-=======
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
->>>>>>> 69ac4bd3d4df17389183460d78b304a10ceee29b
                     b.ToTable("Role");
                 });
 
@@ -709,20 +632,6 @@ namespace Controller.Migrations
                     b.Navigation("Voucher");
                 });
 
-<<<<<<< HEAD
-            modelBuilder.Entity("Controller.Models.Address", b =>
-                {
-                    b.HasOne("DemoBanQuanAo.Models.Customer", "Customers")
-                        .WithMany("addresses")
-                        .HasForeignKey("CustomerId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("Customers");
-                });
-
-=======
->>>>>>> 69ac4bd3d4df17389183460d78b304a10ceee29b
             modelBuilder.Entity("Controller.Models.ProductImage", b =>
                 {
                     b.HasOne("DemoBanQuanAo.Models.Product", "Product")
@@ -864,20 +773,6 @@ namespace Controller.Migrations
                     b.Navigation("Size");
                 });
 
-<<<<<<< HEAD
-            modelBuilder.Entity("DemoBanQuanAo.Models.Role", b =>
-                {
-                    b.HasOne("User", "User")
-                        .WithMany("Roles")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("User");
-                });
-
-=======
->>>>>>> 69ac4bd3d4df17389183460d78b304a10ceee29b
             modelBuilder.Entity("User", b =>
                 {
                     b.HasOne("DemoBanQuanAo.Models.Role", "Role")
@@ -915,8 +810,6 @@ namespace Controller.Migrations
 
                     b.Navigation("Carts")
                         .IsRequired();
-
-                    b.Navigation("addresses");
                 });
 
             modelBuilder.Entity("DemoBanQuanAo.Models.Manufacturer", b =>
@@ -963,14 +856,6 @@ namespace Controller.Migrations
                 });
 
             modelBuilder.Entity("DemoBanQuanAo.Models.Voucher", b =>
-<<<<<<< HEAD
-=======
-                {
-                    b.Navigation("Bills");
-                });
-
-            modelBuilder.Entity("User", b =>
->>>>>>> 69ac4bd3d4df17389183460d78b304a10ceee29b
                 {
                     b.Navigation("Bills");
                 });
@@ -978,8 +863,6 @@ namespace Controller.Migrations
             modelBuilder.Entity("User", b =>
                 {
                     b.Navigation("Bills");
-
-                    b.Navigation("Roles");
                 });
 #pragma warning restore 612, 618
         }
