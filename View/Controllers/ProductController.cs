@@ -6,7 +6,7 @@ using View.Models;
 
 namespace View.Controllers
 {
-    public class ProductController : Controller
+    public class ProductController : Microsoft.AspNetCore.Mvc.Controller
     {
         private readonly HttpClient _httpClient;
 
