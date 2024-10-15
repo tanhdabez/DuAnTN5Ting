@@ -24,6 +24,8 @@ namespace DemoBanQuanAo.Models
         public DbSet<Size> Size { get; set; }
         public DbSet<Material> Material { get; set; }
         public DbSet<ProductImage> ProductImage { get; set; }
+        public DbSet<Address> Address { get; set; }
+        public DbSet<Role> Role { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<ProductImage>()
@@ -112,7 +114,7 @@ namespace DemoBanQuanAo.Models
 
             modelBuilder.Entity<Product>()
                 .HasOne(p => p.Brand)
-                .WithMany(p => p.Products)
+                .WithMany(p => p.Products) 
                 .HasForeignKey(p => p.BrandId)
                 .OnDelete(DeleteBehavior.Restrict);
 
@@ -139,6 +141,17 @@ namespace DemoBanQuanAo.Models
                 .HasOne(p => p.Customers)
                 .WithOne(m => m.Carts)
                 .HasForeignKey<Cart>(p => p.CustomerId);
+
+            modelBuilder.Entity<User>()
+                .HasMany(r => r.Roles)
+                .WithOne(u => u.User)
+                .HasForeignKey(r => r.UserId)
+                .OnDelete(DeleteBehavior.Restrict);
+            modelBuilder.Entity<Customer>()
+                .HasMany(a => a.addresses)
+                .WithOne(c => c.Customers)
+                .HasForeignKey(a => a.CustomerId)
+                .OnDelete(DeleteBehavior.Restrict);
         }
 
     }
