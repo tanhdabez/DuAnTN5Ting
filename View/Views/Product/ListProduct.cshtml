@@ -3,108 +3,80 @@
 @{
     ViewData["Title"] = "ListProduct";
 }
-<div class="card">
-    <div class="card-header">
-        <h3 class="card-title">Quản Lý Sản Phẩm</h3>
-    </div>
-    <!-- /.card-header -->
+<section class="section">
+    <div class="row" id="table-head">
+        <div class="col-12">
+            <div class="card">
+                <!-- Tiêu đề -->
+                <div class="card-header">
+                    <h4 class="card-title mb-0">Danh Sách Sản Phẩm</h4>
+                </div>
 
-    <div class="card-body">
-        <div class="d-flex justify-content-between mb-2">
-            <a asp-action="SetProduct" class="btn btn-success">Create New</a>
-            <button type="submit" class="btn btn-danger" id="btnDeleteAll">Delete Selected</button>
-        </div>
-        <table id="example1" class="table table-bordered table-striped">
-            <thead>
-                <tr>
-                    <th>
-                        Mã Sản Phẩm
-                    </th>
-                    <th>
-                        Tên Sản Phẩm
-                    </th>
-                    <th>
-                        Giá
-                    </th>
-                    <th>
-                        Năm Sản Xuất
-                    </th>
-                    <th>
-                        Mô tả
-                    </th>
-                    <th>
-                        Loại Áo
-                    </th>
-                    <th>
-                        Thương Hiệu
-                    </th>
-                    <th>
-                        Nơi Sản Xuất
-                    </th>
-                    <th>
-                        Vật Liệu
-                    </th>
-                    <th>
-                        Hình Ảnh
-                    </th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var item in Model)
-                {
-                    <tr>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.MaSanPham)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.TenSanPham)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.GiaSanPham)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.NamSanXuat)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.MoTa)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.LoaiSanPham)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Brand)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.NhaSanXuat)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.TenVatLieu)
-                        </td>
-                        <td>
-                            @if (item.HinhAnhs != null && item.HinhAnhs.Any())
-                            {
-                                foreach (var imageUrl in item.HinhAnhs)
+                <!-- Nút thêm và thanh tìm kiếm -->
+                <div class="card-body pb-0">
+                    <div class="row align-items-center">
+                        <div class="col-sm-6 mb-2">
+                            <a asp-action="SetProduct" class="btn btn-success rounded-pill">Thêm Sản Phẩm</a>
+                        </div>
+                        <div class="col-sm-6 mb-2">
+                            <div class="form-group position-relative has-icon-right">
+                                <input type="text" class="form-control" placeholder="Tìm Kiếm Sản Phẩm">
+                                <div class="form-control-icon">
+                                    <i class="bi bi-search"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Bảng sản phẩm -->
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table mb-0">
+                            <thead>
+                                <tr>
+                                    <th>Mã Sản Phẩm</th>
+                                    <th>Tên Sản Phẩm</th>
+                                    <th>Giá</th>
+                                    <th>Hình Ảnh</th>
+                                    <th>Thao Tác</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model)
                                 {
-                                    <img src="@imageUrl" alt="@item.TenSanPham" style="width: 100px; height: auto;" />
+                                    <tr>
+                                        <td>@Html.DisplayFor(modelItem => item.MaSanPham)</td>
+                                        <td>@Html.DisplayFor(modelItem => item.TenSanPham)</td>
+                                        <td>@Html.DisplayFor(modelItem => item.GiaSanPham)</td>
+                                        <td>
+                                            @if (item.HinhAnhs != null && item.HinhAnhs.Any())
+                                            {
+                                                foreach (var imageUrl in item.HinhAnhs)
+                                                {
+                                                    <img src="@imageUrl" alt="@item.TenSanPham" style="width: 100px; height: auto;" />
+                                                }
+                                            }
+                                            else
+                                            {
+                                                <p></p>
+                                            }
+                                        </td>
+                                        <td>
+                                            @Html.ActionLink("Edit", "SetProduct", new { id = item.Id }, new { @class = "btn btn-warning rounded-pill me-1" })
+                                            @Html.ActionLink("Details", "GetProductsById", new { id = item.Id }, new { @class = "btn btn-info rounded-pill me-1" })
+                                            <form method="post" action="/Product/DeleteProduct" style="display:inline;">
+                                                <input type="hidden" name="productIds" value="@item.Id" />
+                                                <button type="submit" class="btn btn-danger rounded-pill" onclick="return confirm('Bạn có chắc chắn muốn xóa sản phẩm này?');">Delete</button>
+                                            </form>
+                                        </td>
+                                    </tr>
                                 }
-                            }
-                            else
-                            {
-                                <p></p>
-                            }
-                        </td>
-                        <td>
-                            @Html.ActionLink("Edit", "SetProduct", new { id = item.Id }, new { @class = "btn btn-warning btn-sm" })
-                            @Html.ActionLink("Details", "GetProductsById", new { id = item.Id }, new { @class = "btn btn-info btn-sm" })
-                            <form method="post" action="/Product/DeleteProduct" style="display:inline;">
-                                <input type="hidden" name="productIds" value="@item.Id" />
-                                <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Bạn có chắc chắn muốn xóa sản phẩm này?');">Delete</button>
-                            </form>
-                        </td>
-                    </tr>
-                }
-            </tbody>
-        </table>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-</div>
+</section>

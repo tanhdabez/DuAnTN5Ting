@@ -22,6 +22,61 @@ namespace Controller.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
+            modelBuilder.Entity("Bill", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("CustomerId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("MaGiaoDichCK")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PhuongThucThanhToan")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<decimal>("SoTienMat")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal>("ThanhTien")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal>("TienChuyenKhoan")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal>("TienVanChuyen")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<DateTime?>("TietMat")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("TrangThai")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("VoucherId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CustomerId");
+
+                    b.HasIndex("UserId");
+
+                    b.HasIndex("VoucherId");
+
+                    b.ToTable("Bill");
+                });
+
             modelBuilder.Entity("Controller.Models.Address", b =>
                 {
                     b.Property<string>("Id")
@@ -91,91 +146,6 @@ namespace Controller.Migrations
                     b.HasIndex("ProductId");
 
                     b.ToTable("ProductImage");
-                });
-
-            modelBuilder.Entity("Controller.Models.Role", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<DateTime>("NgayCapNhat")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("NgayTao")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Ten")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("TrangThai")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("Role");
-                });
-
-            modelBuilder.Entity("DemoBanQuanAo.Models.Bill", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("CustomerId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("MaGiaoDichCK")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("PhuongThucThanhToan")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<decimal>("SoTienMat")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<decimal>("ThanhTien")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<decimal>("TienChuyenKhoan")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<decimal>("TienVanChuyen")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<DateTime?>("TietMat")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("TrangThai")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("VoucherId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CustomerId");
-
-                    b.HasIndex("UserId");
-
-                    b.HasIndex("VoucherId");
-
-                    b.ToTable("Bill");
                 });
 
             modelBuilder.Entity("DemoBanQuanAo.Models.BillDetail", b =>
@@ -574,6 +544,36 @@ namespace Controller.Migrations
                     b.ToTable("ProductType");
                 });
 
+            modelBuilder.Entity("DemoBanQuanAo.Models.Role", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<DateTime>("NgayCapNhat")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("NgayTao")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Ten")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("TrangThai")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Role");
+                });
+
             modelBuilder.Entity("DemoBanQuanAo.Models.Size", b =>
                 {
                     b.Property<string>("Id")
@@ -591,45 +591,6 @@ namespace Controller.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Size");
-                });
-
-            modelBuilder.Entity("DemoBanQuanAo.Models.User", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasMaxLength(120)
-                        .HasColumnType("nvarchar(120)");
-
-                    b.Property<string>("Ma")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("NgayCapNhat")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("NgayTao")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Password")
-                        .IsRequired()
-                        .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)");
-
-                    b.Property<string>("TrangThai")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Username")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("User");
                 });
 
             modelBuilder.Entity("DemoBanQuanAo.Models.Voucher", b =>
@@ -664,6 +625,78 @@ namespace Controller.Migrations
                     b.ToTable("Voucher");
                 });
 
+            modelBuilder.Entity("User", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasMaxLength(120)
+                        .HasColumnType("nvarchar(120)");
+
+                    b.Property<string>("Ma")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("NgayCapNhat")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("NgayTao")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Password")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
+
+                    b.Property<string>("RoleId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("TrangThai")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Username")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RoleId");
+
+                    b.ToTable("User");
+                });
+
+            modelBuilder.Entity("Bill", b =>
+                {
+                    b.HasOne("DemoBanQuanAo.Models.Customer", "Customer")
+                        .WithMany("Bills")
+                        .HasForeignKey("CustomerId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("User", "User")
+                        .WithMany("Bills")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("DemoBanQuanAo.Models.Voucher", "Voucher")
+                        .WithMany("Bills")
+                        .HasForeignKey("VoucherId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Customer");
+
+                    b.Navigation("User");
+
+                    b.Navigation("Voucher");
+                });
+
             modelBuilder.Entity("Controller.Models.Address", b =>
                 {
                     b.HasOne("DemoBanQuanAo.Models.Customer", "Customers")
@@ -686,47 +719,9 @@ namespace Controller.Migrations
                     b.Navigation("Product");
                 });
 
-            modelBuilder.Entity("Controller.Models.Role", b =>
-                {
-                    b.HasOne("DemoBanQuanAo.Models.User", "User")
-                        .WithMany("Roles")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("User");
-                });
-
-            modelBuilder.Entity("DemoBanQuanAo.Models.Bill", b =>
-                {
-                    b.HasOne("DemoBanQuanAo.Models.Customer", "Customer")
-                        .WithMany("Bills")
-                        .HasForeignKey("CustomerId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("DemoBanQuanAo.Models.User", "User")
-                        .WithMany("Bills")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("DemoBanQuanAo.Models.Voucher", "Voucher")
-                        .WithMany("Bills")
-                        .HasForeignKey("VoucherId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("Customer");
-
-                    b.Navigation("User");
-
-                    b.Navigation("Voucher");
-                });
-
             modelBuilder.Entity("DemoBanQuanAo.Models.BillDetail", b =>
                 {
-                    b.HasOne("DemoBanQuanAo.Models.Bill", "Bill")
+                    b.HasOne("Bill", "Bill")
                         .WithMany("BillDetails")
                         .HasForeignKey("BillId")
                         .OnDelete(DeleteBehavior.Restrict)
@@ -854,7 +849,29 @@ namespace Controller.Migrations
                     b.Navigation("Size");
                 });
 
-            modelBuilder.Entity("DemoBanQuanAo.Models.Bill", b =>
+            modelBuilder.Entity("DemoBanQuanAo.Models.Role", b =>
+                {
+                    b.HasOne("User", "User")
+                        .WithMany("Roles")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("User", b =>
+                {
+                    b.HasOne("DemoBanQuanAo.Models.Role", "Role")
+                        .WithMany("Users")
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Role");
+                });
+
+            modelBuilder.Entity("Bill", b =>
                 {
                     b.Navigation("BillDetails");
                 });
@@ -917,21 +934,26 @@ namespace Controller.Migrations
                     b.Navigation("Products");
                 });
 
+            modelBuilder.Entity("DemoBanQuanAo.Models.Role", b =>
+                {
+                    b.Navigation("Users");
+                });
+
             modelBuilder.Entity("DemoBanQuanAo.Models.Size", b =>
                 {
                     b.Navigation("ProductDetailSizes");
                 });
 
-            modelBuilder.Entity("DemoBanQuanAo.Models.User", b =>
+            modelBuilder.Entity("DemoBanQuanAo.Models.Voucher", b =>
+                {
+                    b.Navigation("Bills");
+                });
+
+            modelBuilder.Entity("User", b =>
                 {
                     b.Navigation("Bills");
 
                     b.Navigation("Roles");
-                });
-
-            modelBuilder.Entity("DemoBanQuanAo.Models.Voucher", b =>
-                {
-                    b.Navigation("Bills");
                 });
 #pragma warning restore 612, 618
         }

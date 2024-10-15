@@ -7,9 +7,11 @@ namespace DemoBanQuanAo.Models
     {
         public DbContextShop(DbContextOptions<DbContextShop> options) : base(options) { }
         public DbContextShop() { }
+
         public DbSet<ProductType> ProductType { get; set; }
         public DbSet<Product> Product { get; set; }
         public DbSet<User> User { get; set; }
+        public DbSet<Role> Role { get; set; }
         public DbSet<Bill> Bill { get; set; }
         public DbSet<BillDetail> BillDetail { get; set; }
         public DbSet<Brand> Brand { get; set; }
@@ -25,9 +27,46 @@ namespace DemoBanQuanAo.Models
         public DbSet<Material> Material { get; set; }
         public DbSet<ProductImage> ProductImage { get; set; }
         public DbSet<Address> Address { get; set; }
-        public DbSet<Role> Role { get; set; }
+        public DbSet<Voucher> Voucher { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            // Configure Bill
+            modelBuilder.Entity<Bill>()
+                .Property(b => b.SoTienMat)
+                .HasColumnType("decimal(18, 2)");
+
+            modelBuilder.Entity<Bill>()
+                .Property(b => b.ThanhTien)
+                .HasColumnType("decimal(18, 2)");
+
+            modelBuilder.Entity<Bill>()
+                .Property(b => b.TienChuyenKhoan)
+                .HasColumnType("decimal(18, 2)");
+
+            modelBuilder.Entity<Bill>()
+                .Property(b => b.TienVanChuyen)
+                .HasColumnType("decimal(18, 2)");
+
+            // Configure BillDetail
+            modelBuilder.Entity<BillDetail>()
+                .Property(bd => bd.DonGia)
+                .HasColumnType("decimal(18, 2)");
+
+            // Configure CartDetail
+            modelBuilder.Entity<CartDetail>()
+                .Property(cd => cd.DonGia)
+                .HasColumnType("decimal(18, 2)");
+
+            // Configure Product
+            modelBuilder.Entity<Product>()
+                .Property(p => p.Gia)
+                .HasColumnType("decimal(18, 2)");
+
+            // Configure Voucher
+            modelBuilder.Entity<Voucher>()
+                .Property(v => v.GiaTri)
+                .HasColumnType("decimal(18, 2)");
+
             modelBuilder.Entity<ProductImage>()
             .HasOne(p => p.Product)
             .WithMany(p => p.ProductImages)
@@ -99,12 +138,21 @@ namespace DemoBanQuanAo.Models
                 .OnDelete(DeleteBehavior.Restrict); // Vô hiệu hóa cascade delete
 
             // Bảng User
-            modelBuilder.Entity<User>()
-                .HasMany(p => p.Bills)
-                .WithOne(p => p.User)
-                .HasForeignKey(p => p.UserId)
-                .OnDelete(DeleteBehavior.Restrict); // Vô hiệu hóa cascade delete
+            modelBuilder.Entity<User>(b =>
+            {
+                b.HasKey(u => u.Id);
 
+                b.HasMany(u => u.Bills)
+                    .WithOne(b => b.User)
+                    .HasForeignKey(b => b.UserId)
+                    .OnDelete(DeleteBehavior.Restrict);
+            });
+
+            modelBuilder.Entity<User>()
+                .HasOne(u => u.Role)
+                .WithMany(r => r.Users)
+                .HasForeignKey(u => u.RoleId)
+                .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<Customer>()
                 .HasMany(p => p.Bills)

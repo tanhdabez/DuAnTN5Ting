@@ -1,7 +1,7 @@
-﻿using DemoBanQuanAo.Models;
+
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Controller.Models
+namespace DemoBanQuanAo.Models
 {
     public class Role
     {
@@ -14,5 +14,8 @@ namespace Controller.Models
         public string TrangThai { get; set; }
 
         public User User { get; set; }
+
+        public ICollection<User> Users { get; set; }
     }
 }
+

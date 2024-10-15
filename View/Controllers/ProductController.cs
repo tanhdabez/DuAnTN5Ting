@@ -6,7 +6,7 @@ using View.Models;
 
 namespace View.Controllers
 {
-    public class ProductController : Controller
+    public class ProductController : Microsoft.AspNetCore.Mvc.Controller
     {
         private readonly HttpClient _httpClient;
 
@@ -48,6 +48,11 @@ namespace View.Controllers
             ViewBag.Brands = new SelectList(await GetApiDataAsync<List<BrandViewModel>>("https://localhost:44370/Product/GetBrands") ?? new List<BrandViewModel>(), "Id", "Ten");
             ViewBag.Manufacturers = new SelectList(await GetApiDataAsync<List<ManufacturerViewModel>>("https://localhost:44370/Product/GetManufacturers") ?? new List<ManufacturerViewModel>(), "Id", "Ten");
             ViewBag.ProductTypes = new SelectList(await GetApiDataAsync<List<ProductTypeViewModel>>("https://localhost:44370/Product/GetProductTypes") ?? new List<ProductTypeViewModel>(), "Id", "Ten");
+            // Thêm danh sách màu
+            ViewBag.Colors = await GetApiDataAsync<List<ColorViewModel>>("https://localhost:44370/Product/GetColors") ?? new List<ColorViewModel>();
+
+            // Thêm danh sách size
+            ViewBag.Sizes = await GetApiDataAsync<List<SizeViewModel>>("https://localhost:44370/Product/GetSizes") ?? new List<SizeViewModel>();
         }
 
         // Danh sách sản phẩm
@@ -65,7 +70,7 @@ namespace View.Controllers
         }
 
         // Thêm hoặc cập nhật sản phẩm
-        public async Task<IActionResult> SetProduct(ProductAddViewModel product, List<IFormFile> HinhAnhs)
+        public async Task<IActionResult> SetProduct(ProductAddViewModel product, List<IFormFile> HinhAnhs, string[] SelectedColors, string[] SelectedSizes)
         {
             // Gán ID nếu chưa có
             product.Id ??= string.Empty;
@@ -77,7 +82,8 @@ namespace View.Controllers
             product.IdBrand ??= string.Empty;
             product.IdNhaSanXuat ??= string.Empty;
             product.MoTa ??= string.Empty;
-
+            product.SelectedColors = SelectedColors.ToList(); 
+            product.SelectedSizes = SelectedSizes.ToList();
             // Danh sách chứa đường dẫn hình ảnh
             product.HinhAnh = new List<string>();
             // Đường dẫn lưu tệp

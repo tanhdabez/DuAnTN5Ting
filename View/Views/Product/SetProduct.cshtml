@@ -3,13 +3,150 @@
 @{
     ViewData["Title"] = "SetProduct";
 }
-<h1>Quản Lý Sản Phẩm</h1>
 
-<div class="mb-3">
-    <a asp-action="ListProduct" class="btn btn-secondary mr-2">
-        <i class="fa fa-chevron-left" aria-hidden="true"></i> Quay lại
-    </a>
-</div>
+<h1>Thêm Sản Phẩm</h1>
+
+
+<form asp-action="SetProduct" enctype="multipart/form-data">
+    <div class="d-flex justify-content-between mb-3">
+        <a asp-action="ListProduct" class="btn btn-secondary mr-2">
+            <i class="fa fa-chevron-left" aria-hidden="true"></i> Quay lại
+        </a>
+        <button type="submit" class="btn btn-success">
+            <i class="fa fa-plus" aria-hidden="true"></i> Thêm Mới
+        </button>
+    </div>
+    <section id="multiple-column-form">
+        <div class="row match-height">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-content">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-6 col-12">
+                                    <div class="form-group">
+                                        <h6>Mã Sản Phẩm</h6>
+                                        <input asp-for="MaSanPham" class="form-control" />
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-12">
+                                    <div class="form-group">
+                                        <h6>Tên Sản Phẩm</h6>
+                                        <input asp-for="TenSanPham" class="form-control" />
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-12">
+                                    <div class="form-group">
+                                        <h6>Giá</h6>
+                                        <div class="input-group">
+                                            <input asp-for="GiaSanPham" id="giaSanPham" class="form-control" placeholder="Nhập giá sản phẩm" value="" onfocus="removeFormatting()" onblur="formatNumber()" oninput="addCommas()" />
+                                            <div class="input-group-append">
+                                                <span class="input-group-text">VNĐ</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-12">
+                                    <div class="form-group">
+                                        <h6>Năm Sản Xuất</h6>
+                                        <input asp-for="NamSanXuat" class="form-control" value="@DateTime.Now.Year" />
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-12">
+                                    <div class="form-group">
+                                        <h6>Thương Hiệu</h6>
+                                        <select asp-for="IdBrand" asp-items="ViewBag.Brands" class="form-control select2" style="width: 100%;">
+                                            <option value="">Chọn thương hiệu</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-12">
+                                    <div class="form-group">
+                                        <h6>Nơi Sản Xuất</h6>
+                                        <select asp-for="IdNhaSanXuat" asp-items="ViewBag.Manufacturers" class="form-control select2" style="width: 100%;">
+                                            <option value="">Chọn nơi sản xuất</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-12">
+                                    <div class="form-group">
+                                        <h6>Vật Liệu</h6>
+                                        <select asp-for="IdVatLieu" asp-items="ViewBag.Materials" class="form-control select2" style="width: 100%;">
+                                            <option value="">Chọn vật liệu</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-12">
+                                    <div class="form-group">
+                                        <h6>Loại Sản Phẩm</h6>
+                                        <select asp-for="IdLoaiSanPham" asp-items="ViewBag.ProductTypes" class="form-control select2" style="width: 100%;">
+                                            <option value="">Chọn loại sản phẩm</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <div class="form-group">
+                                        <h6>Mô Tả</h6>
+                                        <textarea asp-for="MoTa" id="MoTa" class="form-control" rows="4" placeholder="Nhập mô tả sản phẩm"></textarea>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-12">
+                                    <h6>Màu</h6>
+                                    <div class="form-group">
+                                        <select class="choices form-select multiple-remove" name="SelectedColors" id="colorSelect" multiple="multiple" data-placeholder="Chọn Màu" style="width: 100%;">
+                                            @foreach (var color in ViewBag.Colors as List<ColorViewModel>)
+                                            {
+                                                <option value="@color.Id">@color.Ten</option>
+                                            }
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-12">
+                                    <h6>Size</h6>
+                                    <div class="form-group">
+                                        <select class="choices form-select multiple-remove" name="SelectedSizes" id="sizeSelect" multiple="multiple" data-placeholder="Chọn Size" style="width: 100%;">
+                                            @foreach (var size in ViewBag.Sizes as List<SizeViewModel>)
+                                            {
+                                                <option value="@size.Id">@size.Ten</option>
+                                            }
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="card-body">
+                                    <!-- Dòng Thêm ảnh -->
+                                    <div id="actions" class="row mb-3">
+                                        <div class="col-lg-6">
+                                            <div class="btn-group w-100">
+                                                <span class="btn btn-success col fileinput-button" id="addImageBtn">
+                                                    <i class="fas fa-plus"></i>
+                                                    <span>Thêm ảnh</span>
+                                                </span>
+                                                <input type="file" id="fileInput" name="HinhAnhs" accept="image/*" style="display:none;" multiple />
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <button id="removeAllImagesBtn" class="btn btn-danger w-100" type="button">
+                                                <i class="fas fa-trash"></i>
+                                                <span>Xoá hết hình ảnh</span>
+                                            </button>
+                                        </div>
+                                    </div>
+
+                                    <!-- Danh sách ảnh -->
+                                    <div id="imageList" class="row" style="display: none;">
+                                        <!-- Ẩn dòng ảnh ban đầu -->
+                                        <!-- Ảnh sẽ được thêm vào đây -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</form>
+
 <div class="card card-primary card-tabs">
     <div class="card-header p-0 pt-1">
         <ul class="nav nav-tabs" id="custom-tabs-two-tab" role="tablist">
@@ -102,52 +239,92 @@
                             </div>
                             <!-- /.card -->
                         </div>
-                        <!-- /.card-body -->
-                    </div>
 
-                </div>
-                <div class="tab-pane fade" id="custom-tabs-two-profile" role="tabpanel" aria-labelledby="custom-tabs-two-profile-tab">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class="card card-default">
-                                <div class="card-header">
-                                    <h3 class="card-title">Ảnh</h3>
+                    </div>
+                    <div class="card card-default">
+                        <div class="card-header">
+                            <h3 class="card-title"></h3>
+
+                            <div class="card-tools">
+                                <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                    <i class="fas fa-minus"></i>
+                                </button>
+                                <button type="button" class="btn btn-tool" data-card-widget="remove">
+                                    <i class="fas fa-times"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <!-- /.card-header -->
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Màu</label>
+                                        <select class="select2bs4" name="SelectedColors" id="colorSelect" multiple="multiple" data-placeholder="Chọn Màu" style="width: 100%;">
+                                            @foreach (var color in ViewBag.Colors as List<ColorViewModel>)
+                                            {
+                                                <option value="@color.Id">@color.Ten</option>
+                                            }
+                                        </select>
+                                    </div>
                                 </div>
-                                <div class="card-body">
-                                    <!-- Dòng Thêm ảnh -->
-                                    <div id="actions" class="row mb-3">
-                                        <div class="col-lg-6">
-                                            <div class="btn-group w-100">
-                                                <span class="btn btn-success col fileinput-button" id="addImageBtn">
-                                                    <i class="fas fa-plus"></i>
-                                                    <span>Thêm ảnh</span>
-                                                </span>
-                                                <input type="file" id="fileInput" name="HinhAnhs" accept="image/*" style="display:none;" multiple />
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Size</label>
+                                        <select class="select2bs4" name="SelectedSizes" id="sizeSelect" multiple="multiple" data-placeholder="Chọn Size" style="width: 100%;">
+                                            @foreach (var size in ViewBag.Sizes as List<SizeViewModel>)
+                                            {
+                                                <option value="@size.Id">@size.Ten</option>
+                                            }
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row" id="selectedItemsContainer"></div>
+                        </div>
+
+                        <div class="tab-pane fade" id="custom-tabs-two-profile" role="tabpanel" aria-labelledby="custom-tabs-two-profile-tab">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="card card-default">
+                                        <div class="card-header">
+                                            <h3 class="card-title">Ảnh</h3>
+                                        </div>
+                                        <div class="card-body">
+                                            <!-- Dòng Thêm ảnh -->
+                                            <div id="actions" class="row mb-3">
+                                                <div class="col-lg-6">
+                                                    <div class="btn-group w-100">
+                                                        <span class="btn btn-success col fileinput-button" id="addImageBtn">
+                                                            <i class="fas fa-plus"></i>
+                                                            <span>Thêm ảnh</span>
+                                                        </span>
+                                                        <input type="file" id="fileInput" name="HinhAnhs" accept="image/*" style="display:none;" multiple />
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-6">
+                                                    <button id="removeAllImagesBtn" class="btn btn-danger w-100" type="button">
+                                                        <i class="fas fa-trash"></i>
+                                                        <span>Xoá hết hình ảnh</span>
+                                                    </button>
+                                                </div>
+                                            </div>
+
+                                            <!-- Danh sách ảnh -->
+                                            <div id="imageList" class="row" style="display: none;">
+                                                <!-- Ẩn dòng ảnh ban đầu -->
+                                                <!-- Ảnh sẽ được thêm vào đây -->
                                             </div>
                                         </div>
-                                        <div class="col-lg-6">
-                                            <button id="removeAllImagesBtn" class="btn btn-danger w-100" type="button">
-                                                <i class="fas fa-trash"></i>
-                                                <span>Xoá hết hình ảnh</span>
-                                            </button>
-                                        </div>
-                                    </div>
-
-                                    <!-- Danh sách ảnh -->
-                                    <div id="imageList" class="row" style="display: none;">
-                                        <!-- Ẩn dòng ảnh ban đầu -->
-                                        <!-- Ảnh sẽ được thêm vào đây -->
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
     </form>
 
-<!-- /.card -->
+    <!-- /.card -->
 </div>
 
 @section Scripts {
@@ -201,16 +378,16 @@
                         const newImageDiv = document.createElement('div');
                         newImageDiv.className = 'col-md-12 mb-3';
                         newImageDiv.innerHTML = `
-                                    <div class="d-flex justify-content-between align-items-center">
-                                        <div class="image-container">
-                                            <img src="${e.target.result}" alt="Image" class="img-thumbnail" style="width: 100px; height: 100px; object-fit: cover;" />
-                                        </div>
-                                        <button class="btn btn-danger delete" onclick="removeImage(this)">
-                                            <i class="fas fa-trash"></i>
-                                            <span>Xoá</span>
-                                        </button>
-                                    </div>
-                                `;
+                                                    <div class="d-flex justify-content-between align-items-center">
+                                                        <div class="image-container">
+                                                            <img src="${e.target.result}" alt="Image" class="img-thumbnail" style="width: 100px; height: 100px; object-fit: cover;" />
+                                                        </div>
+                                                        <button class="btn btn-danger delete" onclick="removeImage(this)">
+                                                            <i class="fas fa-trash"></i>
+                                                            <span>Xoá</span>
+                                                        </button>
+                                                    </div>
+                                                `;
                         imageList.appendChild(newImageDiv);
 
                         // Hiện danh sách ảnh ngay sau khi thêm ảnh đầu tiên
@@ -260,6 +437,10 @@
                     alert('Đã có lỗi xảy ra!');
                 });
         };
+
+
+
+
     </script>
 
 }
