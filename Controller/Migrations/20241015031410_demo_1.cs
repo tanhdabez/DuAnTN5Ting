@@ -31,10 +31,7 @@ namespace Controller.Migrations
                 {
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Ma = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Ten = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    NgayTao = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    NgayCapNhat = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    TrangThai = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Ten = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -118,10 +115,7 @@ namespace Controller.Migrations
                 {
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Ma = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Ten = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    NgayTao = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    NgayCapNhat = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    TrangThai = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Ten = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -129,6 +123,8 @@ namespace Controller.Migrations
                 });
 
             migrationBuilder.CreateTable(
+<<<<<<< HEAD:Controller/Migrations/20241015031410_demo_1.cs
+=======
                name: "Role",
                columns: table => new
                {
@@ -166,6 +162,7 @@ namespace Controller.Migrations
         });
 
             migrationBuilder.CreateTable(
+>>>>>>> 69ac4bd3d4df17389183460d78b304a10ceee29b:Controller/Migrations/20241006131046_demo_1.cs
                 name: "Voucher",
                 columns: table => new
                 {
@@ -180,6 +177,33 @@ namespace Controller.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Voucher", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Address",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    CustomerId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    DiaChiChiTiet = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    HoVaTen = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    SDT = table.Column<int>(type: "int", nullable: false),
+                    MaPhuongXa = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    MaQuanHuyen = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    MaTinh = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    TenPhuongXa = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    TenQuanHuyen = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    TenTinh = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Address", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Address_Customer_CustomerId",
+                        column: x => x.CustomerId,
+                        principalTable: "Customer",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -216,7 +240,7 @@ namespace Controller.Migrations
                     ProductTypeId = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     BrandId = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     ManufacturerId = table.Column<string>(type: "nvarchar(450)", nullable: true),
-                    MaterialId = table.Column<string>(type: "nvarchar(450)", nullable: true)
+                    MaterialId = table.Column<string>(type: "nvarchar(450)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -237,51 +261,12 @@ namespace Controller.Migrations
                         name: "FK_Product_Material_MaterialId",
                         column: x => x.MaterialId,
                         principalTable: "Material",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Product_ProductType_ProductTypeId",
                         column: x => x.ProductTypeId,
                         principalTable: "ProductType",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Bill",
-                columns: table => new
-                {
-                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    CustomerId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    VoucherId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    TienVanChuyen = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    TienChuyenKhoan = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    TietMat = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    MaGiaoDichCK = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    SoTienMat = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    PhuongThucThanhToan = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    ThanhTien = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    TrangThai = table.Column<string>(type: "nvarchar(max)", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Bill", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Bill_Customer_CustomerId",
-                        column: x => x.CustomerId,
-                        principalTable: "Customer",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Bill_User_UserId",
-                        column: x => x.UserId,
-                        principalTable: "User",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Bill_Voucher_VoucherId",
-                        column: x => x.VoucherId,
-                        principalTable: "Voucher",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -309,30 +294,22 @@ namespace Controller.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "BillDetail",
+                name: "ProductImage",
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    ProductDetailId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    BillId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    DonGia = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    SoLuong = table.Column<int>(type: "int", nullable: false)
+                    ImageUrl = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ProductId = table.Column<string>(type: "nvarchar(450)", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_BillDetail", x => x.Id);
+                    table.PrimaryKey("PK_ProductImage", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_BillDetail_Bill_BillId",
-                        column: x => x.BillId,
-                        principalTable: "Bill",
+                        name: "FK_ProductImage_Product_ProductId",
+                        column: x => x.ProductId,
+                        principalTable: "Product",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_BillDetail_ProductDetail_ProductDetailId",
-                        column: x => x.ProductDetailId,
-                        principalTable: "ProductDetail",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -368,10 +345,7 @@ namespace Controller.Migrations
                 {
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     ProductDetailId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    ColorId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    NgayTao = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    NgayCapNhat = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    TrangThai = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    ColorId = table.Column<string>(type: "nvarchar(450)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -396,10 +370,7 @@ namespace Controller.Migrations
                 {
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     ProductDetailId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    SizeId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    NgayTao = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    NgayCapNhat = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    TrangThai = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    SizeId = table.Column<string>(type: "nvarchar(450)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -417,6 +388,113 @@ namespace Controller.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
+
+            migrationBuilder.CreateTable(
+                name: "Bill",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    CustomerId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    VoucherId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    TienVanChuyen = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    TienChuyenKhoan = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    TietMat = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    MaGiaoDichCK = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    SoTienMat = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    PhuongThucThanhToan = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ThanhTien = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    TrangThai = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Bill", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Bill_Customer_CustomerId",
+                        column: x => x.CustomerId,
+                        principalTable: "Customer",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Bill_Voucher_VoucherId",
+                        column: x => x.VoucherId,
+                        principalTable: "Voucher",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "BillDetail",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    ProductDetailId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    BillId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    DonGia = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    SoLuong = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_BillDetail", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_BillDetail_Bill_BillId",
+                        column: x => x.BillId,
+                        principalTable: "Bill",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_BillDetail_ProductDetail_ProductDetailId",
+                        column: x => x.ProductDetailId,
+                        principalTable: "ProductDetail",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Role",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Ten = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    NgayTao = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    NgayCapNhat = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    TrangThai = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Role", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "User",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Ma = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Username = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    Password = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
+                    Email = table.Column<string>(type: "nvarchar(120)", maxLength: 120, nullable: false),
+                    NgayTao = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    NgayCapNhat = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    TrangThai = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    RoleId = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_User", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_User_Role_RoleId",
+                        column: x => x.RoleId,
+                        principalTable: "Role",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Address_CustomerId",
+                table: "Address",
+                column: "CustomerId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Bill_CustomerId",
@@ -475,9 +553,7 @@ namespace Controller.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_Product_MaterialId",
                 table: "Product",
-                column: "MaterialId",
-                unique: true,
-                filter: "[MaterialId] IS NOT NULL");
+                column: "MaterialId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Product_ProductTypeId",
@@ -508,10 +584,48 @@ namespace Controller.Migrations
                 name: "IX_ProductDetailSize_SizeId",
                 table: "ProductDetailSize",
                 column: "SizeId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ProductImage_ProductId",
+                table: "ProductImage",
+                column: "ProductId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Role_UserId",
+                table: "Role",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_User_RoleId",
+                table: "User",
+                column: "RoleId");
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_Bill_User_UserId",
+                table: "Bill",
+                column: "UserId",
+                principalTable: "User",
+                principalColumn: "Id",
+                onDelete: ReferentialAction.Restrict);
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_Role_User_UserId",
+                table: "Role",
+                column: "UserId",
+                principalTable: "User",
+                principalColumn: "Id",
+                onDelete: ReferentialAction.Restrict);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropForeignKey(
+                name: "FK_Role_User_UserId",
+                table: "Role");
+
+            migrationBuilder.DropTable(
+                name: "Address");
+
             migrationBuilder.DropTable(
                 name: "BillDetail");
 
@@ -523,6 +637,9 @@ namespace Controller.Migrations
 
             migrationBuilder.DropTable(
                 name: "ProductDetailSize");
+
+            migrationBuilder.DropTable(
+                name: "ProductImage");
 
             migrationBuilder.DropTable(
                 name: "Bill");
@@ -540,12 +657,15 @@ namespace Controller.Migrations
                 name: "Size");
 
             migrationBuilder.DropTable(
+<<<<<<< HEAD:Controller/Migrations/20241015031410_demo_1.cs
+=======
                name: "User");
 
             migrationBuilder.DropTable(
                 name: "Role");
 
             migrationBuilder.DropTable(
+>>>>>>> 69ac4bd3d4df17389183460d78b304a10ceee29b:Controller/Migrations/20241006131046_demo_1.cs
                 name: "Voucher");
 
             migrationBuilder.DropTable(
@@ -565,6 +685,12 @@ namespace Controller.Migrations
 
             migrationBuilder.DropTable(
                 name: "ProductType");
+
+            migrationBuilder.DropTable(
+                name: "User");
+
+            migrationBuilder.DropTable(
+                name: "Role");
         }
     }
 }

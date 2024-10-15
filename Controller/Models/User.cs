@@ -1,4 +1,9 @@
+<<<<<<< HEAD
+
+using DemoBanQuanAo.Models;
+=======
 ﻿using DemoBanQuanAo.Models;
+>>>>>>> 69ac4bd3d4df17389183460d78b304a10ceee29b
 using System.ComponentModel.DataAnnotations;
 
 public class User
@@ -23,9 +28,17 @@ public class User
     public DateTime NgayCapNhat { get; set; }
     public string TrangThai { get; set; }
 
+<<<<<<< HEAD
+    public ICollection<Bill> Bills { get; set; }
+    public ICollection<Role> Roles { get; set; }
+    public string RoleId { get; set; }
+
+    public Role Role { get; set; }
+=======
     public string RoleId { get; set; }
 
     public Role Role { get; set; }
 
     public ICollection<Bill> Bills { get; set; }
+>>>>>>> 69ac4bd3d4df17389183460d78b304a10ceee29b
 }
