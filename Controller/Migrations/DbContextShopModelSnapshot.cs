@@ -76,8 +76,6 @@ namespace Controller.Migrations
 
                     b.ToTable("Bill");
                 });
-
-<<<<<<< HEAD
             modelBuilder.Entity("Controller.Models.Address", b =>
                 {
                     b.Property<string>("Id")
@@ -128,9 +126,6 @@ namespace Controller.Migrations
 
                     b.ToTable("Address");
                 });
-
-=======
->>>>>>> 69ac4bd3d4df17389183460d78b304a10ceee29b
             modelBuilder.Entity("Controller.Models.ProductImage", b =>
                 {
                     b.Property<string>("Id")
@@ -551,8 +546,6 @@ namespace Controller.Migrations
                 {
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
-
-<<<<<<< HEAD
                     b.Property<DateTime>("NgayCapNhat")
                         .HasColumnType("datetime2");
 
@@ -574,15 +567,11 @@ namespace Controller.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("UserId");
-
-=======
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
-
->>>>>>> 69ac4bd3d4df17389183460d78b304a10ceee29b
                     b.ToTable("Role");
                 });
 
@@ -708,8 +697,6 @@ namespace Controller.Migrations
 
                     b.Navigation("Voucher");
                 });
-
-<<<<<<< HEAD
             modelBuilder.Entity("Controller.Models.Address", b =>
                 {
                     b.HasOne("DemoBanQuanAo.Models.Customer", "Customers")
@@ -720,9 +707,6 @@ namespace Controller.Migrations
 
                     b.Navigation("Customers");
                 });
-
-=======
->>>>>>> 69ac4bd3d4df17389183460d78b304a10ceee29b
             modelBuilder.Entity("Controller.Models.ProductImage", b =>
                 {
                     b.HasOne("DemoBanQuanAo.Models.Product", "Product")
@@ -863,8 +847,6 @@ namespace Controller.Migrations
 
                     b.Navigation("Size");
                 });
-
-<<<<<<< HEAD
             modelBuilder.Entity("DemoBanQuanAo.Models.Role", b =>
                 {
                     b.HasOne("User", "User")
@@ -875,9 +857,6 @@ namespace Controller.Migrations
 
                     b.Navigation("User");
                 });
-
-=======
->>>>>>> 69ac4bd3d4df17389183460d78b304a10ceee29b
             modelBuilder.Entity("User", b =>
                 {
                     b.HasOne("DemoBanQuanAo.Models.Role", "Role")
@@ -962,15 +941,13 @@ namespace Controller.Migrations
                     b.Navigation("ProductDetailSizes");
                 });
 
+
             modelBuilder.Entity("DemoBanQuanAo.Models.Voucher", b =>
-<<<<<<< HEAD
-=======
                 {
                     b.Navigation("Bills");
                 });
 
             modelBuilder.Entity("User", b =>
->>>>>>> 69ac4bd3d4df17389183460d78b304a10ceee29b
                 {
                     b.Navigation("Bills");
                 });

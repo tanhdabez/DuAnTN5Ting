@@ -123,8 +123,6 @@ namespace Controller.Migrations
                 });
 
             migrationBuilder.CreateTable(
-<<<<<<< HEAD:Controller/Migrations/20241015031410_demo_1.cs
-=======
                name: "Role",
                columns: table => new
                {
@@ -162,7 +160,6 @@ namespace Controller.Migrations
         });
 
             migrationBuilder.CreateTable(
->>>>>>> 69ac4bd3d4df17389183460d78b304a10ceee29b:Controller/Migrations/20241006131046_demo_1.cs
                 name: "Voucher",
                 columns: table => new
                 {
@@ -657,15 +654,12 @@ namespace Controller.Migrations
                 name: "Size");
 
             migrationBuilder.DropTable(
-<<<<<<< HEAD:Controller/Migrations/20241015031410_demo_1.cs
-=======
                name: "User");
 
             migrationBuilder.DropTable(
                 name: "Role");
 
             migrationBuilder.DropTable(
->>>>>>> 69ac4bd3d4df17389183460d78b304a10ceee29b:Controller/Migrations/20241006131046_demo_1.cs
                 name: "Voucher");
 
             migrationBuilder.DropTable(
