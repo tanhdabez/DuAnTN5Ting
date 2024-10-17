@@ -41,12 +41,12 @@ namespace View.Controllers
             if (user != null && user.Password == password)
             {
                 HttpContext.Session.SetString("UserId", user.Id);
-                HttpContext.Session.SetString("RoleName", user.Role.Ten);
+                HttpContext.Session.SetString("RoleName", user.Role.Ten.ToLower());
 
-                if (user.Role.Ten == "Admin")
-                HttpContext.Session.SetString("RoleName", user.Role.Ten);
+                if (user.Role.Ten.ToLower() == "admin")
+                HttpContext.Session.SetString("RoleName", user.Role.Ten.ToLower());
 
-                if (user.Role.Ten == "Admin")
+                if (user.Role.Ten.ToLower() == "admin")
                 {
                     return RedirectToAction("Index", "Home");
                 }

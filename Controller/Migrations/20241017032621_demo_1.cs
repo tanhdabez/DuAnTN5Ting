@@ -123,43 +123,6 @@ namespace Controller.Migrations
                 });
 
             migrationBuilder.CreateTable(
-               name: "Role",
-               columns: table => new
-               {
-                   Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                   Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false)
-               },
-               constraints: table =>
-               {
-                   table.PrimaryKey("PK_Role", x => x.Id);
-               });
-
-           migrationBuilder.CreateTable(
-        name: "User",
-        columns: table => new
-        {
-            Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-            Ma = table.Column<string>(type: "nvarchar(max)", nullable: false),
-            Username = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-            Password = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
-            Email = table.Column<string>(type: "nvarchar(120)", maxLength: 120, nullable: false),
-            NgayTao = table.Column<DateTime>(type: "datetime2", nullable: false),
-            NgayCapNhat = table.Column<DateTime>(type: "datetime2", nullable: false),
-            TrangThai = table.Column<string>(type: "nvarchar(max)", nullable: false),
-            RoleId = table.Column<string>(type: "nvarchar(450)", nullable: true) // Added RoleId
-        },
-        constraints: table =>
-        {
-            table.PrimaryKey("PK_User", x => x.Id);
-            table.ForeignKey(
-                name: "FK_User_Role_RoleId",
-                column: x => x.RoleId,
-                principalTable: "Role",
-                principalColumn: "Id",
-                onDelete: ReferentialAction.Restrict);
-        });
-
-            migrationBuilder.CreateTable(
                 name: "Voucher",
                 columns: table => new
                 {
@@ -452,7 +415,7 @@ namespace Controller.Migrations
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     Ten = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     NgayTao = table.Column<DateTime>(type: "datetime2", nullable: false),
                     NgayCapNhat = table.Column<DateTime>(type: "datetime2", nullable: false),
@@ -497,10 +460,7 @@ namespace Controller.Migrations
                 name: "IX_Bill_CustomerId",
                 table: "Bill",
                 column: "CustomerId");
-            migrationBuilder.CreateIndex(
-           name: "IX_User_RoleId",
-           table: "User",
-           column: "RoleId");
+
             migrationBuilder.CreateIndex(
                 name: "IX_Bill_UserId",
                 table: "Bill",
@@ -652,12 +612,6 @@ namespace Controller.Migrations
 
             migrationBuilder.DropTable(
                 name: "Size");
-
-            migrationBuilder.DropTable(
-               name: "User");
-
-            migrationBuilder.DropTable(
-                name: "Role");
 
             migrationBuilder.DropTable(
                 name: "Voucher");

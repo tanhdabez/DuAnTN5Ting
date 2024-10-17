@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Controller.Migrations
 {
     [DbContext(typeof(DbContextShop))]
-    [Migration("20241015031410_demo_1")]
-    partial class demo_1
+    [Migration("20241017032728_demo_2")]
+    partial class demo_2
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -566,7 +566,6 @@ namespace Controller.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("UserId")
-                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
@@ -574,6 +573,24 @@ namespace Controller.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("Role");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "1",
+                            NgayCapNhat = new DateTime(2024, 10, 17, 10, 27, 27, 936, DateTimeKind.Local).AddTicks(4738),
+                            NgayTao = new DateTime(2024, 10, 17, 10, 27, 27, 936, DateTimeKind.Local).AddTicks(4726),
+                            Ten = "Admin",
+                            TrangThai = "Active"
+                        },
+                        new
+                        {
+                            Id = "2",
+                            NgayCapNhat = new DateTime(2024, 10, 17, 10, 27, 27, 936, DateTimeKind.Local).AddTicks(4741),
+                            NgayTao = new DateTime(2024, 10, 17, 10, 27, 27, 936, DateTimeKind.Local).AddTicks(4741),
+                            Ten = "Staff",
+                            TrangThai = "Active"
+                        });
                 });
 
             modelBuilder.Entity("DemoBanQuanAo.Models.Size", b =>
@@ -670,6 +687,32 @@ namespace Controller.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("User");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "1",
+                            Email = "admin@gmail.com",
+                            Ma = "U001",
+                            NgayCapNhat = new DateTime(2024, 10, 17, 10, 27, 27, 936, DateTimeKind.Local).AddTicks(4869),
+                            NgayTao = new DateTime(2024, 10, 17, 10, 27, 27, 936, DateTimeKind.Local).AddTicks(4868),
+                            Password = "admin001",
+                            RoleId = "1",
+                            TrangThai = "Active",
+                            Username = "admin"
+                        },
+                        new
+                        {
+                            Id = "2",
+                            Email = "staff@gmail.com",
+                            Ma = "U002",
+                            NgayCapNhat = new DateTime(2024, 10, 17, 10, 27, 27, 936, DateTimeKind.Local).AddTicks(4873),
+                            NgayTao = new DateTime(2024, 10, 17, 10, 27, 27, 936, DateTimeKind.Local).AddTicks(4873),
+                            Password = "staff001",
+                            RoleId = "2",
+                            TrangThai = "Active",
+                            Username = "staff"
+                        });
                 });
 
             modelBuilder.Entity("Bill", b =>
@@ -856,8 +899,7 @@ namespace Controller.Migrations
                     b.HasOne("User", "User")
                         .WithMany("Roles")
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.Navigation("User");
                 });
