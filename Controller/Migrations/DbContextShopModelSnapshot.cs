@@ -76,6 +76,7 @@ namespace Controller.Migrations
 
                     b.ToTable("Bill");
                 });
+
             modelBuilder.Entity("Controller.Models.Address", b =>
                 {
                     b.Property<string>("Id")
@@ -126,6 +127,7 @@ namespace Controller.Migrations
 
                     b.ToTable("Address");
                 });
+
             modelBuilder.Entity("Controller.Models.ProductImage", b =>
                 {
                     b.Property<string>("Id")
@@ -546,6 +548,7 @@ namespace Controller.Migrations
                 {
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
+
                     b.Property<DateTime>("NgayCapNhat")
                         .HasColumnType("datetime2");
 
@@ -567,11 +570,7 @@ namespace Controller.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("UserId");
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("Id");
                     b.ToTable("Role");
                 });
 
@@ -697,6 +696,7 @@ namespace Controller.Migrations
 
                     b.Navigation("Voucher");
                 });
+
             modelBuilder.Entity("Controller.Models.Address", b =>
                 {
                     b.HasOne("DemoBanQuanAo.Models.Customer", "Customers")
@@ -707,6 +707,7 @@ namespace Controller.Migrations
 
                     b.Navigation("Customers");
                 });
+
             modelBuilder.Entity("Controller.Models.ProductImage", b =>
                 {
                     b.HasOne("DemoBanQuanAo.Models.Product", "Product")
@@ -847,6 +848,7 @@ namespace Controller.Migrations
 
                     b.Navigation("Size");
                 });
+
             modelBuilder.Entity("DemoBanQuanAo.Models.Role", b =>
                 {
                     b.HasOne("User", "User")
@@ -857,6 +859,7 @@ namespace Controller.Migrations
 
                     b.Navigation("User");
                 });
+
             modelBuilder.Entity("User", b =>
                 {
                     b.HasOne("DemoBanQuanAo.Models.Role", "Role")
@@ -941,13 +944,7 @@ namespace Controller.Migrations
                     b.Navigation("ProductDetailSizes");
                 });
 
-
             modelBuilder.Entity("DemoBanQuanAo.Models.Voucher", b =>
-                {
-                    b.Navigation("Bills");
-                });
-
-            modelBuilder.Entity("User", b =>
                 {
                     b.Navigation("Bills");
                 });
