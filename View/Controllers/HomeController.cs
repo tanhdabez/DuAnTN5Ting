@@ -22,7 +22,26 @@ namespace View.Controllers
 
             return View();
         }
-
+        public IActionResult CartIndex()
+        {
+            return View();
+        }
+        public IActionResult OrdersList()
+        {
+            return View();
+        }
+        public IActionResult Bills()
+        {
+            return View();
+        }
+        public IActionResult Details()
+        {
+            return View();
+        }
+        public IActionResult UserCreate()
+        {
+            return View();
+        }
         public IActionResult Privacy()
         {
             return View();

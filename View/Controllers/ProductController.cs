@@ -82,7 +82,7 @@ namespace View.Controllers
             product.IdBrand ??= string.Empty;
             product.IdNhaSanXuat ??= string.Empty;
             product.MoTa ??= string.Empty;
-            product.SelectedColors = SelectedColors.ToList(); 
+            product.SelectedColors = SelectedColors.ToList();
             product.SelectedSizes = SelectedSizes.ToList();
             // Danh sách chứa đường dẫn hình ảnh
             product.HinhAnh = new List<string>();
@@ -114,7 +114,7 @@ namespace View.Controllers
             // Gọi API để lưu sản phẩm
             string apiUrl = "https://localhost:44370/Product/SetProduct";
 
-            
+
             // Chuyển đổi ProductDto thành JSON
             var jsonProduct = JsonConvert.SerializeObject(product);
             var content = new StringContent(jsonProduct, Encoding.UTF8, "application/json");

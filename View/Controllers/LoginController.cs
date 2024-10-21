@@ -36,14 +36,18 @@ namespace View.Controllers
             }
 
             var user = await _context.User.Include(u => u.Role)
-                                           .FirstOrDefaultAsync(u => u.Username == username);
+                                          .FirstOrDefaultAsync(u => u.Username.ToLower() == username.ToLower());
+
 
             if (user != null && user.Password == password)
             {
-                HttpContext.Session.SetString("UserId", user.Id);
-                HttpContext.Session.SetString("RoleName", user.Role.Name);
+                HttpContext.Session.SetString("UserId", user.Id.ToLower());
+                HttpContext.Session.SetString("Username", user.Username.ToLower());
 
-                if (user.Role.Name == "Admin")
+                if (user.Role.Ten == "Admin")
+                HttpContext.Session.SetString("Ten", user.Role.Ten);
+
+                if (user.Role.Ten == "Admin")
                 {
                     return RedirectToAction("Index", "Home");
                 }
