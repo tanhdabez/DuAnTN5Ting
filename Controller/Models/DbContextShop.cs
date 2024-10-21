@@ -162,7 +162,7 @@ namespace DemoBanQuanAo.Models
 
             modelBuilder.Entity<Product>()
                 .HasOne(p => p.Brand)
-                .WithMany(p => p.Products) 
+                .WithMany(p => p.Products)
                 .HasForeignKey(p => p.BrandId)
                 .OnDelete(DeleteBehavior.Restrict);
 
@@ -200,6 +200,53 @@ namespace DemoBanQuanAo.Models
                 .WithOne(c => c.Customers)
                 .HasForeignKey(a => a.CustomerId)
                 .OnDelete(DeleteBehavior.Restrict);
+
+            base.OnModelCreating(modelBuilder);
+            modelBuilder.Entity<Role>().HasData(
+            new Role
+            {
+                Id = "R1",
+                Ten = "Admin",
+                NgayTao = DateTime.Now,
+                NgayCapNhat = DateTime.Now,
+                TrangThai = "Active",
+                UserId = null
+            },
+            new Role
+            {
+                Id = "R2",
+                Ten = "Staff",
+                NgayTao = DateTime.Now,
+                NgayCapNhat = DateTime.Now,
+                TrangThai = "Active",
+                UserId = null
+            });
+            base.OnModelCreating(modelBuilder);
+            modelBuilder.Entity<User>().HasData(
+            new User
+            {
+                Id = "U1",
+                Ma = "U001",
+                Username = "admin",
+                Password = "admin001",
+                Email = "admin@gmail.com",
+                NgayTao = DateTime.Now,
+                NgayCapNhat = DateTime.Now,
+                TrangThai = "Active",
+                RoleId = "R1"
+            },
+            new User
+            {
+                Id = "U2",
+                Ma = "U002",
+                Username = "staff",
+                Password = "staff001",
+                Email = "staff@gmail.com",
+                NgayTao = DateTime.Now,
+                NgayCapNhat = DateTime.Now,
+                TrangThai = "Active",
+                RoleId = "R2"
+            });
         }
 
     }

@@ -4,6 +4,7 @@ using DemoBanQuanAo.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Controller.Migrations
 {
     [DbContext(typeof(DbContextShop))]
-    partial class DbContextShopModelSnapshot : ModelSnapshot
+    [Migration("20241017032621_demo_1")]
+    partial class demo_1
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -571,24 +573,6 @@ namespace Controller.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("Role");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = "R1",
-                            NgayCapNhat = new DateTime(2024, 10, 17, 14, 19, 53, 237, DateTimeKind.Local).AddTicks(8724),
-                            NgayTao = new DateTime(2024, 10, 17, 14, 19, 53, 237, DateTimeKind.Local).AddTicks(8715),
-                            Ten = "Admin",
-                            TrangThai = "Active"
-                        },
-                        new
-                        {
-                            Id = "R2",
-                            NgayCapNhat = new DateTime(2024, 10, 17, 14, 19, 53, 237, DateTimeKind.Local).AddTicks(8726),
-                            NgayTao = new DateTime(2024, 10, 17, 14, 19, 53, 237, DateTimeKind.Local).AddTicks(8726),
-                            Ten = "Staff",
-                            TrangThai = "Active"
-                        });
                 });
 
             modelBuilder.Entity("DemoBanQuanAo.Models.Size", b =>
@@ -685,32 +669,6 @@ namespace Controller.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("User");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = "U1",
-                            Email = "admin@gmail.com",
-                            Ma = "U001",
-                            NgayCapNhat = new DateTime(2024, 10, 17, 14, 19, 53, 237, DateTimeKind.Local).AddTicks(8867),
-                            NgayTao = new DateTime(2024, 10, 17, 14, 19, 53, 237, DateTimeKind.Local).AddTicks(8867),
-                            Password = "admin001",
-                            RoleId = "R1",
-                            TrangThai = "Active",
-                            Username = "admin"
-                        },
-                        new
-                        {
-                            Id = "U2",
-                            Email = "staff@gmail.com",
-                            Ma = "U002",
-                            NgayCapNhat = new DateTime(2024, 10, 17, 14, 19, 53, 237, DateTimeKind.Local).AddTicks(8872),
-                            NgayTao = new DateTime(2024, 10, 17, 14, 19, 53, 237, DateTimeKind.Local).AddTicks(8871),
-                            Password = "staff001",
-                            RoleId = "R2",
-                            TrangThai = "Active",
-                            Username = "staff"
-                        });
                 });
 
             modelBuilder.Entity("Bill", b =>
