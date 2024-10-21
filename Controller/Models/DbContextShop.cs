@@ -205,7 +205,7 @@ namespace DemoBanQuanAo.Models
             modelBuilder.Entity<Role>().HasData(
             new Role
             {
-                Id = "1",
+                Id = "R1",
                 Ten = "Admin",
                 NgayTao = DateTime.Now,
                 NgayCapNhat = DateTime.Now,
@@ -214,7 +214,7 @@ namespace DemoBanQuanAo.Models
             },
             new Role
             {
-                Id = "2",
+                Id = "R2",
                 Ten = "Staff",
                 NgayTao = DateTime.Now,
                 NgayCapNhat = DateTime.Now,
@@ -225,7 +225,7 @@ namespace DemoBanQuanAo.Models
             modelBuilder.Entity<User>().HasData(
             new User
             {
-                Id = "1",
+                Id = "U1",
                 Ma = "U001",
                 Username = "admin",
                 Password = "admin001",
@@ -233,11 +233,11 @@ namespace DemoBanQuanAo.Models
                 NgayTao = DateTime.Now,
                 NgayCapNhat = DateTime.Now,
                 TrangThai = "Active",
-                RoleId = "1"
+                RoleId = "R1"
             },
             new User
             {
-                Id = "2",
+                Id = "U2",
                 Ma = "U002",
                 Username = "staff",
                 Password = "staff001",
@@ -245,7 +245,7 @@ namespace DemoBanQuanAo.Models
                 NgayTao = DateTime.Now,
                 NgayCapNhat = DateTime.Now,
                 TrangThai = "Active",
-                RoleId = "2"
+                RoleId = "R2"
             });
         }
 
