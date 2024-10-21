@@ -1,3 +1,4 @@
+using DemoBanQuanAo.Models;
 ﻿using DemoBanQuanAo.Models;
 using System.ComponentModel.DataAnnotations;
 
@@ -22,10 +23,9 @@ public class User
     public DateTime NgayTao { get; set; } = DateTime.Now;
     public DateTime NgayCapNhat { get; set; }
     public string TrangThai { get; set; }
-
+    public ICollection<Bill> Bills { get; set; }
+    public ICollection<Role> Roles { get; set; }
     public string RoleId { get; set; }
 
     public Role Role { get; set; }
-
-    public ICollection<Bill> Bills { get; set; }
 }

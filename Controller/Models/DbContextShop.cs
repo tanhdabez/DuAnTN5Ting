@@ -26,6 +26,8 @@ namespace DemoBanQuanAo.Models
         public DbSet<Size> Size { get; set; }
         public DbSet<Material> Material { get; set; }
         public DbSet<ProductImage> ProductImage { get; set; }
+        public DbSet<Address> Address { get; set; }
+        public DbSet<Voucher> Voucher { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             // Configure Bill
@@ -187,6 +189,64 @@ namespace DemoBanQuanAo.Models
                 .HasOne(p => p.Customers)
                 .WithOne(m => m.Carts)
                 .HasForeignKey<Cart>(p => p.CustomerId);
+
+            modelBuilder.Entity<User>()
+                .HasMany(r => r.Roles)
+                .WithOne(u => u.User)
+                .HasForeignKey(r => r.UserId)
+                .OnDelete(DeleteBehavior.Restrict);
+            modelBuilder.Entity<Customer>()
+                .HasMany(a => a.addresses)
+                .WithOne(c => c.Customers)
+                .HasForeignKey(a => a.CustomerId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            base.OnModelCreating(modelBuilder);
+            modelBuilder.Entity<Role>().HasData(
+            new Role
+            {
+                Id = "R1",
+                Ten = "Admin",
+                NgayTao = DateTime.Now,
+                NgayCapNhat = DateTime.Now,
+                TrangThai = "Active",
+                UserId = null
+            },
+            new Role
+            {
+                Id = "R2",
+                Ten = "Staff",
+                NgayTao = DateTime.Now,
+                NgayCapNhat = DateTime.Now,
+                TrangThai = "Active",
+                UserId = null
+            });
+            base.OnModelCreating(modelBuilder);
+            modelBuilder.Entity<User>().HasData(
+            new User
+            {
+                Id = "U1",
+                Ma = "U001",
+                Username = "admin",
+                Password = "admin001",
+                Email = "admin@gmail.com",
+                NgayTao = DateTime.Now,
+                NgayCapNhat = DateTime.Now,
+                TrangThai = "Active",
+                RoleId = "R1"
+            },
+            new User
+            {
+                Id = "U2",
+                Ma = "U002",
+                Username = "staff",
+                Password = "staff001",
+                Email = "staff@gmail.com",
+                NgayTao = DateTime.Now,
+                NgayCapNhat = DateTime.Now,
+                TrangThai = "Active",
+                RoleId = "R2"
+            });
         }
 
     }
