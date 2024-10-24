@@ -1,0 +1,78 @@
+﻿@{
+    ViewData["Title"] = "Orders List";
+    Layout = "~/Views/Shared/_LayoutCustomer.cshtml";
+}
+
+<main id="main" data-aos="fade-up">
+    <section id="orders-list" class="breadcrumbs">
+        <div class="container">
+            <h2>Order List</h2>
+            <ol>
+                <li><a asp-action="IndexShop" asp-controller="Home">Home</a></li>
+                <li>Orders List</li>
+            </ol>
+        </div>
+    </section>
+
+    <section class="h-100 h-custom">
+        <div class="container py-5 h-100">
+            <div class="row d-flex justify-content-center align-items-start h-100">
+                <div class="col-lg-12">
+                    <div class="card card-registration card-registration-2" style="border-radius: 15px;">
+                        <div class="card-body p-0">
+                            <div class="row g-0">
+                                <div class="col-12 p-5">
+                                    <h1 class="fw-bold mb-5">Your Orders</h1>
+
+                                    <!-- Chỉ hiển thị thông báo giỏ hàng trống -->
+                                    <div class="alert alert-info">
+                                        Hiện tại không có đơn hàng nào để hiển thị.
+                                    </div>
+
+                                    <!-- Thêm liên kết quay lại cửa hàng -->
+                                    <div class="pt-5 d-flex justify-content-between">
+                                        <h6 class="mb-0">
+                                            <a href="@Url.Action("IndexShop", "Home")" class="text-body">
+                                                <i class="fas fa-long-arrow-alt-left me-2"></i> Back to shop
+                                            </a>
+                                        </h6>
+                                    </div>
+
+                                    <hr class="my-4">
+
+                                    <!-- Mẫu bảng đơn hàng trống không có dữ liệu -->
+                                    <h4>Order Items:</h4>
+                                    <table class="table table-bordered">
+                                        <thead>
+                                            <tr>
+                                                <th>Image</th>
+                                                <th>Name</th>
+                                                <th>Quantity</th>
+                                                <th>Price</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td colspan="4" class="text-center">
+                                                    Không có sản phẩm nào trong đơn hàng.
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+
+                                    <div class="d-flex justify-content-between">
+                                        <!-- Nút giả lập xuất hóa đơn và hủy -->
+                                        <button class="btn btn-success mt-2" disabled>Hủy</button>
+                                        <button class="btn btn-primary" disabled>Export to Excel</button>
+                                    </div>
+
+                                    <hr class="my-4">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>

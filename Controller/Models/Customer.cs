@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Controller.Models;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -29,5 +30,7 @@ namespace DemoBanQuanAo.Models
 
         public Cart Carts { get; set; }
         public ICollection<Bill> Bills { get; set; }
+
+        public ICollection<Address> addresses { get; set; }
     }
 }
