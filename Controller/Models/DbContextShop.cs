@@ -7,9 +7,11 @@ namespace DemoBanQuanAo.Models
     {
         public DbContextShop(DbContextOptions<DbContextShop> options) : base(options) { }
         public DbContextShop() { }
+
         public DbSet<ProductType> ProductType { get; set; }
         public DbSet<Product> Product { get; set; }
         public DbSet<User> User { get; set; }
+        public DbSet<Role> Role { get; set; }
         public DbSet<Bill> Bill { get; set; }
         public DbSet<BillDetail> BillDetail { get; set; }
         public DbSet<Brand> Brand { get; set; }
@@ -24,8 +26,47 @@ namespace DemoBanQuanAo.Models
         public DbSet<Size> Size { get; set; }
         public DbSet<Material> Material { get; set; }
         public DbSet<ProductImage> ProductImage { get; set; }
+        public DbSet<Address> Address { get; set; }
+        public DbSet<Voucher> Voucher { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            // Configure Bill
+            modelBuilder.Entity<Bill>()
+                .Property(b => b.SoTienMat)
+                .HasColumnType("decimal(18, 2)");
+
+            modelBuilder.Entity<Bill>()
+                .Property(b => b.ThanhTien)
+                .HasColumnType("decimal(18, 2)");
+
+            modelBuilder.Entity<Bill>()
+                .Property(b => b.TienChuyenKhoan)
+                .HasColumnType("decimal(18, 2)");
+
+            modelBuilder.Entity<Bill>()
+                .Property(b => b.TienVanChuyen)
+                .HasColumnType("decimal(18, 2)");
+
+            // Configure BillDetail
+            modelBuilder.Entity<BillDetail>()
+                .Property(bd => bd.DonGia)
+                .HasColumnType("decimal(18, 2)");
+
+            // Configure CartDetail
+            modelBuilder.Entity<CartDetail>()
+                .Property(cd => cd.DonGia)
+                .HasColumnType("decimal(18, 2)");
+
+            // Configure Product
+            modelBuilder.Entity<Product>()
+                .Property(p => p.Gia)
+                .HasColumnType("decimal(18, 2)");
+
+            // Configure Voucher
+            modelBuilder.Entity<Voucher>()
+                .Property(v => v.GiaTri)
+                .HasColumnType("decimal(18, 2)");
+
             modelBuilder.Entity<ProductImage>()
             .HasOne(p => p.Product)
             .WithMany(p => p.ProductImages)
@@ -97,12 +138,21 @@ namespace DemoBanQuanAo.Models
                 .OnDelete(DeleteBehavior.Restrict); // Vô hiệu hóa cascade delete
 
             // Bảng User
-            modelBuilder.Entity<User>()
-                .HasMany(p => p.Bills)
-                .WithOne(p => p.User)
-                .HasForeignKey(p => p.UserId)
-                .OnDelete(DeleteBehavior.Restrict); // Vô hiệu hóa cascade delete
+            modelBuilder.Entity<User>(b =>
+            {
+                b.HasKey(u => u.Id);
 
+                b.HasMany(u => u.Bills)
+                    .WithOne(b => b.User)
+                    .HasForeignKey(b => b.UserId)
+                    .OnDelete(DeleteBehavior.Restrict);
+            });
+
+            modelBuilder.Entity<User>()
+                .HasOne(u => u.Role)
+                .WithMany(r => r.Users)
+                .HasForeignKey(u => u.RoleId)
+                .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<Customer>()
                 .HasMany(p => p.Bills)
@@ -139,6 +189,64 @@ namespace DemoBanQuanAo.Models
                 .HasOne(p => p.Customers)
                 .WithOne(m => m.Carts)
                 .HasForeignKey<Cart>(p => p.CustomerId);
+
+            modelBuilder.Entity<User>()
+                .HasMany(r => r.Roles)
+                .WithOne(u => u.User)
+                .HasForeignKey(r => r.UserId)
+                .OnDelete(DeleteBehavior.Restrict);
+            modelBuilder.Entity<Customer>()
+                .HasMany(a => a.addresses)
+                .WithOne(c => c.Customers)
+                .HasForeignKey(a => a.CustomerId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            base.OnModelCreating(modelBuilder);
+            modelBuilder.Entity<Role>().HasData(
+            new Role
+            {
+                Id = "R1",
+                Ten = "Admin",
+                NgayTao = DateTime.Now,
+                NgayCapNhat = DateTime.Now,
+                TrangThai = "Active",
+                UserId = null
+            },
+            new Role
+            {
+                Id = "R2",
+                Ten = "Staff",
+                NgayTao = DateTime.Now,
+                NgayCapNhat = DateTime.Now,
+                TrangThai = "Active",
+                UserId = null
+            });
+            base.OnModelCreating(modelBuilder);
+            modelBuilder.Entity<User>().HasData(
+            new User
+            {
+                Id = "U1",
+                Ma = "U001",
+                Username = "admin",
+                Password = "admin001",
+                Email = "admin@gmail.com",
+                NgayTao = DateTime.Now,
+                NgayCapNhat = DateTime.Now,
+                TrangThai = "Active",
+                RoleId = "R1"
+            },
+            new User
+            {
+                Id = "U2",
+                Ma = "U002",
+                Username = "staff",
+                Password = "staff001",
+                Email = "staff@gmail.com",
+                NgayTao = DateTime.Now,
+                NgayCapNhat = DateTime.Now,
+                TrangThai = "Active",
+                RoleId = "R2"
+            });
         }
 
     }
