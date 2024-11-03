@@ -48,7 +48,7 @@
                                     <tr>
                                         <td>@Html.DisplayFor(modelItem => item.MaSanPham)</td>
                                         <td>@Html.DisplayFor(modelItem => item.TenSanPham)</td>
-                                        <td>@Html.DisplayFor(modelItem => item.GiaSanPham)</td>
+                                        <td>@string.Format("{0:0}", item.GiaSanPham) VNĐ</td>
                                         <td>
                                             @if (item.HinhAnhs != null && item.HinhAnhs.Any())
                                             {

@@ -1,7 +1,6 @@
 ﻿html {
   font-size: 14px;
 }
-
 @media (min-width: 768px) {
   html {
     font-size: 16px;
@@ -19,44 +18,4 @@ html {
 
 body {
   margin-bottom: 60px;
-}
-
-/* Nền của Select2 với theme tối */
-.select2-container--bootstrap4 .select2-selection {
-    background-color: #343a40; /* Màu nền tối */
-    color: #ffffff; /* Màu chữ */
-    border: 1px solid #6c757d; /* Màu viền */
-}
-
-/* Màu chữ trong dropdown */
-.select2-container--bootstrap4 .select2-selection__rendered {
-    color: #ffffff;
-}
-
-/* Màu cho mũi tên dropdown */
-.select2-container--bootstrap4 .select2-selection__arrow b {
-    border-color: #ffffff transparent transparent transparent;
-}
-
-/* Điều chỉnh khi focus */
-.select2-container--bootstrap4 .select2-selection--multiple:focus,
-.select2-container--bootstrap4 .select2-selection--multiple:hover {
-    background-color: #454d55; /* Màu nền khi hover */
-}
-
-/* Nền của dropdown khi mở */
-.select2-container--bootstrap4 .select2-results {
-    background-color: #343a40; /* Nền dropdown */
-    color: #ffffff; /* Màu chữ trong dropdown */
-}
-
-/* Màu hover cho các mục trong dropdown */
-.select2-container--bootstrap4 .select2-results__option--highlighted {
-    background-color: #6c757d; /* Màu hover cho mục chọn */
-    color: #ffffff; /* Màu chữ khi hover */
-}
-
-/* Màu chữ cho các mục trong dropdown */
-.select2-container--bootstrap4 .select2-results__option {
-    color: #ffffff; /* Màu chữ cho tất cả mục */
 }
