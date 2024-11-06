@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Controller.Migrations
 {
     [DbContext(typeof(DbContextShop))]
-    [Migration("20241017032728_demo_2")]
-    partial class demo_2
+    [Migration("20241029025514_db2")]
+    partial class db2
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -88,28 +88,8 @@ namespace Controller.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("DiaChiChiTiet")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("HoVaTen")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("MaPhuongXa")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("MaQuanHuyen")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("MaTinh")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("SDT")
-                        .HasColumnType("int");
+                    b.Property<bool>("IsPrimary")
+                        .HasColumnType("bit");
 
                     b.Property<string>("TenPhuongXa")
                         .IsRequired()
@@ -286,10 +266,6 @@ namespace Controller.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Anh")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("DiaChi")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -577,17 +553,17 @@ namespace Controller.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "1",
-                            NgayCapNhat = new DateTime(2024, 10, 17, 10, 27, 27, 936, DateTimeKind.Local).AddTicks(4738),
-                            NgayTao = new DateTime(2024, 10, 17, 10, 27, 27, 936, DateTimeKind.Local).AddTicks(4726),
+                            Id = "R1",
+                            NgayCapNhat = new DateTime(2024, 10, 29, 9, 55, 14, 78, DateTimeKind.Local).AddTicks(8716),
+                            NgayTao = new DateTime(2024, 10, 29, 9, 55, 14, 78, DateTimeKind.Local).AddTicks(8705),
                             Ten = "Admin",
                             TrangThai = "Active"
                         },
                         new
                         {
-                            Id = "2",
-                            NgayCapNhat = new DateTime(2024, 10, 17, 10, 27, 27, 936, DateTimeKind.Local).AddTicks(4741),
-                            NgayTao = new DateTime(2024, 10, 17, 10, 27, 27, 936, DateTimeKind.Local).AddTicks(4741),
+                            Id = "R2",
+                            NgayCapNhat = new DateTime(2024, 10, 29, 9, 55, 14, 78, DateTimeKind.Local).AddTicks(8718),
+                            NgayTao = new DateTime(2024, 10, 29, 9, 55, 14, 78, DateTimeKind.Local).AddTicks(8718),
                             Ten = "Staff",
                             TrangThai = "Active"
                         });
@@ -691,25 +667,25 @@ namespace Controller.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "1",
+                            Id = "U1",
                             Email = "admin@gmail.com",
                             Ma = "U001",
-                            NgayCapNhat = new DateTime(2024, 10, 17, 10, 27, 27, 936, DateTimeKind.Local).AddTicks(4869),
-                            NgayTao = new DateTime(2024, 10, 17, 10, 27, 27, 936, DateTimeKind.Local).AddTicks(4868),
+                            NgayCapNhat = new DateTime(2024, 10, 29, 9, 55, 14, 78, DateTimeKind.Local).AddTicks(9159),
+                            NgayTao = new DateTime(2024, 10, 29, 9, 55, 14, 78, DateTimeKind.Local).AddTicks(9158),
                             Password = "admin001",
-                            RoleId = "1",
+                            RoleId = "R1",
                             TrangThai = "Active",
                             Username = "admin"
                         },
                         new
                         {
-                            Id = "2",
+                            Id = "U2",
                             Email = "staff@gmail.com",
                             Ma = "U002",
-                            NgayCapNhat = new DateTime(2024, 10, 17, 10, 27, 27, 936, DateTimeKind.Local).AddTicks(4873),
-                            NgayTao = new DateTime(2024, 10, 17, 10, 27, 27, 936, DateTimeKind.Local).AddTicks(4873),
+                            NgayCapNhat = new DateTime(2024, 10, 29, 9, 55, 14, 78, DateTimeKind.Local).AddTicks(9163),
+                            NgayTao = new DateTime(2024, 10, 29, 9, 55, 14, 78, DateTimeKind.Local).AddTicks(9162),
                             Password = "staff001",
-                            RoleId = "2",
+                            RoleId = "R2",
                             TrangThai = "Active",
                             Username = "staff"
                         });
@@ -745,7 +721,7 @@ namespace Controller.Migrations
             modelBuilder.Entity("Controller.Models.Address", b =>
                 {
                     b.HasOne("DemoBanQuanAo.Models.Customer", "Customers")
-                        .WithMany("addresses")
+                        .WithMany("Addresses")
                         .HasForeignKey("CustomerId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
@@ -937,12 +913,11 @@ namespace Controller.Migrations
 
             modelBuilder.Entity("DemoBanQuanAo.Models.Customer", b =>
                 {
+                    b.Navigation("Addresses");
+
                     b.Navigation("Bills");
 
-                    b.Navigation("Carts")
-                        .IsRequired();
-
-                    b.Navigation("addresses");
+                    b.Navigation("Carts");
                 });
 
             modelBuilder.Entity("DemoBanQuanAo.Models.Manufacturer", b =>

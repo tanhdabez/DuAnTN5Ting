@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Controller.Migrations
 {
-    public partial class demo_1 : Migration
+    public partial class db1 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -48,7 +48,6 @@ namespace Controller.Migrations
                     Anh = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     GioiTinh = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     NgaySinh = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    DiaChi = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     SDT = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     MatKhau = table.Column<string>(type: "nvarchar(max)", nullable: false),
@@ -145,15 +144,13 @@ namespace Controller.Migrations
                 {
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     CustomerId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    DiaChiChiTiet = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    HoVaTen = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    SDT = table.Column<int>(type: "int", nullable: false),
-                    MaPhuongXa = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    MaQuanHuyen = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    MaTinh = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    MaPhuongXa = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    MaQuanHuyen = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    MaTinh = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     TenPhuongXa = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     TenQuanHuyen = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    TenTinh = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    TenTinh = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    IsPrimary = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -450,6 +447,26 @@ namespace Controller.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
+
+            migrationBuilder.InsertData(
+                table: "Role",
+                columns: new[] { "Id", "NgayCapNhat", "NgayTao", "Ten", "TrangThai", "UserId" },
+                values: new object[] { "R1", new DateTime(2024, 10, 25, 14, 21, 16, 45, DateTimeKind.Local).AddTicks(2522), new DateTime(2024, 10, 25, 14, 21, 16, 45, DateTimeKind.Local).AddTicks(2511), "Admin", "Active", null });
+
+            migrationBuilder.InsertData(
+                table: "Role",
+                columns: new[] { "Id", "NgayCapNhat", "NgayTao", "Ten", "TrangThai", "UserId" },
+                values: new object[] { "R2", new DateTime(2024, 10, 25, 14, 21, 16, 45, DateTimeKind.Local).AddTicks(2525), new DateTime(2024, 10, 25, 14, 21, 16, 45, DateTimeKind.Local).AddTicks(2524), "Staff", "Active", null });
+
+            migrationBuilder.InsertData(
+                table: "User",
+                columns: new[] { "Id", "Email", "Ma", "NgayCapNhat", "NgayTao", "Password", "RoleId", "TrangThai", "Username" },
+                values: new object[] { "U1", "admin@gmail.com", "U001", new DateTime(2024, 10, 25, 14, 21, 16, 45, DateTimeKind.Local).AddTicks(2763), new DateTime(2024, 10, 25, 14, 21, 16, 45, DateTimeKind.Local).AddTicks(2763), "admin001", "R1", "Active", "admin" });
+
+            migrationBuilder.InsertData(
+                table: "User",
+                columns: new[] { "Id", "Email", "Ma", "NgayCapNhat", "NgayTao", "Password", "RoleId", "TrangThai", "Username" },
+                values: new object[] { "U2", "staff@gmail.com", "U002", new DateTime(2024, 10, 25, 14, 21, 16, 45, DateTimeKind.Local).AddTicks(2768), new DateTime(2024, 10, 25, 14, 21, 16, 45, DateTimeKind.Local).AddTicks(2767), "staff001", "R2", "Active", "staff" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Address_CustomerId",
