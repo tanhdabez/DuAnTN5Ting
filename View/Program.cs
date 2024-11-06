@@ -32,12 +32,12 @@ app.UseSession();
 app.UseAuthorization();
 app.MapControllerRoute(
     name: "admin",
-    pattern: "admin/{action=Index}/{id?}",
-    defaults: new { controller = "Home" });
+    pattern: "admin/{action=Admin}/{id?}",
+    defaults: new { controller = "Admin" });
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=UI}/{action=Index}/{id?}");
+    pattern: "{controller=Customer }/{action=Index}/{id?}");
 
 app.UseStatusCodePagesWithReExecute("/Error/{0}");
 
