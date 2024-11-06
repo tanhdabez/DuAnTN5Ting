@@ -70,7 +70,7 @@ namespace View.Controllers
         }
 
         // Thêm hoặc cập nhật sản phẩm
-        public async Task<IActionResult> SetProduct(ProductAddViewModel product, List<IFormFile> HinhAnhs, string[] SelectedColors, string[] SelectedSizes)
+        public async Task<IActionResult> SetProduct(ProductAddViewModel product, List<int> soLuong, string[] SelectedColors, string[] SelectedSizes)
         {
             // Gán ID nếu chưa có
             product.Id ??= string.Empty;
@@ -82,34 +82,11 @@ namespace View.Controllers
             product.IdBrand ??= string.Empty;
             product.IdNhaSanXuat ??= string.Empty;
             product.MoTa ??= string.Empty;
-            product.SelectedColors = SelectedColors.ToList();
-            product.SelectedSizes = SelectedSizes.ToList();
-            // Danh sách chứa đường dẫn hình ảnh
-            product.HinhAnh = new List<string>();
-            // Đường dẫn lưu tệp
-            var uploadDir = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images");
-            // Kiểm tra và tạo thư mục nếu chưa tồn tại
-            if (!Directory.Exists(uploadDir))
-            {
-                Directory.CreateDirectory(uploadDir);
-            }
-            // Lưu các hình ảnh và lấy đường dẫn
-            if (HinhAnhs != null && HinhAnhs.Count > 0)
-            {
-                foreach (var file in HinhAnhs)
-                {
-                    if (file.Length > 0)
-                    {
-                        var fileName = Path.GetFileName(file.FileName);
-                        var filePath = Path.Combine(uploadDir, fileName); // Đường dẫn lưu tệp
-                        using (var stream = new FileStream(filePath, FileMode.Create))
-                        {
-                            await file.CopyToAsync(stream); // Lưu tệp vào server
-                        }
-                        product.HinhAnh.Add($"/images/{fileName}"); // Thêm đường dẫn vào danh sách
-                    }
-                }
-            }
+            // Gán các thuộc tính để gửi qua API
+            product.SoLuong = soLuong; // Cần đảm bảo thuộc tính SoLuong đã có trong ProductAddViewModel
+            product.ColorId = SelectedColors.ToList(); // Cần thêm thuộc tính ColorId vào ViewModel
+            product.SizeId = SelectedSizes.ToList(); // Cần thêm thuộc tính SizeId vào ViewModel
+
 
             // Gọi API để lưu sản phẩm
             string apiUrl = "https://localhost:44370/Product/SetProduct";
