@@ -1,7 +1,6 @@
 html {
   font-size: 14px;
 }
-
 @media (min-width: 768px) {
   html {
     font-size: 16px;
@@ -15,4 +14,8 @@ html {
 
 body {
   margin-bottom: 60px;
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> 7d87bdbcd9513bf2c87c9f7a5e74ecbd3b57e5c3

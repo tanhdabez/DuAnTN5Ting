@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Controller.Migrations
 {
-    public partial class demo_1 : Migration
+    public partial class initial1 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -450,6 +450,26 @@ namespace Controller.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
+
+            migrationBuilder.InsertData(
+                table: "Role",
+                columns: new[] { "Id", "NgayCapNhat", "NgayTao", "Ten", "TrangThai", "UserId" },
+                values: new object[] { "R1", new DateTime(2024, 11, 3, 23, 1, 7, 31, DateTimeKind.Local).AddTicks(7712), new DateTime(2024, 11, 3, 23, 1, 7, 31, DateTimeKind.Local).AddTicks(7695), "Admin", "Active", null });
+
+            migrationBuilder.InsertData(
+                table: "Role",
+                columns: new[] { "Id", "NgayCapNhat", "NgayTao", "Ten", "TrangThai", "UserId" },
+                values: new object[] { "R2", new DateTime(2024, 11, 3, 23, 1, 7, 31, DateTimeKind.Local).AddTicks(7715), new DateTime(2024, 11, 3, 23, 1, 7, 31, DateTimeKind.Local).AddTicks(7715), "Staff", "Active", null });
+
+            migrationBuilder.InsertData(
+                table: "User",
+                columns: new[] { "Id", "Email", "Ma", "NgayCapNhat", "NgayTao", "Password", "RoleId", "TrangThai", "Username" },
+                values: new object[] { "U1", "admin@gmail.com", "U001", new DateTime(2024, 11, 3, 23, 1, 7, 31, DateTimeKind.Local).AddTicks(7857), new DateTime(2024, 11, 3, 23, 1, 7, 31, DateTimeKind.Local).AddTicks(7856), "admin001", "R1", "Active", "admin" });
+
+            migrationBuilder.InsertData(
+                table: "User",
+                columns: new[] { "Id", "Email", "Ma", "NgayCapNhat", "NgayTao", "Password", "RoleId", "TrangThai", "Username" },
+                values: new object[] { "U2", "staff@gmail.com", "U002", new DateTime(2024, 11, 3, 23, 1, 7, 31, DateTimeKind.Local).AddTicks(7904), new DateTime(2024, 11, 3, 23, 1, 7, 31, DateTimeKind.Local).AddTicks(7904), "staff001", "R2", "Active", "staff" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Address_CustomerId",

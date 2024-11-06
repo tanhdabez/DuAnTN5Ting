@@ -2,6 +2,7 @@
 
 @{
     ViewData["Title"] = "ListProduct";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <section class="section">
     <div class="row" id="table-head">
@@ -38,38 +39,33 @@
                                     <th>Mã Sản Phẩm</th>
                                     <th>Tên Sản Phẩm</th>
                                     <th>Giá</th>
-                                    <th>Hình Ảnh</th>
                                     <th>Thao Tác</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach (var item in Model)
+                                @if (Model != null && Model.Any()) // Kiểm tra xem Model có null không và có phần tử không
+                                {
+                                    foreach (var item in Model)
+                                    {
+                                        <tr>
+                                            <td>@Html.DisplayFor(modelItem => item.MaSanPham)</td>
+                                            <td>@Html.DisplayFor(modelItem => item.TenSanPham)</td>
+                                            <td>@string.Format("{0:0}", item.GiaSanPham) VNĐ</td>
+                                            <td>
+                                                @Html.ActionLink("Edit", "SetProduct", new { id = item.Id }, new { @class = "btn btn-warning rounded-pill me-1" })
+                                                @Html.ActionLink("Details", "GetProductsById", new { id = item.Id }, new { @class = "btn btn-info rounded-pill me-1" })
+                                                <form method="post" action="/Product/DeleteProduct" style="display:inline;">
+                                                    <input type="hidden" name="productIds" value="@item.Id" />
+                                                    <button type="submit" class="btn btn-danger rounded-pill" onclick="return confirm('Bạn có chắc chắn muốn xóa sản phẩm này?');">Delete</button>
+                                                </form>
+                                            </td>
+                                        </tr>
+                                    }
+                                }
+                                else
                                 {
                                     <tr>
-                                        <td>@Html.DisplayFor(modelItem => item.MaSanPham)</td>
-                                        <td>@Html.DisplayFor(modelItem => item.TenSanPham)</td>
-                                        <td>@Html.DisplayFor(modelItem => item.GiaSanPham)</td>
-                                        <td>
-                                            @if (item.HinhAnhs != null && item.HinhAnhs.Any())
-                                            {
-                                                foreach (var imageUrl in item.HinhAnhs)
-                                                {
-                                                    <img src="@imageUrl" alt="@item.TenSanPham" style="width: 100px; height: auto;" />
-                                                }
-                                            }
-                                            else
-                                            {
-                                                <p></p>
-                                            }
-                                        </td>
-                                        <td>
-                                            @Html.ActionLink("Edit", "SetProduct", new { id = item.Id }, new { @class = "btn btn-warning rounded-pill me-1" })
-                                            @Html.ActionLink("Details", "GetProductsById", new { id = item.Id }, new { @class = "btn btn-info rounded-pill me-1" })
-                                            <form method="post" action="/Product/DeleteProduct" style="display:inline;">
-                                                <input type="hidden" name="productIds" value="@item.Id" />
-                                                <button type="submit" class="btn btn-danger rounded-pill" onclick="return confirm('Bạn có chắc chắn muốn xóa sản phẩm này?');">Delete</button>
-                                            </form>
-                                        </td>
+                                        <td colspan="5" class="text-center">Không có sản phẩm nào để hiển thị.</td>
                                     </tr>
                                 }
                             </tbody>
