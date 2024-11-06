@@ -3,15 +3,15 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace View.Controllers
 {
-    public class AdminController : Microsoft.AspNetCore.Mvc.Controller
+    public class CustomerController : Microsoft.AspNetCore.Mvc.Controller
     {
         private readonly HttpClient _httpClient;
 
-        public AdminController(HttpClient httpClient) 
+        public CustomerController(HttpClient httpClient) 
         {
             _httpClient = httpClient;
         }
-        [Route("Admin")]
+        [Route("Customer")]
         public async Task<IActionResult> Index()
         {
             var response = await _httpClient.GetAsync("https://localhost:44370/api/Customer/all");
