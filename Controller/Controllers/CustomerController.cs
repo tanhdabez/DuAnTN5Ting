@@ -1,6 +1,5 @@
 ﻿using Controller.DTO;
 using Controller.Service;
-using DemoBanQuanAo.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Controller.Controllers

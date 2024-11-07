@@ -598,9 +598,9 @@ namespace DemoBanQuanAo.Service
             {
                 foreach (var item in id)
                 {
-                    var findProduct = _dbContext.Product.Where(x=>x.Id == item).ToList();
-                    var image = _dbContext.ProductImage.Where(x=> x.ProductId == item).ToList();
-                    var productdetail = _dbContext.ProductDetail.Where(x=>x.ProductId==item).ToList();
+                    var findProduct = _dbContext.Product.Where(x => x.Id == item).ToList();
+                    var image = _dbContext.ProductImage.Where(x => x.ProductId == item).ToList();
+                    var productdetail = _dbContext.ProductDetail.Where(x => x.ProductId == item).ToList();
                     foreach (var pdt in productdetail)
                     {
                         var productdetailcolor = _dbContext.ProductDetailColor.Where(x => x.ProductDetailId == pdt.Id).ToList();

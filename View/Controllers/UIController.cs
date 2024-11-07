@@ -6,9 +6,9 @@ namespace View.Controllers
 {
     public class UIController : Microsoft.AspNetCore.Mvc.Controller
     {
-        private readonly ILogger<HomeController> _logger;
+        private readonly ILogger<AdminController> _logger;
 
-        public UIController(ILogger<HomeController> logger)
+        public UIController(ILogger<AdminController> logger)
         {
             _logger = logger;
         }

@@ -1,5 +1,4 @@
 using DemoBanQuanAo.Models;
-﻿using DemoBanQuanAo.Models;
 using System.ComponentModel.DataAnnotations;
 
 public class User

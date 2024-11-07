@@ -2,7 +2,6 @@
 using DemoBanQuanAo.Models;
 using DemoBanQuanAo.Service;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
 
 namespace Controller.Controllers
 {
@@ -240,7 +239,7 @@ namespace Controller.Controllers
                 MaterialId = ProductDto.IdVatLieu ?? null
             };
 
-            var result = _productService.SetProduct(product, ProductDto.HinhAnh, ProductDto.SoLuong, ProductDto.ColorId, ProductDto.SizeId );
+            var result = _productService.SetProduct(product, ProductDto.HinhAnh, ProductDto.SoLuong, ProductDto.ColorId, ProductDto.SizeId);
             return Ok(result);
         }
 
