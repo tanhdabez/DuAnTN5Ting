@@ -1,8 +1,4 @@
-﻿using DemoBanQuanAo.Models;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-
-namespace Controller.DTO
+﻿namespace Controller.DTO
 {
     public class ProductDto
     {

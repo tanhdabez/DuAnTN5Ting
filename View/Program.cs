@@ -1,5 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
-using DemoBanQuanAo.Models;
+﻿using DemoBanQuanAo.Models;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -32,10 +32,10 @@ app.UseSession();
 app.UseAuthorization();
 app.MapControllerRoute(
     name: "admin",
-    pattern: "admin/{controller=Home}/{action=Index}/{id?}");
+    pattern: "admin/{controller=Admin}/{action=Admin}/{id?}");
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Customer}/{action=Index}/{id?}");
+    pattern: "{controller=Login}/{action=Login}/{id?}");
 
 app.UseStatusCodePagesWithReExecute("/Error/{0}");
 
