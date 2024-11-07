@@ -576,16 +576,16 @@ namespace Controller.Migrations
                         new
                         {
                             Id = "R1",
-                            NgayCapNhat = new DateTime(2024, 10, 17, 14, 19, 53, 237, DateTimeKind.Local).AddTicks(8724),
-                            NgayTao = new DateTime(2024, 10, 17, 14, 19, 53, 237, DateTimeKind.Local).AddTicks(8715),
+                            NgayCapNhat = new DateTime(2024, 11, 3, 23, 1, 7, 31, DateTimeKind.Local).AddTicks(7712),
+                            NgayTao = new DateTime(2024, 11, 3, 23, 1, 7, 31, DateTimeKind.Local).AddTicks(7695),
                             Ten = "Admin",
                             TrangThai = "Active"
                         },
                         new
                         {
                             Id = "R2",
-                            NgayCapNhat = new DateTime(2024, 10, 17, 14, 19, 53, 237, DateTimeKind.Local).AddTicks(8726),
-                            NgayTao = new DateTime(2024, 10, 17, 14, 19, 53, 237, DateTimeKind.Local).AddTicks(8726),
+                            NgayCapNhat = new DateTime(2024, 11, 3, 23, 1, 7, 31, DateTimeKind.Local).AddTicks(7715),
+                            NgayTao = new DateTime(2024, 11, 3, 23, 1, 7, 31, DateTimeKind.Local).AddTicks(7715),
                             Ten = "Staff",
                             TrangThai = "Active"
                         });
@@ -692,8 +692,8 @@ namespace Controller.Migrations
                             Id = "U1",
                             Email = "admin@gmail.com",
                             Ma = "U001",
-                            NgayCapNhat = new DateTime(2024, 10, 17, 14, 19, 53, 237, DateTimeKind.Local).AddTicks(8867),
-                            NgayTao = new DateTime(2024, 10, 17, 14, 19, 53, 237, DateTimeKind.Local).AddTicks(8867),
+                            NgayCapNhat = new DateTime(2024, 11, 3, 23, 1, 7, 31, DateTimeKind.Local).AddTicks(7857),
+                            NgayTao = new DateTime(2024, 11, 3, 23, 1, 7, 31, DateTimeKind.Local).AddTicks(7856),
                             Password = "admin001",
                             RoleId = "R1",
                             TrangThai = "Active",
@@ -704,8 +704,8 @@ namespace Controller.Migrations
                             Id = "U2",
                             Email = "staff@gmail.com",
                             Ma = "U002",
-                            NgayCapNhat = new DateTime(2024, 10, 17, 14, 19, 53, 237, DateTimeKind.Local).AddTicks(8872),
-                            NgayTao = new DateTime(2024, 10, 17, 14, 19, 53, 237, DateTimeKind.Local).AddTicks(8871),
+                            NgayCapNhat = new DateTime(2024, 11, 3, 23, 1, 7, 31, DateTimeKind.Local).AddTicks(7904),
+                            NgayTao = new DateTime(2024, 11, 3, 23, 1, 7, 31, DateTimeKind.Local).AddTicks(7904),
                             Password = "staff001",
                             RoleId = "R2",
                             TrangThai = "Active",
