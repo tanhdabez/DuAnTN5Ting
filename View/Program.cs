@@ -30,10 +30,12 @@ app.UseRouting();
 
 app.UseSession();
 app.UseAuthorization();
-
+app.MapControllerRoute(
+    name: "admin",
+    pattern: "admin/{controller=Home}/{action=Index}/{id?}");
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=UI}/{action=Index}/{id?}");
+    pattern: "{controller=Customer}/{action=Index}/{id?}");
 
 app.UseStatusCodePagesWithReExecute("/Error/{0}");
 

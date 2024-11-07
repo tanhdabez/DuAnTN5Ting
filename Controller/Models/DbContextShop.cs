@@ -196,10 +196,10 @@ namespace DemoBanQuanAo.Models
                 .HasForeignKey(r => r.UserId)
                 .OnDelete(DeleteBehavior.Restrict);
             modelBuilder.Entity<Customer>()
-                .HasMany(a => a.addresses)
+                .HasMany(a => a.Addresses)
                 .WithOne(c => c.Customers)
                 .HasForeignKey(a => a.CustomerId)
-                .OnDelete(DeleteBehavior.Restrict);
+                .OnDelete(DeleteBehavior.Cascade);
 
             base.OnModelCreating(modelBuilder);
             modelBuilder.Entity<Role>().HasData(
