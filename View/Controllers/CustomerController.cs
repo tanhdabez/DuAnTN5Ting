@@ -3,18 +3,18 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace View.Controllers
 {
-    public class AdminController : Microsoft.AspNetCore.Mvc.Controller
+    public class CustomerController : Microsoft.AspNetCore.Mvc.Controller
     {
         private readonly HttpClient _httpClient;
 
-        public AdminController(HttpClient httpClient) 
+        public CustomerController(HttpClient httpClient) 
         {
             _httpClient = httpClient;
         }
-        [Route("Admin")]
+        [Route("Customer")]
         public async Task<IActionResult> Index()
         {
-            var response = await _httpClient.GetAsync("https://localhost:7299/api/Customer/all");
+            var response = await _httpClient.GetAsync("https://localhost:44370/api/Customer/all");
             if (response.IsSuccessStatusCode)
             {
                 var customers = await response.Content.ReadFromJsonAsync<List<CustomerDto>>();
@@ -39,7 +39,7 @@ namespace View.Controllers
 
             try
             {
-                var response = await _httpClient.PostAsJsonAsync("https://localhost:7299/api/Customer/add", model);
+                var response = await _httpClient.PostAsJsonAsync("https://localhost:44370/api/Customer/add", model);
                 if (response.IsSuccessStatusCode)
                 {
                     return Ok("Khách hàng đã được thêm thành công");
@@ -57,7 +57,7 @@ namespace View.Controllers
         }
         public async Task<IActionResult> EditCustomer(string id)
         {
-            var response = await _httpClient.GetAsync($"https://localhost:7299/api/Customer/{id}");
+            var response = await _httpClient.GetAsync($"https://localhost:44370/api/Customer/{id}");
             if (response.IsSuccessStatusCode)
             {
                 var customer = await response.Content.ReadFromJsonAsync<CustomerDto>();
@@ -70,7 +70,7 @@ namespace View.Controllers
         [HttpPut]
         public async Task<IActionResult> EditCustomer(CustomerDto model)
         {
-            var response = await _httpClient.PutAsJsonAsync($"https://localhost:7299/api/Customer/{model.Id}/update-addresses", model.Address);
+            var response = await _httpClient.PutAsJsonAsync($"https://localhost:44370/api/Customer/{model.Id}/update-addresses", model.Address);
             if (response.IsSuccessStatusCode)
             {
                 return RedirectToAction("Index");
@@ -82,7 +82,7 @@ namespace View.Controllers
         [HttpDelete]
         public async Task<ActionResult> DeleteCustomer(string id)
         {
-            var response = await _httpClient.DeleteAsync($"https://localhost:7299/api/Customer/{id}");
+            var response = await _httpClient.DeleteAsync($"https://localhost:44370/api/Customer/{id}");
             if (response.IsSuccessStatusCode)
             {
                 return RedirectToAction("Index");

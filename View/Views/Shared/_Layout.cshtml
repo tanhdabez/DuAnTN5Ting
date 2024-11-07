@@ -87,13 +87,15 @@
                             </a>
                             <ul class="submenu ">
                                 <li class="submenu-item ">
-                                    <a href="@Url.Action("Admin", "Admin")">Khách Hàng</a>
+                                    <a asp-area="" asp-controller="Customer" asp-action="Index" class="nav-link">
+                                        <p>Khách Hàng</p>
+                                    </a>
                                 </li>
-                                <li class="submenu-item ">
-                                    <a href="extra-component-sweetalert.html">Nhân Viên</a>
-                                </li>
+                                <a asp-area="" asp-controller="Customer" asp-action="Index" class="nav-link">
+                                    <p>Nhân Viên</p>
+                                </a>
                             </ul>
-                        </li>
+                        </li> 
                     </ul>
                 </div>
                 <button class="sidebar-toggler btn x"><i data-feather="x"></i></button>
