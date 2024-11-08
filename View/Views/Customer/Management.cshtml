@@ -145,7 +145,7 @@
         }
 
         table.table th {
-        font-size: 14px;
+        font-size: 13px;
         text-align: center;
         }
 
@@ -179,7 +179,7 @@
         }
 
         table.table td {
-        font-size: 14px;
+        font-size: 13px;
         text-align: center;
         }
 
@@ -370,7 +370,7 @@
                                     </div>
                                     <div class="mb-3">
                                         <label for="customerBirth" class="form-label">Ngày Sinh</label>
-                                        <input type="date" class="form-control" id="dateInput"/>
+                                        <input type="date" class="form-control" id="customerBirth" />
                                     </div>
                                     <div class="mb-3">
                                         <label for="customerImage" class="form-label">Ảnh</label>
@@ -433,6 +433,7 @@
                                         <label for="editCustomerEmail" class="form-label">Email</label>
                                         <input type="email" class="form-control" id="editCustomerEmail" placeholder="Nhập email">
                                     </div>
+                                    <input type="hidden" id="editCustomerPassword" />
                                     <div class="mb-3">
                                         <label for="editCustomerBirth" class="form-label">Ngày Sinh</label>
                                         <input type="date" class="form-control" id="editCustomerBirth" />
@@ -443,7 +444,7 @@
                                     </div>
                                     <div class="mb-3">
                                         <label for="editCustomerGender" class="form-label">Giới Tính</label>
-                                        <select id="editCustomerGender" aria-label="Default select example" onchange="updateGender()">
+                                        <select id="editCustomerGender" aria-label="Default select example" onchange="updateEditGender()">
                                             <option value="" placeholder hide>Nhấn để chọn</option>
                                             <option value="1">Nam</option>
                                             <option value="2">Nữ</option>
@@ -459,6 +460,7 @@
                                     </div>
                                     <div class="mb-3">
                                         <label for="editcustomerAddress" class="form-label">Địa Chỉ</label>
+                                        <input type="hidden" id="editAdressId" />
                                         <input type="text" class="form-control" id="editTenPhuongXa" placeholder="Nhập tên phường xã"> <br />
                                         <input type="text" class="form-control" id="editTenQuanHuyen" placeholder="Nhập tên quận huyện"> <br />
                                         <input type="text" class="form-control" id="editTenTinh" placeholder="Nhập tên tỉnh">
@@ -479,14 +481,21 @@
 
     <script>
 
-        var dateInput = document.getElementById('dateInput');
-        dateInput.addEventListener('change', (event) => {
+        var customerBirth = document.getElementById('customerBirth');
+        customerBirth.addEventListener('change', (event) => {
             const selectedDate = event.target.value;
-            selectedDate == dateInput.value
+            selectedDate == customerBirth.value
+        });
+        var editCustomerBirth = document.getElementById('editCustomerBirth');
+        editCustomerBirth.addEventListener('change', (event) => {
+            const editSelectedDate = event.target.value;
+            editSelectedDate == editCustomerBirth.value
         });
         
 
+
         var gender = "Chưa chọn";
+        var editGender = "Chưa chọn";
 
         function updateGender() {
             const genderSelect = document.getElementById("customerGender").value;
@@ -504,6 +513,22 @@
                 gender = "Chưa chọn";
             }
         }
+        function updateEditGender() {
+            const editGenderSelect = document.getElementById("editCustomerGender").value;
+            console.log("Selected value:", editGenderSelect);
+            if (editGenderSelect === "1") {
+                editGender = "Nam";
+            }
+            else if (editGenderSelect === "2") {
+                editGender = "Nữ";
+            }
+            else if (editGenderSelect === "3") {
+                editGender = "Khác";
+            }
+            else {
+                editGender = "Chưa chọn";
+            }
+        }
         
         async function saveCustomer() {
 
@@ -516,7 +541,7 @@
                 SDT: document.getElementById("customerPhone").value,
                 Email: document.getElementById("customerEmail").value,
                 MatKhau: document.getElementById("customerPassword").value,
-                NgaySinh: dateInput.value,
+                NgaySinh: customerBirth.value,
                 Anh: document.getElementById("customerImage").value,
                 GioiTinh: gender,
                 TrangThai: document.getElementById("active").checked ? "Hoạt Động" : "Không Hoạt Động",
@@ -531,7 +556,7 @@
                 ]
             };
             console.log(customerData);
-            debugger
+            //debugger
             try {
                 
                 const response = await fetch('https://localhost:7299/api/Customer/add', {
@@ -554,33 +579,38 @@
                 alert("Có lỗi xảy ra khi thêm khách hàng.");
             }
         }
-
+        let saveEditCustomerId;
         async function editCustomer(Id) {
-            debugger
+            saveEditCustomerId = Id;
+            console.log('Editing customer with Id:', saveEditCustomerId);
+            //debugger
             try {
              
                 const response = await fetch(`https://localhost:7299/api/Customer/${Id}`);
                 const customer = await response.json();
                 console.log('Customer data:', customer);
-                console.log('Customer data:', customer.ma);
-                console.log('Customer data:', customer.ten);
-                console.log('Customer data:', customer.sdt);
-                console.log('Customer data:', customer.email);
-                console.log('Customer data:', customer.ngaySinh);
-                console.log('Customer data:', customer.anh);
-                console.log('Customer data:', customer.gioiTinh);
-                console.log('Customer data:', customer.trangThai);
+                console.log('Customer ma:', customer.ma);
+                console.log('Customer ten:', customer.ten);
+                console.log('Customer sdt:', customer.sdt);
+                console.log('Customer email:', customer.email);
+                console.log('Customer passWord:', customer.matKhau);
+                console.log('Customer ngaySinh:', customer.ngaySinh);
+                console.log('Customer anh:', customer.anh);
+                console.log('Customer gioiTinh:', customer.gioiTinh);
+                console.log('Customer trangThai:', customer.trangThai);
                 console.log('Customer data:', customer.address[0].tenPhuongXa);
                 console.log('Customer data:', customer.address[0].tenQuanHuyen);
                 console.log('Customer data:', customer.address[0].tenTinh);
 
+                const dateOfBirthOriginal = customer.ngaySinh.split('T')[0];
             
                 document.getElementById("editCustomerId").value = customer.id;
                 document.getElementById("editCustomerCode").value = customer.ma;
                 document.getElementById("editCustomerName").value = customer.ten;
                 document.getElementById("editCustomerPhone").value = customer.sdt;
                 document.getElementById("editCustomerEmail").value = customer.email;
-                document.getElementById("editCustomerBirth").value = customer.ngaySinh;
+                document.getElementById("editCustomerPassword").value = customer.matKhau;
+                document.getElementById("editCustomerBirth").value = dateOfBirthOriginal;
                 document.getElementById("editCustomerImage").value = customer.anh;
                 const genderSelect = document.getElementById("editCustomerGender");
                 if (customer.gioiTinh === "Nam") {
@@ -600,11 +630,12 @@
 
           
                 if (customer.address && customer.address.length > 0) {
+                    document.getElementById("editAdressId").value = customer.address[0].id;
                     document.getElementById("editTenPhuongXa").value = customer.address[0].tenPhuongXa;
                     document.getElementById("editTenQuanHuyen").value = customer.address[0].tenQuanHuyen;
                     document.getElementById("editTenTinh").value = customer.address[0].tenTinh;
                 }
-                debugger
+                //debugger
 
           
                 $('#editCustomerModal').modal('show');
@@ -614,40 +645,46 @@
             }
         }
 
-        async function saveCustomerEdit(Id) {
-            updateGender();  
+        async function saveCustomerEdit() {
+            updateEditGender();
             const customerId = document.getElementById("editCustomerId").value;
-
+            const addressId = document.getElementById("editAdressId").value
+            //debugger
             const customerData = {
-                Id: Id,
+                Id: customerId,
                 Ma: document.getElementById("editCustomerCode").value,
                 Ten: document.getElementById("editCustomerName").value,
                 SDT: document.getElementById("editCustomerPhone").value,
                 Email: document.getElementById("editCustomerEmail").value,
-                NgaySinh: dateInput.value,
+                MatKhau: document.getElementById("editCustomerPassword").value,
+                NgaySinh: editCustomerBirth.value,
                 Anh: document.getElementById("editCustomerImage").value,
-                GioiTinh: gender,
+                GioiTinh: editGender,
                 TrangThai: document.getElementById("editActive").checked ? "Hoạt Động" : "Không Hoạt Động",
                 Address: [
                     {
-                        Id: "",
+                        Id: addressId,
                         TenPhuongXa: document.getElementById("editTenPhuongXa").value,
                         TenQuanHuyen: document.getElementById("editTenQuanHuyen").value,
-                        TenTinh: document.getElementById("editEenTinh").value,
+                        TenTinh: document.getElementById("editTenTinh").value,
                         IsPrimary: true
                     }
                 ]
             };
-
+            if (!saveEditCustomerId) {
+                console.error("Customer Id is not set.");
+                return;
+            }
+            //debugger
             try {
-                const response = await fetch(`https://localhost:7299/api/Customer/update/${Id}`, {
+                const response = await fetch(`https://localhost:7299/api/Customer/update/${saveEditCustomerId}`, {
                     method: 'PUT',
                     headers: {
                         'Content-Type': 'application/json'
                     },
                     body: JSON.stringify(customerData)
                 });
-
+            //debugger
                 if (response.ok) {
                     alert("Thông tin khách hàng đã được cập nhật thành công!");
                     location.reload();
