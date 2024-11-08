@@ -1,9 +1,7 @@
 ﻿using Controller.DTO;
 using Controller.Models;
 using DemoBanQuanAo.Models;
-using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.EntityFrameworkCore;
-using System;
 
 namespace Controller.Service
 {
@@ -42,7 +40,7 @@ namespace Controller.Service
                     TenTinh = a.TenTinh,
                     IsPrimary = a.IsPrimary
                 }).ToList()
-            }; 
+            };
             _context.Customer.Add(customer);
             await _context.SaveChangesAsync();
             return true;
@@ -61,7 +59,7 @@ namespace Controller.Service
             {
                 _context.Address.RemoveRange(customer.Addresses);
             }
-            
+
             _context.Customer.Remove(customer);
             await _context.SaveChangesAsync();
             return true;

@@ -4,20 +4,20 @@ using View.Models;
 
 namespace View.Controllers
 {
-    public class HomeController : Microsoft.AspNetCore.Mvc.Controller
+    public class AdminController : Microsoft.AspNetCore.Mvc.Controller
     {
-        private readonly ILogger<HomeController> _logger;
+        private readonly ILogger<AdminController> _logger;
 
-        public HomeController(ILogger<HomeController> logger)
+        public AdminController(ILogger<AdminController> logger)
         {
             _logger = logger;
         }
 
-        public IActionResult Index()
+        public IActionResult Admin()
         {
             if (HttpContext.Session.GetString("UserId") == null)
             {
-                return RedirectToAction("Login", "Login"); 
+                return RedirectToAction("Login", "Login");
             }
 
             return View();

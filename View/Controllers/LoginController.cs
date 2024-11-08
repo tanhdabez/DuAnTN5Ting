@@ -16,11 +16,11 @@ namespace View.Controllers
 
         // GET: Show Login Page
         [HttpGet("")]
-        public IActionResult Login() 
+        public IActionResult Login()
         {
             if (HttpContext.Session.GetString("UserId") != null)
             {
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("Admin", "Admin");
             }
             return View();
         }
@@ -45,11 +45,11 @@ namespace View.Controllers
                 HttpContext.Session.SetString("Username", user.Username.ToLower());
 
                 if (user.Role.Ten == "Admin")
-                HttpContext.Session.SetString("Ten", user.Role.Ten);
+                    HttpContext.Session.SetString("Ten", user.Role.Ten);
 
                 if (user.Role.Ten == "Admin")
                 {
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction("Admin", "Admin");
                 }
                 else
                 {
