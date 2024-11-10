@@ -1,0 +1,93 @@
+﻿@model IEnumerable<DemoBanQuanAo.Models.User>
+@{
+    ViewData["Title"] = "Danh Sách Người Dùng";
+}
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container mt-5">
+    <h1>@ViewData["Title"]</h1>
+
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Username</th>
+                <th>Email</th>
+                <th>Quyền</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var user in Model)
+            {
+                <tr>
+                    <td>@user.Username</td>
+                    <td>@user.Email</td>
+                    <td>
+                        <select class="form-control role-select" data-user-id="@user.Id">
+                            @foreach (var role in ViewBag.Roles as List<DemoBanQuanAo.Models.Role>)
+                            {
+                                var selected = role.Id == user.Role.Id ? "selected" : "";
+                                <option value="@role.Id" data-status="@selected">
+                                    @role.Ten
+                                </option>
+                            }
+                        </select>
+                    </td>
+                    <td>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+@section Scripts {
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $(".role-select").each(function () {
+                var userId = $(this).data("user-id"); 
+                var selectedRole = $(this).find("option:selected").data("status"); 
+
+                $(this).find("option").each(function () {
+                    if ($(this).data("status") === "selected") {
+                        $(this).prop("selected", true); 
+                    }
+                });
+            });
+
+            $(".role-select").change(function () {
+                var userId = $(this).data("user-id");
+                var selectedRoleId = $(this).val();
+
+                $.ajax({
+                    url: '@Url.Action("UpdateRole", "User")',
+                    type: 'POST',
+                    data: {
+                        userId: userId,
+                        roleId: selectedRoleId
+                    },
+                    success: function (response) {
+                        alert("Cập nhật thành công!");
+                    },
+                    error: function (xhr, status, error) {
+                        var errorMessage = "Error updating role. ";
+                        if (xhr.status === 400) {
+                            errorMessage += "Bad Request: " + xhr.responseText;
+                        } else if (xhr.status === 404) {
+                            errorMessage += "Not Found: " + xhr.responseText;
+                        } else if (xhr.status === 500) {
+                            errorMessage += "Internal Server Error: " + xhr.responseText;
+                        } else {
+                            errorMessage += "Unexpected error occurred. Status: " + xhr.status + ", Error: " + error;
+                        }
+                        alert(errorMessage);
+                    }
+                });
+            });
+        });
+    </script>
+}

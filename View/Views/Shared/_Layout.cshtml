@@ -80,12 +80,13 @@
                                 </li>
                             </ul>
                         </li>
-                        <li class="sidebar-item  has-sub">
-                            <a href="#" class='sidebar-link'>
+                        <li class="sidebar-item">
+                            <a href="@Url.Action("Index", "User")" class="sidebar-link">
                                 <i class="bi bi-collection-fill"></i>
                                 <span>Người Dùng</span>
                             </a>
-                            <ul class="submenu ">
+
+                           @*  <ul class="submenu ">
                                 <li class="submenu-item ">
                                     <a asp-area="" asp-controller="Customer" asp-action="Index" class="nav-link">
                                         <p>Khách Hàng</p>
@@ -94,7 +95,7 @@
                                 <a asp-area="" asp-controller="Customer" asp-action="Index" class="nav-link">
                                     <p>Nhân Viên</p>
                                 </a>
-                            </ul>
+                            </ul> *@
                         </li> 
                     </ul>
                 </div>

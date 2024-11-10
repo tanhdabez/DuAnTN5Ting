@@ -16,7 +16,7 @@ namespace View.Controllers
 
         // GET: Show Login Page
         [HttpGet("")]
-        public IActionResult Login() 
+        public IActionResult Login()
         {
             if (HttpContext.Session.GetString("UserId") != null)
             {
@@ -25,7 +25,6 @@ namespace View.Controllers
             return View();
         }
 
-        // POST: Handle Login Form Submission
         [HttpPost("")]
         public async Task<IActionResult> Login(string username, string password)
         {
@@ -36,24 +35,22 @@ namespace View.Controllers
             }
 
             var user = await _context.User.Include(u => u.Role)
-                                          .FirstOrDefaultAsync(u => u.Username.ToLower() == username.ToLower());
+                               .FirstOrDefaultAsync(u => u.Username == username);
 
 
-            if (user != null && user.Password == password)
+            if (user != null && user.Password.Equals(password))
             {
                 HttpContext.Session.SetString("UserId", user.Id.ToLower());
                 HttpContext.Session.SetString("Username", user.Username.ToLower());
 
                 if (user.Role.Ten == "Admin")
-                HttpContext.Session.SetString("Ten", user.Role.Ten);
-
-                if (user.Role.Ten == "Admin")
                 {
-                    return RedirectToAction("Index", "Home");
+                    HttpContext.Session.SetString("Role", user.Role.Ten);
+                    return RedirectToAction("Index", "Home"); 
                 }
                 else
                 {
-                    return RedirectToAction("UnauthorizedAccess");
+                    return RedirectToAction("UnauthorizedAccess"); 
                 }
             }
 
@@ -61,19 +58,17 @@ namespace View.Controllers
             return View();
         }
 
-        // Logout action
         [HttpGet("Logout")]
         public IActionResult Logout()
         {
             HttpContext.Session.Clear();
-            return RedirectToAction("Login");
+            return RedirectToAction("Login"); 
         }
 
-        // Unauthorized access page
         [HttpGet("UnauthorizedAccess")]
         public IActionResult UnauthorizedAccess()
         {
-            return View("403");
+            return View("403"); 
         }
 
     }
