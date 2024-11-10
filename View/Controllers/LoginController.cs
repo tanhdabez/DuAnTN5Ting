@@ -20,12 +20,11 @@ namespace View.Controllers
         {
             if (HttpContext.Session.GetString("UserId") != null)
             {
-                return RedirectToAction("Admin", "Admin");
+                return RedirectToAction("Index", "Home");
             }
             return View();
         }
 
-        // POST: Handle Login Form Submission
         [HttpPost("")]
         public async Task<IActionResult> Login(string username, string password)
         {
@@ -36,20 +35,18 @@ namespace View.Controllers
             }
 
             var user = await _context.User.Include(u => u.Role)
-                                          .FirstOrDefaultAsync(u => u.Username.ToLower() == username.ToLower());
+                               .FirstOrDefaultAsync(u => u.Username == username);
 
 
-            if (user != null && user.Password == password)
+            if (user != null && user.Password.Equals(password))
             {
                 HttpContext.Session.SetString("UserId", user.Id.ToLower());
                 HttpContext.Session.SetString("Username", user.Username.ToLower());
 
                 if (user.Role.Ten == "Admin")
-                    HttpContext.Session.SetString("Ten", user.Role.Ten);
-
-                if (user.Role.Ten == "Admin")
                 {
-                    return RedirectToAction("Admin", "Admin");
+                    HttpContext.Session.SetString("Role", user.Role.Ten);
+                    return RedirectToAction("Index", "Home");
                 }
                 else
                 {
@@ -61,7 +58,6 @@ namespace View.Controllers
             return View();
         }
 
-        // Logout action
         [HttpGet("Logout")]
         public IActionResult Logout()
         {
@@ -69,7 +65,6 @@ namespace View.Controllers
             return RedirectToAction("Login");
         }
 
-        // Unauthorized access page
         [HttpGet("UnauthorizedAccess")]
         public IActionResult UnauthorizedAccess()
         {
