@@ -580,13 +580,10 @@ namespace AppAPI.Services
             {
                 var chiTietSanPham = _context.ChiTietSanPhams.First(x => x.ID == id);
                 chiTietSanPham.SoLuong = soLuong;
-<<<<<<< HEAD
                 if (soLuong <= 0)
                 {
                     chiTietSanPham.TrangThai = 0;
                 }
-=======
->>>>>>> b6cef1a2f35980402036641f65579444d10644ff
                 _context.ChiTietSanPhams.Update(chiTietSanPham);
                 await _context.SaveChangesAsync();
                 return true;

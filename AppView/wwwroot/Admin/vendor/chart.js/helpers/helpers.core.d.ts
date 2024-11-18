@@ -139,11 +139,7 @@ export declare function resolveObjectKey(obj: AnyObject, key: string): any;
 export declare function _capitalize(str: string): string;
 export declare const defined: (value: unknown) => boolean;
 export declare const isFunction: (value: unknown) => value is (...args: any[]) => any;
-<<<<<<< HEAD
 ////export declare const setsEqual: <T>(a: Set<T>, b: Set<T>) => boolean;
-=======
-export declare const setsEqual: <T>(a: Set<T>, b: Set<T>) => boolean;
->>>>>>> b6cef1a2f35980402036641f65579444d10644ff
 /**
  * @param e - The event
  * @private

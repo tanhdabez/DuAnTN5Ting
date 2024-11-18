@@ -53,13 +53,8 @@
     <header id="header" class="header fixed-top d-flex align-items-center">
 
         <div class="d-flex align-items-center justify-content-between">
-<<<<<<< HEAD
-            <a asp-controller="ThongKe" asp-action="ThongKeAdmin" class="logo d-flex align-items-center">
-                <span class="d-none d-lg-block">5Ting Admin</span>
-=======
             <a href="index.html" class="logo d-flex align-items-center">
                 <span class="d-none d-lg-block">Reputation Admin</span>
->>>>>>> b6cef1a2f35980402036641f65579444d10644ff
             </a>
             <i class="bi bi-list toggle-sidebar-btn"></i>
         </div><!-- End Logo -->
@@ -80,18 +75,20 @@
                                 if (nhanvien != null)
                                 {
                                     var phanquyen1 = context.VaiTros.FirstOrDefault(x => x.ID == nhanvien.IDVaiTro);
-                                    if (phanquyen1!= null)
+                                    if (phanquyen1 != null)
                                     {
                                         if (phanquyen1.Ten == "Admin")
                                         {
                                             <span id="ChucVu">Admin</span>
-                                        }else{
+                                        }
+                                        else
+                                        {
                                             <span id="ChucVu">Nhân viên</span>
                                         }
                                     }
                                 }
                             }
-                            
+
                         </li>
                         <li>
                             <hr class="dropdown-divider">

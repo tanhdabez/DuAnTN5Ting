@@ -1,11 +1,7 @@
 export default class Animations {
     constructor(chart: any, config: any);
     _chart: any;
-<<<<<<< HEAD
     //_properties: Map<any, any>;
-=======
-    _properties: Map<any, any>;
->>>>>>> b6cef1a2f35980402036641f65579444d10644ff
     configure(config: any): void;
     /**
        * Utility to handle animation of `options`.

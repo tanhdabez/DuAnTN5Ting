@@ -3,13 +3,8 @@ export function determineAxis(id: any, ...scaleOptions: any[]): any;
 export default class Config {
     constructor(config: any);
     _config: any;
-<<<<<<< HEAD
     //_scopeCache: Map<any, any>;
     //_resolverCache: Map<any, any>;
-=======
-    _scopeCache: Map<any, any>;
-    _resolverCache: Map<any, any>;
->>>>>>> b6cef1a2f35980402036641f65579444d10644ff
     get platform(): any;
     set type(arg: any);
     get type(): any;

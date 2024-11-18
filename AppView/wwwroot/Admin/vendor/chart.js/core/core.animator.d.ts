@@ -8,11 +8,7 @@
  */
 export class Animator {
     _request: any;
-<<<<<<< HEAD
     //_charts: Map<any, any>;
-=======
-    _charts: Map<any, any>;
->>>>>>> b6cef1a2f35980402036641f65579444d10644ff
     _running: boolean;
     _lastDate: number;
     /**
