@@ -22,14 +22,14 @@
             </tr>
         </thead>
         <tbody>
-            @for(var i=0;i<Model.Count;i++)
+            @for (var i = 0; i < Model.Count; i++)
             {
                 <tr>
                     <td>
                         <input type="file" name="images" />
                     </td>
                     <td>
-                       @Html.DisplayFor(modelItem=>Model[i].Ten)
+                        @Html.DisplayFor(modelItem => Model[i].Ten)
                     </td>
                     <td>
                         <input type="color" value="@Model[i].Ma" style="border:none;width:27px;height:25px" readonly name="maMaus">

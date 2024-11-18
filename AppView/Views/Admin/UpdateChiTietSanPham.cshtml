@@ -4,20 +4,20 @@
     ViewData["Title"] = "AddAnhToMauSac";
 }
 
-<h1>AddAnhToMauSac</h1>
+<h1>Thêm ảnh sản phẩm theo màu sắc</h1>
 
 <form asp-action="UpdateChiTietSanPham" id="myForm">
     <table class="table">
         <thead>
             <tr>
                 <th>
-                    Tên màu sắc
+                    Tên màu
                 </th>
                 <th>
-                    Mã màu sắc
+                    Màu sắc
                 </th>
                 <th>
-                    Kích cõ
+                    Kích cỡ
                 </th>
                 <th>
                     Số lượng
@@ -41,19 +41,26 @@
             {
                 <tr>
                     <td>
-                        <input type="text" asp-for="ChiTietSanPhams[i].TenMauSac" style="border:none;background-color:white" readonly>
+                        <span>@Model.ChiTietSanPhams[i].TenMauSac</span>
                     </td>
                     <td>
                         <input type="color" value="@Model.ChiTietSanPhams[i].MaMau" style="border:none;width:27px;height:25px" readonly disabled>
                     </td>
                     <td>
-                        <input type="text" asp-for="ChiTietSanPhams[i].TenKichCo" style="border:none;background-color:white" readonly>
+                        <span>@Model.ChiTietSanPhams[i].TenKichCo</span>
                     </td>
                     <td>
-                        <input type="number" asp-for="ChiTietSanPhams[i].SoLuong">
+                        <input type="number" asp-for="ChiTietSanPhams[i].SoLuong"
+                               class="form-control" min="0" step="0.01"
+                               style="max-width: 120px; border-radius: 8px; padding: 8px;
+       border: 1px solid #ccc; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); font-size: 16px;" />
+
                     </td>
                     <td>
-                        <input type="number" asp-for="ChiTietSanPhams[i].GiaBan">
+                        <input type="number" asp-for="ChiTietSanPhams[i].GiaBan"
+                               class="form-control" min="0" step="1"
+                               style="width: 200px; border-radius: 8px; padding: 8px;
+                  border: 1px solid #ccc; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); font-size: 16px;" />
                     <td>
                         <input type="radio" asp-for="TrangThai" value="@Model.ChiTietSanPhams[i].IDChiTietSanPham">
                     </td>
@@ -70,7 +77,7 @@
             }
         </tbody>
     </table>
-    <button class="btn btn-primary" type="submit">Submit</button>
+    <button class="btn btn-success" type="submit">Submit</button>
 </form>
 
 <script src="/js/jquery-3.3.1.min.js"></script>
