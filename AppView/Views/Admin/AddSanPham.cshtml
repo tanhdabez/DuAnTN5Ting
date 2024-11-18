@@ -7,6 +7,7 @@
 <h1>Thêm sản phẩm</h1>
 
 <hr />
+<<<<<<< HEAD
 
 
 <div class="row">
@@ -26,15 +27,29 @@
             </div>
             <div class="form-group">
                 <label asp-for="Ten" class="control-label">Tên</label>
+=======
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="AddSanPham" enctype="multipart/form-data">
+            <div class="form-group">
+                <label asp-for="Ten" class="control-label"></label>
+>>>>>>> b6cef1a2f35980402036641f65579444d10644ff
                 <input asp-for="Ten" class="form-control" autocomplete="off" />
                 <span asp-validation-for="Ten" class="text-danger"></span>
             </div>
             <div class="form-group">
+<<<<<<< HEAD
                 <label asp-for="MoTa" class="control-label">Mô Tả</label>
                 <textarea asp-for="MoTa" class="form-control" rows="4" autocomplete="off"></textarea>
                 <span asp-validation-for="MoTa" class="text-danger"></span>
             </div>
 
+=======
+                <label asp-for="MoTa" class="control-label"></label>
+                <input asp-for="MoTa" class="form-control" autocomplete="off" />
+                <span asp-validation-for="MoTa" class="text-danger"></span>
+            </div>
+>>>>>>> b6cef1a2f35980402036641f65579444d10644ff
             <div class="form-group">
                 <label class="control-label">Chất liệu</label>
                 <input asp-for="TenChatLieu" class="form-control" list="chatLieu" autocomplete="off"/>
@@ -85,7 +100,13 @@
                 <datalist id="loaiSPCon"></datalist>
                 <span asp-validation-for="TenLoaiSPCon" class="text-danger"></span>
             </div>
+<<<<<<< HEAD
             
+=======
+            <div class="form-group">
+                <input type="submit" value="Thêm" class="btn btn-primary" />
+            </div>
+>>>>>>> b6cef1a2f35980402036641f65579444d10644ff
         </form>
     </div>
 </div>

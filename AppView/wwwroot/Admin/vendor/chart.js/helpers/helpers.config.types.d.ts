@@ -2,7 +2,11 @@ import type { AnyObject } from '../types/basic.js';
 import type { Merge } from '../types/utils.js';
 export type ResolverObjectKey = string | boolean;
 export interface ResolverCache<T extends AnyObject[] = AnyObject[], R extends AnyObject[] = T> {
+<<<<<<< HEAD
     //[Symbol.toStringTag]: 'Object';
+=======
+    [Symbol.toStringTag]: 'Object';
+>>>>>>> b6cef1a2f35980402036641f65579444d10644ff
     _cacheable: boolean;
     _scopes: T;
     _rootScopes: T | R;
@@ -33,7 +37,11 @@ export interface ContextCache<T extends AnyObject[] = AnyObject[], R extends Any
     _proxy: ResolverProxy<T, R>;
     _context: AnyObject;
     _subProxy: ResolverProxy<T, R>;
+<<<<<<< HEAD
     //_stack: Set<string>;
+=======
+    _stack: Set<string>;
+>>>>>>> b6cef1a2f35980402036641f65579444d10644ff
     _descriptors: Descriptor;
     setContext(ctx: AnyObject): ContextProxy<T, R>;
     override<S extends AnyObject>(scope: S): ContextProxy<(T[number] | S)[], T | R>;

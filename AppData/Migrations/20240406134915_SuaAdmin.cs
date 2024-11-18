@@ -24,7 +24,11 @@ namespace AppData.Migrations
                 keyColumn: "ID",
                 keyValue: new Guid("2ec27ab7-5f67-4ed5-ae67-52f9c9726ebf"),
                 columns: new[] { "Email", "SDT" },
+<<<<<<< HEAD
                 values: new object[] { "anhph27168@fpt.edu.vn", "0988143310" });
+=======
+                values: new object[] { "tamncph25588@fpt.edu.vn", "0988143310" });
+>>>>>>> b6cef1a2f35980402036641f65579444d10644ff
         }
     }
 }

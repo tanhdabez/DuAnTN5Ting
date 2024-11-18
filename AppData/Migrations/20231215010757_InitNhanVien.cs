@@ -17,7 +17,11 @@ namespace AppData.Migrations
             migrationBuilder.InsertData(
                 table: "NhanVien",
                 columns: new[] { "ID", "DiaChi", "Email", "IDVaiTro", "PassWord", "SDT", "Ten", "TrangThai" },
+<<<<<<< HEAD
                 values: new object[] { new Guid("2ec27ab7-5f67-4ed5-ae67-52f9c9726ebf"), "Ha Noi", "anhptph27168@fpt.edu.vn", new Guid("b4996b2d-a343-434b-bfe9-09f8efbb3852"), "$2a$10$xRUcz2MNCsP9waNEzcVW5.Rk7sktZE.mp2BQVcJsP8A1uOvoSDgjO", "0988143310", "Admin", 1 });
+=======
+                values: new object[] { new Guid("2ec27ab7-5f67-4ed5-ae67-52f9c9726ebf"), "Ha Noi", "tamncph25588@fpt.edu.vn", new Guid("b4996b2d-a343-434b-bfe9-09f8efbb3852"), "$2a$10$SkimxxBIlrv/l33hTFvbkutV/.jF4rlwd9APgp1ZZjNEgVDYXvHa6", "0988143310", "Admin", 1 });
+>>>>>>> b6cef1a2f35980402036641f65579444d10644ff
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
