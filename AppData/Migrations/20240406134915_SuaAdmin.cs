@@ -14,7 +14,7 @@ namespace AppData.Migrations
                 keyColumn: "ID",
                 keyValue: new Guid("2ec27ab7-5f67-4ed5-ae67-52f9c9726ebf"),
                 columns: new[] { "Email", "SDT" },
-                values: new object[] { "admin@gmail.com", "0985143915" });
+                values: new object[] { "admin@gmail.com", "0123456789" });
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -24,7 +24,7 @@ namespace AppData.Migrations
                 keyColumn: "ID",
                 keyValue: new Guid("2ec27ab7-5f67-4ed5-ae67-52f9c9726ebf"),
                 columns: new[] { "Email", "SDT" },
-                values: new object[] { "anhph27168@fpt.edu.vn", "0988143310" });
+                values: new object[] { "anhph27168@fpt.edu.vn", "0123456789" });
         }
     }
 }

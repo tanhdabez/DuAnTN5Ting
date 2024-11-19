@@ -37,7 +37,7 @@
 
             <div class="form-group">
                 <label class="control-label">Chất liệu</label>
-                <input asp-for="TenChatLieu" class="form-control" list="chatLieu" autocomplete="off"/>
+                <input asp-for="TenChatLieu" class="form-control" list="chatLieu" autocomplete="off" />
                 <datalist id="chatLieu"></datalist>
                 <span asp-validation-for="TenChatLieu" class="text-danger"></span>
             </div>
@@ -53,7 +53,7 @@
                                 <input name="MauSacs[0].Ma" type="color" class="form-control" value="#000000" id="maMau0" onchange="changeMaMau(0)" style="height:41.6px;width:100%" />
                             </td>
                             <td style="width:50px">
-                                <input type="button" class="form-control" value="-" hidden id="xoamau0" onclick="xoaMau(0)"/>
+                                <input type="button" class="form-control" value="-" hidden id="xoamau0" onclick="xoaMau(0)" />
                             </td>
                         </tr>
                     </tbody>
@@ -68,7 +68,7 @@
                         <input name="KichCos[0]" class="form-control" list="kichCo" id="tenkc0" autocomplete="off" />
                     </div>
                     <div class="col-lg-2" style='padding-left:0px'>
-                        <input type="button" class="form-control" value="-" hidden id="xoasize0" onclick="xoaSize(0)"/>
+                        <input type="button" class="form-control" value="-" hidden id="xoasize0" onclick="xoaSize(0)" />
                     </div>
                 </div>
                 <input type="button" class="form-control" value="+" onclick="themKichCo(1,this)" />
@@ -76,7 +76,7 @@
             <datalist id="kichCo"></datalist>
             <div class="form-group">
                 <label class="control-label">Loại sản phẩm cha</label>
-                <input asp-for="TenLoaiSPCha" class="form-control" list="loaiSPCha" id="ipLoaiSPCha" autocomplete="off"/>
+                <input asp-for="TenLoaiSPCha" class="form-control" list="loaiSPCha" id="ipLoaiSPCha" autocomplete="off" />
                 <datalist id="loaiSPCha"></datalist>
             </div>
             <div class="form-group">
@@ -85,7 +85,7 @@
                 <datalist id="loaiSPCon"></datalist>
                 <span asp-validation-for="TenLoaiSPCon" class="text-danger"></span>
             </div>
-            
+
         </form>
     </div>
 </div>
@@ -156,7 +156,7 @@
                         var rows = "<option value='" + response.ketQua[i].ten + "'>" + response.ketQua[i].ten + "</option>";
                         $('#loaiSPCon').append(rows);
                     }
-                }               
+                }
             }
         });
     });
@@ -179,13 +179,13 @@
     }
     function themKichCo(count, element) {
         $("#lstKichCo").append(`<div class="row" style='width:450px' id="size${count}">
-            <div class="col-lg-10" style='padding-right:0px'>
-            <input name="KichCos[${count}]" class="form-control" list="kichCo" id="tenkc${count}" autocomplete="off" />
-            </div>
-            <div class="col-lg-2" style='padding-left:0px'>
-            <input type="button" class= "form-control" value="-" hidden id="xoasize${count}" onclick="xoaSize(${count})"/>
-            </div>
-            </div><input type='button' class='form-control' onclick='themKichCo(${count + 1},this)' value='+' / > `);
+                <div class="col-lg-10" style='padding-right:0px'>
+                <input name="KichCos[${count}]" class="form-control" list="kichCo" id="tenkc${count}" autocomplete="off" />
+                </div>
+                <div class="col-lg-2" style='padding-left:0px'>
+                <input type="button" class= "form-control" value="-" hidden id="xoasize${count}" onclick="xoaSize(${count})"/>
+                </div>
+                </div><input type='button' class='form-control' onclick='themKichCo(${count + 1},this)' value='+' / > `);
         document.getElementById("xoasize" + (count - 1)).hidden = false;
         element.remove();
     }

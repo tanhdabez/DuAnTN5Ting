@@ -1,5 +1,5 @@
 ﻿@{
-    ViewData["Title"] = "Reputation-Hóa đơn";
+    ViewData["Title"] = "5Ting-Hóa đơn";
 }
 <div class="d-flex flex-row align-items-stretch" style="background:rgba(1, 41, 112, 0.1);">
     <div class="d-flex flex-column me-2" style="width:330px;">
@@ -42,7 +42,7 @@
                     </span>
                     <span class="item-text">Chờ xác nhận</span>
                 </li>
-                 <li class="item">
+                <li class="item">
                     <span class="checkbox">
                         <i class="fa-solid fa-check check-icon" data-value="10"></i>
                     </span>
@@ -173,193 +173,193 @@
             <div class="modal-body cthd-body">
             </div>
             @* <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
-                </div>*@
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+            </div>*@
         </div>
     </div>
 </div>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script type="text/javascript">
-     var pageSizehd = 10; // Tối đa 10sp 1 trang
-     var pageIndexhd = 1;
-     var selectTT = $("#select-trangThai");
-     var selectKB = $("#select-kenh");
-     var itemtt = document.querySelectorAll('.tt .item');
-     var itemkb = document.querySelectorAll('.kb .item');
+    var pageSizehd = 10; // Tối đa 10sp 1 trang
+    var pageIndexhd = 1;
+    var selectTT = $("#select-trangThai");
+    var selectKB = $("#select-kenh");
+    var itemtt = document.querySelectorAll('.tt .item');
+    var itemkb = document.querySelectorAll('.kb .item');
 
-     $(document).ready(function() {
-         LoadPage();
-     });
-     // Load trang
-     function LoadPage(){
-         $('#pagination-demo').twbsPagination('destroy');
-         loadBill();
-     }
-     //Chọn loại tìm kiếm hóa đơn
-     var defaultOption = document.querySelector('.defaultOption');
-        var ul = document.querySelector('.ul');
-        defaultOption.onclick = function(){
+    $(document).ready(function () {
+        LoadPage();
+    });
+    // Load trang
+    function LoadPage() {
+        $('#pagination-demo').twbsPagination('destroy');
+        loadBill();
+    }
+    //Chọn loại tìm kiếm hóa đơn
+    var defaultOption = document.querySelector('.defaultOption');
+    var ul = document.querySelector('.ul');
+    defaultOption.onclick = function () {
+        ul.classList.toggle("active");
+    }
+    // Chọn kiểu tìm kiếm
+    $(".chonkieu li").each(function () {
+        $(this).on("click", function () {
+            var value = $(this).text();
+            var loaitk = $(this).data('value');
+            $("#searchtype").text(value);
+
+            if (loaitk === 1) {
+                $("#inputhd").attr("placeholder", "Nhập mã hóa đơn, SĐT đặt hàng");
+            } else {
+                $("#inputhd").attr("placeholder", "Nhập tên, SĐT khách hàng");
+            }
             ul.classList.toggle("active");
-        }
-        // Chọn kiểu tìm kiếm
-        $(".chonkieu li").each(function(){
-            $(this).on("click", function(){
-                var value = $(this).text();
-                var loaitk = $(this).data('value');
-                $("#searchtype").text(value);
-
-                if(loaitk === 1){
-                    $("#inputhd").attr("placeholder", "Nhập mã hóa đơn, SĐT đặt hàng");
-                }else{
-                    $("#inputhd").attr("placeholder", "Nhập tên, SĐT khách hàng");
-                }
-                ul.classList.toggle("active");
-            })
         })
-     // Drop down trạng thái
-     selectTT.toggleClass("open");
-     selectTT.on("click", function() {
-         $(this).toggleClass("open");
-     });
-     // Dropdown Kênh bán
-     selectKB.toggleClass("open");
-     selectKB.on("click", function() {
-         $(this).toggleClass("open");
-     });
+    })
+    // Drop down trạng thái
+    selectTT.toggleClass("open");
+    selectTT.on("click", function () {
+        $(this).toggleClass("open");
+    });
+    // Dropdown Kênh bán
+    selectKB.toggleClass("open");
+    selectKB.on("click", function () {
+        $(this).toggleClass("open");
+    });
 
-     itemtt.forEach(item =>{
-         item.addEventListener("click", () =>{
-             item.classList.toggle("checked");
-             LoadPage();
-         })
-     })
-     itemkb.forEach(item =>{
-         item.addEventListener("click", () =>{
-             item.classList.toggle("checked");
-             LoadPage();
-         })
-     })
+    itemtt.forEach(item => {
+        item.addEventListener("click", () => {
+            item.classList.toggle("checked");
+            LoadPage();
+        })
+    })
+    itemkb.forEach(item => {
+        item.addEventListener("click", () => {
+            item.classList.toggle("checked");
+            LoadPage();
+        })
+    })
     function getCheckedValues(checkboxes) {
-       const checkedValues = [];
-       checkboxes.forEach(checkbox => {
-         if (checkbox.classList.contains('checked')) {
-           const icon = checkbox.querySelector('i');
-           const value = icon.getAttribute('data-value');
-           checkedValues.push(value);
-         }
-       });
-       return checkedValues;
-     }
-     //TimKiemHD
-     function timKiemHD(){
-         LoadPage();
-     }
-     // Load danh sách hóa đơn
-      function loadBill() {
-         let lsttt = getCheckedValues(itemtt);
-         let lstkb = getCheckedValues(itemkb);
-         let tgbd = $("#bdau").text();
-         let tgkt = $("#ketthuc").text();
-         let keyWord = $("#inputhd").val();
-         let loaitimkiem = 1;
-         if($("#searchtype").text() == "Khách hàng"){
-             loaitimkiem = 2;
-         };
-         var request = {loaiHD:lstkb, lstTT: lsttt, pageSize: pageSizehd, page:pageIndexhd, loaitk:loaitimkiem, keyWord:keyWord, ngaybd: tgbd, ngaykt: tgkt};
-         $.ajax({
-             url: "/QuanLyHoaDon/LoadAllHoaDon",
-             type: "POST",
-             dataType: "json",
-             data: request,
-             success: function(response) {
-                if(response.data.length !== 0){
-                     $("#billRecord").empty();
-                     var html ='';
-                     if(pageIndexhd ===1 ){
-                          html = `
-                                <tr>
-                                    <td colspan="6" class="text-end fw-bold">
-                                        ${Intl.NumberFormat().format(response.tienhang)}
-                                    </td>
+        const checkedValues = [];
+        checkboxes.forEach(checkbox => {
+            if (checkbox.classList.contains('checked')) {
+                const icon = checkbox.querySelector('i');
+                const value = icon.getAttribute('data-value');
+                checkedValues.push(value);
+            }
+        });
+        return checkedValues;
+    }
+    //TimKiemHD
+    function timKiemHD() {
+        LoadPage();
+    }
+    // Load danh sách hóa đơn
+    function loadBill() {
+        let lsttt = getCheckedValues(itemtt);
+        let lstkb = getCheckedValues(itemkb);
+        let tgbd = $("#bdau").text();
+        let tgkt = $("#ketthuc").text();
+        let keyWord = $("#inputhd").val();
+        let loaitimkiem = 1;
+        if ($("#searchtype").text() == "Khách hàng") {
+            loaitimkiem = 2;
+        };
+        var request = { loaiHD: lstkb, lstTT: lsttt, pageSize: pageSizehd, page: pageIndexhd, loaitk: loaitimkiem, keyWord: keyWord, ngaybd: tgbd, ngaykt: tgkt };
+        $.ajax({
+            url: "/QuanLyHoaDon/LoadAllHoaDon",
+            type: "POST",
+            dataType: "json",
+            data: request,
+            success: function (response) {
+                if (response.data.length !== 0) {
+                    $("#billRecord").empty();
+                    var html = '';
+                    if (pageIndexhd === 1) {
+                        html = `
+                                    <tr>
+                                        <td colspan="6" class="text-end fw-bold">
+                                            ${Intl.NumberFormat().format(response.tienhang)}
+                                        </td>
 
-                                    <td class="text-end fw-bold">
-                                         ${Intl.NumberFormat().format(response.khachtra)}
-                                    </td>
-                                </tr>
+                                        <td class="text-end fw-bold">
+                                             ${Intl.NumberFormat().format(response.khachtra)}
+                                        </td>
+                                    </tr>
+                                    `;
+                    }
+                    for (let i = 0; i < response.data.length; i++) {
+                        const thoiGian = response.data[i].thoiGian;
+                        const formattedDate = new Date(thoiGian).toLocaleDateString("en-GB");
+                        html += `
+                                   <tr onclick="billDetail('${response.data[i].id}');">
+                                   <th scope="row">${response.data[i].maHD}</th>
+                                   <td>${new Date(response.data[i].thoiGian).toLocaleString("en-GB")}</td>
+                                   <td>${response.data[i].khachHang}</td>
+                                   <td>
+                                       ${response.data[i].trangThai === 2 ? '<label class="badge bg-info">Chờ xác nhận</label>' :
+                                response.data[i].trangThai === 10 ? '<label class="badge bg-info">Đang đóng hàng</label>' :
+                                    response.data[i].trangThai === 3 ? '<label class="badge bg-primary">Đang giao hàng</label>' :
+                                        response.data[i].trangThai === 4 ? '<label class="badge bg-danger">Đang hoàn hàng</label>' :
+                                            response.data[i].trangThai === 5 ? '<label class="badge bg-danger">Hoàn hàng thành công</label>' :
+                                                response.data[i].trangThai === 6 ? '<label class="badge bg-success">Thành công</label>' :
+                                                    response.data[i].trangThai === 7 ? '<label class="badge bg-dark">Đơn hủy</label>' :
+                                                        response.data[i].trangThai === 8 ? '<label class="badge bg-secondary">Chờ xác nhận hủy</label>' :
+                                                            '<label class="badge bg-danger">Chờ xác nhận hoàn hàng</label>'}
+                                   </td>
+                                   ${response.data[i].loaiHD === 1 ? `<td class="text-center">Tại quầy</td>` : `<td class="text-center">Website</td>`}
+
+                                   <td class="text-end">${Intl.NumberFormat().format(response.data[i].tongTienHang)}</td>
+                                   <td class="text-end">${Intl.NumberFormat().format(response.data[i].khachDaTra)}</td>
+                               </tr>
+                             `;
+                    }
+                    $("#billRecord").append(html);
+                    paginghd(response.total, function () {
+                        loadBill();
+                    });
+                } else {
+                    $("#billRecord").empty();
+                    html = `
+                                    <tr>
+                                        <td colspan="7" class="text-center">
+                                            Không có hóa đơn nào
+                                        </td>
+                                    </tr>
                                 `;
-                     }
-                     for (let i = 0; i < response.data.length; i++) {
-                         const thoiGian = response.data[i].thoiGian;
-                         const formattedDate = new Date(thoiGian).toLocaleDateString("en-GB");
-                         html += `
-                               <tr onclick="billDetail('${response.data[i].id}');">
-                               <th scope="row">${response.data[i].maHD}</th>
-                               <td>${new Date(response.data[i].thoiGian).toLocaleString("en-GB")}</td>
-                               <td>${response.data[i].khachHang}</td>
-                               <td>
-                                   ${response.data[i].trangThai === 2 ? '<label class="badge bg-info">Chờ xác nhận</label>' :
-                                   response.data[i].trangThai === 10 ? '<label class="badge bg-info">Đang đóng hàng</label>' :
-                                   response.data[i].trangThai === 3 ? '<label class="badge bg-primary">Đang giao hàng</label>' :
-                                   response.data[i].trangThai === 4 ? '<label class="badge bg-danger">Đang hoàn hàng</label>' :
-                                   response.data[i].trangThai === 5 ? '<label class="badge bg-danger">Hoàn hàng thành công</label>' :
-                                   response.data[i].trangThai === 6 ? '<label class="badge bg-success">Thành công</label>' :
-                                   response.data[i].trangThai === 7 ? '<label class="badge bg-dark">Đơn hủy</label>' :
-                                   response.data[i].trangThai === 8 ? '<label class="badge bg-secondary">Chờ xác nhận hủy</label>' :
-                                   '<label class="badge bg-danger">Chờ xác nhận hoàn hàng</label>'}
-                               </td>
-                               ${response.data[i].loaiHD === 1 ? `<td class="text-center">Tại quầy</td>` : `<td class="text-center">Website</td>`}
-                               
-                               <td class="text-end">${Intl.NumberFormat().format(response.data[i].tongTienHang)}</td>
-                               <td class="text-end">${Intl.NumberFormat().format(response.data[i].khachDaTra)}</td>
-                           </tr>
-                         `;
-                     }
-                     $("#billRecord").append(html);
-                     paginghd(response.total, function() {
-                         loadBill();
-                     });
-                }else{
-                     $("#billRecord").empty();
-                     html = `
-                                <tr>
-                                    <td colspan="7" class="text-center">
-                                        Không có hóa đơn nào
-                                    </td>
-                                </tr>
-                            `;
-                     $("#billRecord").append(html);
+                    $("#billRecord").append(html);
                 }
-             },
-             error: function(err) {
-                 console.log('Error:', err);
-             }
-         });
-     }
+            },
+            error: function (err) {
+                console.log('Error:', err);
+            }
+        });
+    }
 
-     //Hiển thị ChiTietHD
-     function billDetail(idhd){
-         $(".cthd-body").load("/QuanLyHoaDon/ViewChiTietHD/"+ idhd);
-         $("#chitiethd").modal("show");
-     }
-     // Phân trang
-     function paginghd(totalrow, callback) {
+    //Hiển thị ChiTietHD
+    function billDetail(idhd) {
+        $(".cthd-body").load("/QuanLyHoaDon/ViewChiTietHD/" + idhd);
+        $("#chitiethd").modal("show");
+    }
+    // Phân trang
+    function paginghd(totalrow, callback) {
         var totalpages = Math.ceil(totalrow / pageSizehd);
         $("#pagination-demo").twbsPagination({
-                totalPages: totalpages,
-                visiblePages: 5,
-                startPage: 1,
-                first:'Đầu',
-                last:'Cuối',
-                prev:'Trước',
-                next:'Tiếp',
-                onPageClick: function (event, page) {
+            totalPages: totalpages,
+            visiblePages: 5,
+            startPage: 1,
+            first: 'Đầu',
+            last: 'Cuối',
+            prev: 'Trước',
+            next: 'Tiếp',
+            onPageClick: function (event, page) {
                 pageIndexhd = page;
                 setTimeout(callback, 200);
-                }
+            }
         });
-     }
-     //Hiển thị datetime
-     $(function() {
+    }
+    //Hiển thị datetime
+    $(function () {
 
         var start = moment().subtract(29, 'days');
         var end = moment().endOf('day');
@@ -375,25 +375,25 @@
             showDropdowns: true,
             startDate: start,
             timePicker: true,
-            minYear:2010,
+            minYear: 2010,
             endDate: end,
             locale: {
-              customRangeLabel: 'Điều chỉnh',
-              format: 'DD/MM/YYYY HH:mm',
-              applyLabel: 'Áp dụng',
-              cancelLabel: 'Thoát',
-              daysOfWeek: ['H', 'B', 'T', 'N', 'S', 'B','CN'],
-              monthNames: ['Tháng 1', 'Tháng 2', 'Tháng 3', 'Tháng 4', 'Tháng 5', 'Tháng 6', 'Tháng 7', 'Tháng 8', 'Tháng 9', 'Tháng 10', 'Tháng 11', 'Tháng 12'],
+                customRangeLabel: 'Điều chỉnh',
+                format: 'DD/MM/YYYY HH:mm',
+                applyLabel: 'Áp dụng',
+                cancelLabel: 'Thoát',
+                daysOfWeek: ['H', 'B', 'T', 'N', 'S', 'B', 'CN'],
+                monthNames: ['Tháng 1', 'Tháng 2', 'Tháng 3', 'Tháng 4', 'Tháng 5', 'Tháng 6', 'Tháng 7', 'Tháng 8', 'Tháng 9', 'Tháng 10', 'Tháng 11', 'Tháng 12'],
             },
             ranges: {
-               'Hôm nay': [moment().startOf('day'), moment().endOf('day')],
-               'Hôm qua': [moment().subtract(1, 'days').startOf('day'), moment().subtract(1, 'days').endOf('day')],
-               '7 ngày trước': [moment().subtract(6, 'days').startOf('day'), moment()],
-               '30 ngày trước': [moment().subtract(29, 'days').startOf('day'), moment()],
-               'Tháng này': [moment().startOf('month'), moment().endOf('month')],
-               'Tháng trước': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')],
-               'Năm nay': [moment().startOf('year'), moment().endOf('year')],
-               'Năm trước': [moment().subtract(1, 'year').startOf('year'), moment().subtract(1, 'year').endOf('year')],
+                'Hôm nay': [moment().startOf('day'), moment().endOf('day')],
+                'Hôm qua': [moment().subtract(1, 'days').startOf('day'), moment().subtract(1, 'days').endOf('day')],
+                '7 ngày trước': [moment().subtract(6, 'days').startOf('day'), moment()],
+                '30 ngày trước': [moment().subtract(29, 'days').startOf('day'), moment()],
+                'Tháng này': [moment().startOf('month'), moment().endOf('month')],
+                'Tháng trước': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')],
+                'Năm nay': [moment().startOf('year'), moment().endOf('year')],
+                'Năm trước': [moment().subtract(1, 'year').startOf('year'), moment().subtract(1, 'year').endOf('year')],
             }
         }, cb);
 

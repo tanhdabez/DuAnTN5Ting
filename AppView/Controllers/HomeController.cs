@@ -411,13 +411,13 @@ namespace AppView.Controllers
             {
                 return Redirect("https://localhost:5001/");
             }
-            
-            
+
+
         }
         [HttpGet]
         public async Task<IActionResult> ProductDetailFromCart(Guid idctsp)
         {
-            try 
+            try
             {
                 HttpResponseMessage response = await _httpClient.GetAsync(_httpClient.BaseAddress + "SanPham/GetIDsanPhamByIdCTSP?idctsp=" + idctsp);
                 var idsanpham = JsonConvert.DeserializeObject<string>(response.Content.ReadAsStringAsync().Result);
@@ -927,7 +927,7 @@ namespace AppView.Controllers
                         string actionName = TempData["ActionName"].ToString();
                         return RedirectToAction("Index", "TrangChu");
                     }
-                    else return RedirectToAction("ThongKeAdmin", "ThongKe");
+                    else return RedirectToAction("BanHang", "BanHangTaiQuay");
                 }
                 else if (response.StatusCode == HttpStatusCode.Unauthorized)
                 {
@@ -999,7 +999,7 @@ namespace AppView.Controllers
             {
                 return Redirect("https://localhost:5001/");
             }
-           
+
         }
         [HttpPut]
         public ActionResult UpdateProfile(string ten, string email, string sdt, int? gioitinh, DateTime? ngaysinh, string? diachi)
@@ -1049,7 +1049,7 @@ namespace AppView.Controllers
             {
                 return Json(new { success = false, message = "Cập nhật thông tin cá nhân thất bại" });
             }
-            
+
         }
         public IActionResult PurchaseOrder()
         {
@@ -1093,7 +1093,7 @@ namespace AppView.Controllers
             {
                 return Redirect("https://localhost:5001/");
             }
-            
+
         }
         public IActionResult LichSuTieuDiemTichDiem()
         {
@@ -1250,7 +1250,7 @@ namespace AppView.Controllers
             {
                 return Redirect("https://localhost:5001/");
             }
-            
+
         }
         public IActionResult ReviewProducts(Guid idCTHD)
         {
@@ -1268,7 +1268,7 @@ namespace AppView.Controllers
             {
                 return Redirect("https://localhost:5001/");
             }
-            
+
         }
         [HttpPost]
         public IActionResult ChangePassword(string newPassword, string oldPassword)
@@ -1309,7 +1309,7 @@ namespace AppView.Controllers
             {
                 return Redirect("https://localhost:5001/");
             }
-            
+
         }
         public IActionResult HuyDonHang(Guid idHoaDon)
         {
@@ -1326,7 +1326,7 @@ namespace AppView.Controllers
             {
                 return RedirectToAction("PurchaseOrder");
             }
-            
+
         }
         public IActionResult HoanTacHuyDonHang(Guid idHoaDon)
         {
@@ -1343,7 +1343,7 @@ namespace AppView.Controllers
             {
                 return RedirectToAction("PurchaseOrder");
             }
-            
+
         }
         public IActionResult DoiTraHang(Guid idHoaDon)
         {
@@ -1360,7 +1360,7 @@ namespace AppView.Controllers
             {
                 return RedirectToAction("PurchaseOrder");
             }
-            
+
         }
         public IActionResult HoanTacDoiTraHang(Guid idHoaDon)
         {
@@ -1378,7 +1378,7 @@ namespace AppView.Controllers
             {
                 return RedirectToAction("PurchaseOrder");
             }
-            
+
         }
         public IActionResult XacNhanGHTC(Guid idHoaDon)
         {
@@ -1601,10 +1601,11 @@ namespace AppView.Controllers
                 {
                     // Xử lý khi email không hợp lệ
                     TempData["Message"] = "Invalid email.";
-                    return RedirectToAction("Login", new {actionNam = "Index"});
+                    return RedirectToAction("Login", new { actionNam = "Index" });
                 }
             }
-            catch {
+            catch
+            {
                 TempData["Message"] = "Invalid email.";
                 return RedirectToAction("Login", new { actionNam = "Index" });
             }

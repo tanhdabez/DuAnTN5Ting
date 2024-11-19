@@ -36,7 +36,7 @@
                 <div class="card mb-4">
                     <div class="card-body text-center">
                         <img src="~/img/avatar_admin.jpg" alt="avatar"
-                             class="rounded-circle img-fluid" style="width: 120px;">
+                             class="rounded-circle img-fluid" style="width: 100px; margin-top: 20px;">
                         <h5 id="tenanh" class="my-3">@Model.Ten</h5>
                         <div class="d-flex justify-content-center mb-2">
                             <button type="button" onclick="doiMatKhau()" class="btn btn-primary">Đổi mật khẩu</button>
@@ -90,7 +90,7 @@
                             <div class="col-sm-3">
                                 <input style="border:none;width: 100%; background: white;" type="text" id="VaiTro1" value="Admin" disabled />
                             </div>
-                            
+
                         </div>
                     </div>
                 </div>
@@ -146,7 +146,7 @@
             url: '/NhanVien/UpdateProfile',
             success: function (response) {
                 if (response.success == true) {
-                    toastr.success(response.message, 'Success Alert', { timeOut: 300 });
+                    toastr.success(response.message, 'Success Alert', { timeOut: 1000 });
                     document.getElementById("ten").disabled = true;
                     document.getElementById("email").disabled = true;
                     document.getElementById("sdt").disabled = true;

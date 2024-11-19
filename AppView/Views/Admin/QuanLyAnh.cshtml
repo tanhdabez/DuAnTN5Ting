@@ -41,7 +41,7 @@
                     <input type="color" value="@item.MaMau" style="border:none;width:27px;height:25px" disabled />
                 </td>
                 <td style="padding-right:2px;width:50px">
-                    <label for="update_@item.ID" class="btn btn-success">Sửa</label><br/>
+                    <label for="update_@item.ID" class="btn btn-success">Sửa</label><br />
                     <input id="update_@item.ID" style="visibility:hidden;width:50px" type="file" onchange="UpdateImage(event,'@item.ID','@item.DuongDan')">
                 </td>
                 <td style="padding-left:2px">
@@ -53,7 +53,7 @@
 </table>
 <script src="/js/jquery-3.3.1.min.js"></script>
 <script>
-    function AddImage(event,id) {
+    function AddImage(event, id) {
         var value = event.target.files[0];
         var formData = new FormData();
         formData.append("file", value);
@@ -64,7 +64,7 @@
         });
         setTimeout("location.reload(true);", 600);
     };
-    function UpdateImage(event,id,duongdan) {
+    function UpdateImage(event, id, duongdan) {
         var value = event.target.files[0];
         var formData = new FormData();
         formData.append("file", value);

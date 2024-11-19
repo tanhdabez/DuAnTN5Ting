@@ -16,12 +16,12 @@
     <meta charset="UTF-8">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-    <title>Trang chủ - Reputation Admin</title>
+    <title>Trang chủ - 5Ting Admin</title>
     <meta content="" name="description">
     <meta content="" name="keywords">
 
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Reputation-Admin | Template</title>
+    <title>5Ting-Admin | Template</title>
 
     <!-- Google Fonts -->
     <link href="https://fonts.gstatic.com" rel="preconnect">
@@ -53,7 +53,7 @@
     <header id="header" class="header fixed-top d-flex align-items-center">
 
         <div class="d-flex align-items-center justify-content-between">
-            <a asp-controller="ThongKe" asp-action="ThongKeAdmin" class="logo d-flex align-items-center">
+            <a asp-controller="BanHangTaiQuay" asp-action="BanHang" class="logo d-flex align-items-center">
                 <span class="d-none d-lg-block">5Ting Admin</span>
             </a>
             <i class="bi bi-list toggle-sidebar-btn"></i>
@@ -63,7 +63,7 @@
             <ul class="d-flex align-items-center">
                 <li class="nav-item dropdown pe-3">
                     <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
-                        <img src="~/img/profile-img.jpg" alt="Profile" class="rounded-circle">
+                        <img src="/img/avatar_admin.jpg" alt="Profile" class="rounded-circle">
                         <span id="tenAdmin" class="d-none d-md-block dropdown-toggle ps-2">@loginInfor.Ten</span>
                     </a><!-- End Profile Iamge Icon -->
 
@@ -75,18 +75,20 @@
                                 if (nhanvien != null)
                                 {
                                     var phanquyen1 = context.VaiTros.FirstOrDefault(x => x.ID == nhanvien.IDVaiTro);
-                                    if (phanquyen1!= null)
+                                    if (phanquyen1 != null)
                                     {
                                         if (phanquyen1.Ten == "Admin")
                                         {
                                             <span id="ChucVu">Admin</span>
-                                        }else{
+                                        }
+                                        else
+                                        {
                                             <span id="ChucVu">Nhân viên</span>
                                         }
                                     }
                                 }
                             }
-                            
+
                         </li>
                         <li>
                             <hr class="dropdown-divider">
@@ -348,7 +350,7 @@
     <!-- ======= Footer ======= -->
     @* <footer id="footer" class="footer">
     <div class="copyright">
-    &copy; Copyright <strong><span>ReputationAdmin</span></strong>. All Rights Reserved
+    &copy; Copyright <strong><span>5TingAdmin</span></strong>. All Rights Reserved
     </div>
     <div class="credits">
     Designed by <a href="https://bootstrapmade.com/">SD70</a>

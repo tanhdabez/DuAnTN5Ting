@@ -196,7 +196,7 @@
                     </div>
                     <div class="row my-2">
                         <div class="col-6">
-                            Mã sản phẩm: <strong id="maSP">@Model.ChiTietSanPhams.First(x=>x.TrangThai==1).MaCTSP</strong>
+                            Mã sản phẩm: <strong id="maSP">@Model.ChiTietSanPhams.First(x => x.TrangThai == 1).MaCTSP</strong>
                         </div>
                         <div class="col-6">
                             <span>Tình trạng: <strong id="trangthai"></strong></span>
@@ -205,7 +205,7 @@
                     <div class="d-flex flex-column justify-content-start mt-2">
                         <div class="d-flex flex-row">
                             <div class="fw-bold">
-                                <span style="font-size:24px; font-weight:bold" id="giaCTSP">@Model.ChiTietSanPhams.First(x=>x.TrangThai==1).GiaBan.ToString("n0") VNĐ</span>
+                                <span style="font-size:24px; font-weight:bold" id="giaCTSP">@Model.ChiTietSanPhams.First(x => x.TrangThai == 1).GiaBan.ToString("n0") VNĐ</span>
                             </div>
                             <div class="ms-auto p-2">
                                 <span id="giaTKM">@*- @Model.ChiTietSanPhams.First(x=>x.TrangThai==1).GiaTriKM*@</span>
@@ -228,7 +228,6 @@
                                     </label>
                                 </label>
                             }
-
                         </div>
                     </div>
                     <div class="mt-3">
@@ -238,8 +237,8 @@
                                 @foreach (var item in Model.KichCos)
                                 {
                                     @*<li style="width:70px;height:100%">
-                                        <input type="radio" value="@item.GiaTri" name="kichco" class="btn btn-light" style="border:1px solid gray!important;width:100%;height:100%" id="@item.GiaTri" onclick="getKichCo(this)" />
-                                        </li>*@
+                                <input type="radio" value="@item.GiaTri" name="kichco" class="btn btn-light" style="border:1px solid gray!important;width:100%;height:100%" id="@item.GiaTri" onclick="getKichCo(this)" />
+                                </li>*@
                                     <label>
                                         <input type="radio" class="btn-check" value="@item.GiaTri" id="rd_@item.GiaTri" autocomplete="off" name="kichco" onclick="getKichCo(this)" />
                                         <span class="btn btn-outline-primary" for="rd_@item.GiaTri" id="label_@item.GiaTri">@item.GiaTri</span>
@@ -310,7 +309,7 @@
                                                 }
                                                 else
                                                 {
-                                                    <b><span id="average_rating">@Math.Round(Model.SoSao,1)</span> / 5</b>
+                                                    <b><span id="average_rating">@Math.Round(Model.SoSao, 1)</span> / 5</b>
                                                 }
 
                                             </h3>
@@ -333,35 +332,35 @@
                         </div>
                         <div id="danhgia">
                             @*<div class="container" style="border-top:1px solid #dee2e6;padding-top:15px;">
-                                <div class="row" style="border-bottom:1px solid #dee2e6;padding-bottom:20px;padding-top:20px;">
-                                <div class="col-2">
-                                <h4 style="text-align: center; width: 60px; height: 60px; vertical-align: middle; background-color: gray; border-radius: 50%; display: table-cell;">T</h4>
-                                </div>
-                                <div class="col-10">
-                                <div>
-                                <span>TenKH</span>
-                                </div>
-                                <div>
-                                <i class="fas fa-star text-warning"></i><i class="fas fa-star text-warning"></i><i class="fas fa-star text-warning"></i><i class="fas fa-star text-warning"></i><i class="fas fa-star text-warning"></i>
-                                </div>
-                                <div style="margin-top:6px;">
-                                <span style="color:gray">NgayDanhGia</span>
-                                </div>
-                                <div style="margin-top:6px;">
-                                <span style="color:gray">Chất liệu: </span>ChatLieu
-                                </div>
-                                <div style="margin-top:6px;">
-                                <span style="color:gray">Màu sắc: </span>MauSac
-                                </div>
-                                <div style="margin-top:6px;">
-                                <span style="color:gray">Kích cỡ: </span>KichCo
-                                </div>
-                                <div style="margin-top:6px;">
-                                <span>BinhLuan</span>
-                                </div>
-                                </div>
-                                </div>
-                                </div>*@
+                            <div class="row" style="border-bottom:1px solid #dee2e6;padding-bottom:20px;padding-top:20px;">
+                            <div class="col-2">
+                            <h4 style="text-align: center; width: 60px; height: 60px; vertical-align: middle; background-color: gray; border-radius: 50%; display: table-cell;">T</h4>
+                            </div>
+                            <div class="col-10">
+                            <div>
+                            <span>TenKH</span>
+                            </div>
+                            <div>
+                            <i class="fas fa-star text-warning"></i><i class="fas fa-star text-warning"></i><i class="fas fa-star text-warning"></i><i class="fas fa-star text-warning"></i><i class="fas fa-star text-warning"></i>
+                            </div>
+                            <div style="margin-top:6px;">
+                            <span style="color:gray">NgayDanhGia</span>
+                            </div>
+                            <div style="margin-top:6px;">
+                            <span style="color:gray">Chất liệu: </span>ChatLieu
+                            </div>
+                            <div style="margin-top:6px;">
+                            <span style="color:gray">Màu sắc: </span>MauSac
+                            </div>
+                            <div style="margin-top:6px;">
+                            <span style="color:gray">Kích cỡ: </span>KichCo
+                            </div>
+                            <div style="margin-top:6px;">
+                            <span>BinhLuan</span>
+                            </div>
+                            </div>
+                            </div>
+                            </div>*@
                         </div>
                     </div>
                     <div class="row">
@@ -418,9 +417,9 @@
         console.log(chiTietSanPhams);
         var anhMacDinh = anhs.find(x => x.maMau == color).duongDan;
         document.getElementById("main_product_image").src = "/img/product/" + anhMacDinh;
-        if (chiTietSanPham.soLuong > 0){
+        if (chiTietSanPham.soLuong > 0) {
             document.getElementById("trangthai").innerHTML = "Còn hàng"
-        }else{
+        } else {
             document.getElementById("trangthai").innerHTML = "Hết hàng"
         }
         if (anhs.length <= 5) {
@@ -433,27 +432,27 @@
             document.getElementById("giaTKM").style.display = "block";
             document.getElementById("giaGoc").innerHTML = Intl.NumberFormat().format(chiTietSanPham.giaGoc) + " " + "VNĐ";
             if (chiTietSanPham.trangThaiKM == 0) {
-                document.getElementById("giaTKM").innerHTML ="-" + Intl.NumberFormat().format(chiTietSanPham.giaTriKM) + " " + "VNĐ";
-            }else if(chiTietSanPham.trangThaiKM == 1){
-                document.getElementById("giaTKM").innerHTML = "-"+chiTietSanPham.giaTriKM +"%";
+                document.getElementById("giaTKM").innerHTML = "-" + Intl.NumberFormat().format(chiTietSanPham.giaTriKM) + " " + "VNĐ";
+            } else if (chiTietSanPham.trangThaiKM == 1) {
+                document.getElementById("giaTKM").innerHTML = "-" + chiTietSanPham.giaTriKM + "%";
             }
         }
-        else{
+        else {
             document.getElementById("giaTKM").style.display = "none";
         }
 
         loadDGsp();
         initslider();
     });
-    const initslider = () =>{
+    const initslider = () => {
         const imageList = document.querySelector("#thumbnail");
         const slideButton = document.querySelectorAll(".slide-button");
         //
         slideButton.forEach(button => {
-            button.addEventListener("click",()=>{
+            button.addEventListener("click", () => {
                 const direction = button.id === "prev-slide" ? - 1 : 1;
                 const scrollAmount = imageList.clientWidth * direction;
-                imageList.scrollBy({left:scrollAmount,behavior:"smooth"});
+                imageList.scrollBy({ left: scrollAmount, behavior: "smooth" });
             });
         });
     }
@@ -466,7 +465,7 @@
         color = element.value;
         //console.log(kichCos);
         //console.log(chiTietSanPhams);
-        for(let i = 0; i< kichCos.length; i++){
+        for (let i = 0; i < kichCos.length; i++) {
             var chiTietSP = chiTietSanPhams.find(x => x.mauSac == element.value && x.kichCo == kichCos[i].id);
             console.log(chiTietSP);
             if (typeof (chiTietSP) != "undefined") {
@@ -478,7 +477,7 @@
                         document.getElementById("trangthai").innerHTML = "Còn hàng"
                         document.getElementById("label_" + giatrikichco).style.opacity = "1";
                         document.getElementById("label_" + giatrikichco).style.cursor = "pointer";
-                    }else{
+                    } else {
                         var giatrikichco = kichCos.find(x => x.id == chiTietSP.kichCo).giaTri;
                         console.log(giatrikichco);
                         document.getElementById("rd_" + giatrikichco).disabled = true;
@@ -497,7 +496,7 @@
                     document.getElementById("trangthai").innerHTML = "Hết hàng";
 
                 }
-            }else{
+            } else {
                 var giatrikichco = kichCos.find(x => x.id == kichCos[i].id).giaTri;
                 console.log(giatrikichco);
                 document.getElementById("rd_" + giatrikichco).disabled = true;
@@ -512,7 +511,7 @@
         //console.log(chiTietSP);
         var anh = anhs.find(x => x.maMau == element.value);
         var lstMauSacElement = document.getElementById("filter-color").children;
-        for (let i = 0; i < lstMauSacElement.length;i++){
+        for (let i = 0; i < lstMauSacElement.length; i++) {
             if (lstMauSacElement[i].children[1].style.border = "1px black solid") {
                 lstMauSacElement[i].children[1].style.border = "1px gray solid";
             }
@@ -523,9 +522,9 @@
         document.getElementById("maSP").innerHTML = chiTietSP.maCTSP;
         document.getElementById("giaCTSP").innerHTML = Intl.NumberFormat().format(chiTietSP.giaBan) + " " + "VNĐ";
         if (chiTietSP.soLuong > 0) {
-            if(chiTietSP.trangThai > 0){
+            if (chiTietSP.trangThai > 0) {
                 document.getElementById("trangthai").innerHTML = "Còn hàng";
-            }else{
+            } else {
                 document.getElementById("trangthai").innerHTML = "Hết hàng";
             }
         } else {
@@ -547,8 +546,8 @@
         }
     }
     function getKichCo(element) {
-        size = kichCos.find(x=>x.giaTri==element.value).id;
-        var chiTietSP = chiTietSanPhams.find(x => x.kichCo == size && x.mauSac==color);
+        size = kichCos.find(x => x.giaTri == element.value).id;
+        var chiTietSP = chiTietSanPhams.find(x => x.kichCo == size && x.mauSac == color);
         //if (document.getElementById("rd_" + size).checked = true) {
         //    document.getElementById("label_" + size).style.color = "white";
         //}
@@ -564,7 +563,7 @@
         document.getElementById("giaCTSP").innerHTML = Intl.NumberFormat().format(chiTietSP.giaBan) + " " + "VNĐ";
         if (chiTietSP.soLuong > 0) {
             document.getElementById("trangthai").innerHTML = "Còn hàng";
-        }else{
+        } else {
             document.getElementById("trangthai").innerHTML = "Hết hàng";
         }
         if (chiTietSP.giaTriKM != null) {
@@ -604,12 +603,12 @@
         var kichco = KichCo();
         var mausac = MauSac();
         var soLuong = parseInt(document.getElementById("sl").value);
-        if(mausac.length != 0 && kichco.length!=0){
+        if (mausac.length != 0 && kichco.length != 0) {
             if (ctsp.soLuong < soLuong) {
                 toastr.error('Số lượng không đủ vui lòng giảm số lượng', 'Error Alert', { timeOut: 1000 });
             } else if (soLuong == 0 || isNaN(soLuong) == true) {
                 toastr.error('Vui lòng chọn lại số lượng', 'Error Alert', { timeOut: 1000 });
-            }else{
+            } else {
                 $.ajax({
                     async: true,
                     type: 'POST',
@@ -648,7 +647,7 @@
                 });
             }
 
-        }else{
+        } else {
             toastr.error('Vui lòng chọn biến thể', 'Error Alert', { timeOut: 1000 });
         }
 
@@ -721,15 +720,15 @@
     // Get ratings
     function getRatings() {
 
-            // Get percentage
-            var starPercentage = @Model.sosaoPercent;
-            // Round to nearest 10
-            var starPercentageRounded = `${Math.round(starPercentage / 10) * 10}%`;
-            // Set width of stars-inner to percentage
-            document.querySelector(`#Sao .stars-inner`).style.width = starPercentageRounded;
+        // Get percentage
+        var starPercentage = @Model.sosaoPercent;
+        // Round to nearest 10
+        var starPercentageRounded = `${Math.round(starPercentage / 10) * 10}%`;
+        // Set width of stars-inner to percentage
+        document.querySelector(`#Sao .stars-inner`).style.width = starPercentageRounded;
 
-            // Add number rating
-            //document.querySelector(`.#review_content .number-rating`).innerHTML = ratings[rating];
+        // Add number rating
+        //document.querySelector(`.#review_content .number-rating`).innerHTML = ratings[rating];
     }
     var pageIndex = 1;
     var pagesize = 5;
@@ -743,7 +742,7 @@
             success: function (response) {
                 $("#danhgia").empty();
                 console.log(response.data.length != 0);
-                if(response.data.length != 0){
+                if (response.data.length != 0) {
                     $.each(response.data, function (i, item) {
                         if (item.sao === 1) {
                             $("#danhgia").append("<div class='container' style='border-top: 1px solid #dee2e6;padding-top: 15px;'> <div class='row' style='border-bottom:1px solid #dee2e6; padding-bottom: 20px; padding-top: 20px;'> <div class='col-2'> <h4 style='text-align: center; width: 60px; height: 60px; vertical-align: middle; background-color: gray; border-radius: 50%; display: table-cell;'>" + item.tenKH.substring(0, 1).toUpperCase() + "</h4> </div> <div class='col-10'> <div> <span>" + item.tenKH + "</span> </div><div><i class='fas fa-star text-warning'></i> <i class='fas fa-star star-light mr-1 main_star'></i><i class='fas fa-star star-light mr-1 main_star'></i><i class='fas fa-star star-light mr-1 main_star'></i><i class='fas fa-star star-light mr-1 main_star'></i></div> <div style='margin-top: 6px;' > <span style='color:gray'> " + new Date(item.ngayDanhGia).toLocaleString("en-GB") + " </span> </div > <div style='margin-top: 6px; ' > <span style='color:gray' > Chất liệu: </span>" + item.chatLieu + " </div > <div style='margin-top: 6px;' > <span style='color:gray' > Màu sắc: </span>" + item.mauSac + " </div > <div style='margin-top: 6px;' > <span style='color:gray' > Kích cỡ: </span>" + item.kichCo + " </div > <div style='margin-top: 6px; ' > <span>" + item.binhLuan + " </span> </div > </div> </div > </div>");
@@ -776,10 +775,10 @@
         $("#pagingsp").twbsPagination({
             totalPages: totalgages,
             visiblePages: 7,
-            first:'Đầu',
-            last:'Cuối',
-            prev:'Trước',
-            next:'Tiếp',
+            first: 'Đầu',
+            last: 'Cuối',
+            prev: 'Trước',
+            next: 'Tiếp',
             onPageClick: function (event, page) {
                 pageIndex = page;
                 setTimeout(callback, 200);

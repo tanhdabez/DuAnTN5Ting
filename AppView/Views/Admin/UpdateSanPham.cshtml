@@ -23,7 +23,7 @@
                     </button>
                 </div>
             </div>
-            <input asp-for="ID" class="form-control" hidden/>
+            <input asp-for="ID" class="form-control" hidden />
             <div class="form-group">
                 <label asp-for="Ten" class="control-label">Tên</label>
                 <input asp-for="Ten" class="form-control" autocomplete="off" />
@@ -48,11 +48,11 @@
             </div>
             <div class="form-group">
                 <label class="control-label">Loại sản phẩm con</label>
-                <input asp-for="TenLoaiSPCon" class="form-control" list="loaiSPCon" autocomplete="off"/>
+                <input asp-for="TenLoaiSPCon" class="form-control" list="loaiSPCon" autocomplete="off" />
                 <datalist id="loaiSPCon"></datalist>
                 <span asp-validation-for="TenLoaiSPCon" class="text-danger"></span>
             </div>
-           
+
         </form>
     </div>
 </div>

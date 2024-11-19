@@ -6,7 +6,7 @@
 
 <div class="row">
     <div class="col-lg-4">
-        <a asp-action="AddSanPham" class="btn btn-primary">Thêm sản phẩm</a>
+        <a asp-action="AddSanPham" class="btn btn-success">Thêm sản phẩm <i class="bi bi-plus-circle"></i></a>
     </div>
     <div class="col-lg-8 d-flex justify-content-end">
         <div class="col-lg-1" style="padding:0px">
@@ -25,16 +25,16 @@
         <div class="col-lg-1" style="padding:0px">
             <button class="btn" style="border:1px solid black" type="button" data-bs-toggle="collapse" data-bs-target=".filter"><i class="bx bx-filter-alt"></i></button>
         </div>
-    </div>   
+    </div>
 </div>
 <div class="row filter collapse" style="margin-bottom:10px">
     <div class="col-lg-3" style="padding-left:0px;padding-right:2px">
         <p style="margin:0px;">Tên sản phẩm:</p>
-        <input type="text" class="form-control" placeholder="Tìm kiếm theo tên sản phẩm" style="width:100%"  id="searchName">
+        <input type="text" class="form-control" placeholder="Tìm kiếm theo tên sản phẩm" style="width:100%" id="searchName">
     </div>
     <div class="col-lg-2" style="padding-left:2px;padding-right:2px">
         <p style="margin:0px">Giá bán:</p>
-        <input type="number" class="form-control" placeholder="Min" style="width:100%" id="priceMin">   
+        <input type="number" class="form-control" placeholder="Min" style="width:100%" id="priceMin">
     </div>
     <div class="col-lg-2" style="padding-left:2px;padding-right:2px">
         <p style="margin:0px">&ensp;</p>
@@ -126,7 +126,7 @@
         var categorydad = $("#categorydad").val();
         var categoryson = $("#categoryson").val();
         var sort = $("#sort").val();
-        var request = { page: pageIndex, pageSize: pagesize, search: searchName, minPrice: min, maxPrice: max, loaiSPCha: categorydad, loaiSPCon: categoryson, sortSP : sort};
+        var request = { page: pageIndex, pageSize: pagesize, search: searchName, minPrice: min, maxPrice: max, loaiSPCha: categorydad, loaiSPCon: categoryson, sortSP: sort };
         $.ajax({
             url: "/Admin/ShowProduct",
             type: "GET",
@@ -190,11 +190,11 @@
             $('#categoryson').append(rows);
         }
     });
-    function xoa(id,status){
+    function xoa(id, status) {
         $.ajax({
             type: "post",
             dataType: "json",
-            data: { idSanPham: id, trangThai:status},
+            data: { idSanPham: id, trangThai: status },
             url: "/Admin/UpdateTrangThaiSanPham",
             success: function (response) {
                 if (response.status) {
