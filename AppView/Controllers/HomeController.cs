@@ -927,7 +927,7 @@ namespace AppView.Controllers
                         string actionName = TempData["ActionName"].ToString();
                         return RedirectToAction("Index", "TrangChu");
                     }
-                    else return RedirectToAction("ThongKeAdmin", "ThongKe");
+                    else return RedirectToAction("BanHang", "BanHangTaiQuay");
                 }
                 else if (response.StatusCode == HttpStatusCode.Unauthorized)
                 {

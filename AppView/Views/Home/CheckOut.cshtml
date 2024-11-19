@@ -53,7 +53,7 @@
                     <div class="row">
                         <div class="col-lg-12">
                             <div class="checkout__input">
-                                <label for="ten">Tên</label>
+                                <label for="ten">Họ và tên</label>
                                 <input type="text" class="form-control" id="name" placeholder="" value="@loginInfor.Ten" required="" style="height:38px">
                                 <div class="invalid-feedback"> Không để trống tên</div>
                             </div>
@@ -62,7 +62,7 @@
                     <div class="row">
                         <div class="col-lg-6">
                             <div class="checkout__input">
-                                <label for="sdt">SĐT</label>
+                                <label for="sdt">Số điện thoại</label>
                                 <input type="text" class="form-control" id="phone" placeholder="" value="@loginInfor.SDT" required="" style="height:38px">
                                 <div class="invalid-feedback"> Không để trống SDT </div>
                             </div>
@@ -76,38 +76,38 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-lg-6">
+                        <div class="col-lg-12">
                             <div class="checkout__input">
-                                <label for="tinh">Tỉnh</label>
+                                <label for="diachi">Địa chỉ</label>
+                                <input type="text" class="form-control" id="address" placeholder="" required="" style="height:38px">
+                                <div class="invalid-feedback"> Valid first name is required. </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-4">
+                            <div class="checkout__input">
+                                <label for="tinh">Tỉnh / thành</label>
                                 <select class="custom-select d-block w-100" id="province" required="">
-                                    <option selected id="dfprovince">--------------------Chọn tỉnh--------------------</option>
+                                    <option selected id="dfprovince">Chọn tỉnh / thành</option>
                                 </select>
                                 <div class="invalid-feedback"> Tên hợp lệ là bắt buộc. </div>
                             </div>
                         </div>
-                        <div class="col-lg-6">
+                        <div class="col-lg-4">
                             <div class="checkout__input">
-                                <label for="huyen">Huyện</label>
+                                <label for="huyen">Quận / huyện</label>
                                 <select class="custom-select d-block w-100" id="district" required="">
                                 </select>
                                 <div class="invalid-feedback"> Tên hợp lệ là bắt buộc. </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-lg-6">
+                        <div class="col-lg-4">
                             <div class="checkout__input">
-                                <label for="xa">Xã</label>
+                                <label for="xa">Phường / xã</label>
                                 <select class="custom-select d-block w-100" id="ward" required="">
                                 </select>
                                 <div class="invalid-feedback"> Tên hợp lệ là bắt buộc. </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-6">
-                            <div class="checkout__input">
-                                <label for="diachi">Địa chỉ</label>
-                                <input type="text" class="form-control" id="address" placeholder="" required="" style="height:38px">
-                                <div class="invalid-feedback"> Valid first name is required. </div>
                             </div>
                         </div>
                     </div>
@@ -259,7 +259,7 @@
                 success: function (data) {
                     $('#dfprovince').remove();
                     document.getElementById('district').innerHTML = '';
-                    $('#district').append('<option selected id="dfdistrict">--------------------Chọn huyện--------------------</option>');
+                    $('#district').append('<option selected id="dfdistrict">Chọn quận / huyện</option>');
                     for (var i = 0; i < data.data.length; i++) {
                         var rows = "<option id='" + data.data[i].DistrictID + "' value='" + data.data[i].DistrictID + "'>" + data.data[i].DistrictName + "</option>";
                         $('#district').append(rows);
@@ -282,7 +282,7 @@
                 success: function (data) {
                     $('#dfdistrict').remove();
                     document.getElementById('ward').innerHTML = '';
-                    $('#ward').append('<option selected id="dfward">--------------------Chọn xã--------------------</option>');
+                    $('#ward').append('<option selected id="dfward">Chọn phường / xã</option>');
                     for (var i = 0; i < data.data.length; i++) {
                         var rows = "<option id='" + data.data[i].WardCode + "' value='" + data.data[i].WardCode + "'>" + data.data[i].WardName + "</option>";
                         $('#ward').append(rows);
@@ -345,46 +345,46 @@
         var hasError = false;
         if (ten.trim().length == 0) {
             $('#name').addClass('is-invalid');
-            $('#name').next('.invalid-feedback').text('Không để trống tên');
+            $('#name').next('.invalid-feedback').text('Vui lòng nhập họ tên');
             hasError = true;
         }
-        var phoneNumberRegex = /^\d{10}$/;
+        var phoneNumberRegex = /^(0|\+84)(3[2-9]|5[25689]|7[06-9]|8[1-5]|9[0-9])[0-9]{7}$/;
         if (sdt.trim().length == 0) {
             $('#phone').addClass('is-invalid');
-            $('#phone').next('.invalid-feedback').text('Không để trống sdt');
+            $('#phone').next('.invalid-feedback').text('Số điện thoại không được trống');
             hasError = true;
         }
         else if (!phoneNumberRegex.test(sdt)) {
             $('#phone').addClass('is-invalid');
-            $('#phone').next('.invalid-feedback').text('Số điện thoại không hợp lệ');
+            $('#phone').next('.invalid-feedback').text('Số điện thoại không hợp lệ (độ dài từ 8 - 15 ký tự, không chứa ký tự đặc biệt và khoảng trắng)');
             hasError = true;
         }
         var emailRegex = /^[a-zA-Z0-9._%+-]+@@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
         if (email.trim().length == 0) {
             $('#email').addClass('is-invalid');
-            $('#email').next('.invalid-feedback').text('Không để trống email');
+            $('#email').next('.invalid-feedback').text('Vui lòng nhập email');
             hasError = true;
         }
         else if (!emailRegex.test(email)) {
             $('#email').addClass('is-invalid');
-            $('#email').next('.invalid-feedback').text('Email không hợp lệ');
+            $('#email').next('.invalid-feedback').text('Địa chỉ email không hợp lệ');
             hasError = true;
         }
-        if (tinh == "--------------------Chọn tỉnh--------------------") {
+        if (tinh == "Chọn tỉnh / thành") {
             $('#province').addClass('is-invalid');
-            $('#province').next('.invalid-feedback').text('Vui lòng chọn tỉnh');
+            $('#province').next('.invalid-feedback').text('Vui lòng chọn tỉnh thành');
             hasError = true;
         }
 
-        if (huyen.trim().length == 0 || huyen == "--------------------Chọn huyện--------------------") {
+        if (huyen.trim().length == 0 || huyen == "Chọn quận / huyện") {
             $('#district').addClass('is-invalid');
-            $('#district').next('.invalid-feedback').text('Vui lòng chọn huyện');
+            $('#district').next('.invalid-feedback').text('Vui lòng chọn quận huyện');
             hasError = true;
         }
 
-        if (xa.trim().length == 0 || xa == "--------------------Chọn xã--------------------") {
+        if (xa.trim().length == 0 || xa == "Chọn phường / xã") {
             $('#ward').addClass('is-invalid');
-            $('#ward').next('.invalid-feedback').text('Vui lòng chọn xã');
+            $('#ward').next('.invalid-feedback').text('Vui lòng chọn phường xã');
             hasError = true;
         }
         if (diachi.trim().length == 0) {
@@ -399,7 +399,7 @@
             $('#pttt-error').hide(); // Ẩn thông báo lỗi
         }
         if (hasError) {
-            alert("Vui long dien day du thong tin");
+            alert("Vui lòng điền đầy đủ thông tin");
         }
 
         else {
