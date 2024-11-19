@@ -38,6 +38,7 @@
         color: #f7941d;
         font-size: 14px;
     }
+
     #filter-color input[type="checkbox"], #filter-size input[type="checkbox"], #LoaiSpFilter input[type="radio"], #filter-material input[type="checkbox"] {
         display: none;
     }
@@ -200,8 +201,8 @@
                                     </div>
                                 </div>
                             </div>
-                            
-                            
+
+
                         </div>
                     </div>
                 </div>
@@ -210,8 +211,8 @@
                 <div class="shop__product__option">
                     <div class="row">
                         <div class="col-lg-6 col-md-6 col-sm-6">
-@*                             <div class="shop__product__option__left">
-                                <p>Showing @Model.Count() result</p>
+                            @*                             <div class="shop__product__option__left">
+                            <p>Showing @Model.Count() result</p>
                             </div> *@
                         </div>
                         <div class="col-lg-6 col-md-6 col-sm-6">
@@ -231,23 +232,23 @@
                     </div>
                 </div>
                 <div class="row" id="filtered-products">
-                  @*   @foreach (var item in Model.Where(p => p.TrangThaiCTSP == 1))
+                    @*   @foreach (var item in Model.Where(p => p.TrangThaiCTSP == 1))
                     {
-                        <div class="col-lg-4 col-md-6 col-sm-6">
-                            <div class="product__item">
-                                <div class="product__item__pic set-bg">
-                                    <a asp-action="ProductDetail" asp-route-idSanPham="@item.ID"><img style="width:260px;height:265px;" src="/img/product/@item.Image"></a>
-                                </div>
-                                <div class="product__item__text">
-                                    <h6>@item.Ten</h6>
-                                    <a onclick="addCart('@item.IdChiTietSanPham')" class="add-cart" style="cursor:pointer">+ Thêm vào giỏ hàng</a>
-                                    <h5 style="color:red">@item.GiaBan.ToString("n0") VNĐ</h5>
-                                </div>
-                            </div>
-                        </div>
+                    <div class="col-lg-4 col-md-6 col-sm-6">
+                    <div class="product__item">
+                    <div class="product__item__pic set-bg">
+                    <a asp-action="ProductDetail" asp-route-idSanPham="@item.ID"><img style="width:260px;height:265px;" src="/img/product/@item.Image"></a>
+                    </div>
+                    <div class="product__item__text">
+                    <h6>@item.Ten</h6>
+                    <a onclick="addCart('@item.IdChiTietSanPham')" class="add-cart" style="cursor:pointer">+ Thêm vào giỏ hàng</a>
+                    <h5 style="color:red">@item.GiaBan.ToString("n0") VNĐ</h5>
+                    </div>
+                    </div>
+                    </div>
                     } *@
                 </div>
-                
+
                 <div class="row">
                     <div class="col-lg-12 d-flex justify-content-center">
                         <ul id="pagination-demo" class="pagination"></ul>
@@ -289,18 +290,18 @@
                 console.log(response);
                 $.each(response.data, function (i, item) {
                     const id = item.id.substring(0, 8);
-                    if(item.soLuong > 0){
+                    if (item.soLuong > 0) {
                         if (item.trangThaiKM == 0) {
-                            $("#filtered-products").append("<div class='col-lg-4 col-md-6 col-sm-6'><div class='product__item "+id+"'><div class='product__item__pic set-bg' style='height:300px!important'><span style='background-color:black;color:white;'class='label'>" + '-' + Intl.NumberFormat().format(item.giaTriKM) + ' ' + 'VNĐ' + "</span><a href='/Home/ProductDetail?idSanPham=" + item.id + "' > <img style='width:260px;height:300px;' src='/img/product/" + item.image + "'></a></div><div class='product__item__text'><h6>" + item.ten + "</h6><a onclick=\"addCart('" + item.idChiTietSanPham + "')\" class='add-cart' style='cursor:pointer'> + Thêm vào giỏ hàng </a><div class='stars-outer'> <div class='stars-inner'></div> <span class='number-rating'></span> </div><h5> " + Intl.NumberFormat().format(item.giaBan) + ' ' + 'VNĐ' + " </h5><span style='font - size: 14px; color:#3a3b3c; '> <del>" + Intl.NumberFormat().format(item.giaGoc) + ' ' + 'VNĐ' + "</del> </span></div></div></div>");
+                            $("#filtered-products").append("<div class='col-lg-4 col-md-6 col-sm-6'><div class='product__item " + id + "'><div class='product__item__pic set-bg' style='height:300px!important'><span style='background-color:black;color:white;'class='label'>" + '-' + Intl.NumberFormat().format(item.giaTriKM) + ' ' + 'VNĐ' + "</span><a href='/Home/ProductDetail?idSanPham=" + item.id + "' > <img style='width:260px;height:300px;' src='/img/product/" + item.image + "'></a></div><div class='product__item__text'><h6>" + item.ten + "</h6><a onclick=\"addCart('" + item.idChiTietSanPham + "')\" class='add-cart' style='cursor:pointer'> + Thêm vào giỏ hàng </a><div class='stars-outer'> <div class='stars-inner'></div> <span class='number-rating'></span> </div><h5> " + Intl.NumberFormat().format(item.giaBan) + ' ' + 'VNĐ' + " </h5><span style='font - size: 14px; color:#3a3b3c; '> <del>" + Intl.NumberFormat().format(item.giaGoc) + ' ' + 'VNĐ' + "</del> </span></div></div></div>");
                         } else if (item.trangThaiKM == 1) {
-                            $("#filtered-products").append("<div class='col-lg-4 col-md-6 col-sm-6'><div class='product__item "+id+"'><div class='product__item__pic set-bg' style='height:300px!important'><span style='background-color:black;color:white;'class='label'>" + '-' + item.giaTriKM + '%' + "</span><a href='/Home/ProductDetail?idSanPham=" + item.id + "' > <img style='width:260px;height:300px;' src='/img/product/" + item.image + "'></a></div><div class='product__item__text'><h6>" + item.ten + "</h6><a onclick=\"addCart('" + item.idChiTietSanPham + "')\" class='add-cart' style='cursor:pointer'> + Thêm vào giỏ hàng </a><div class='stars-outer'> <div class='stars-inner'></div> <span class='number-rating'></span> </div><h5> " + Intl.NumberFormat().format(item.giaBan) + ' ' + 'VNĐ' + " </h5><span style='font - size: 14px; color:#3a3b3c; '> <del>" + Intl.NumberFormat().format(item.giaGoc) + ' ' + 'VNĐ' + "</del> </span></div></div></div>");
-                        }else{
-                            $("#filtered-products").append("<div class='col-lg-4 col-md-6 col-sm-6'><div class='product__item "+id+"'><div class='product__item__pic set-bg' style='height:300px!important'><a href='/Home/ProductDetail?idSanPham=" + item.id + "' > <img style='width:260px;height:300px;' src='/img/product/" + item.image + "'></a></div><div class='product__item__text'><h6>" + item.ten + "</h6><a onclick=\"addCart('" + item.idChiTietSanPham + "')\" class='add-cart' style='cursor:pointer'> + Thêm vào giỏ hàng </a><div class='stars-outer'> <div class='stars-inner'></div> <span class='number-rating'></span> </div><h5> " + Intl.NumberFormat().format(item.giaBan) + ' ' + 'VNĐ' + " </h5></div></div></div>");
+                            $("#filtered-products").append("<div class='col-lg-4 col-md-6 col-sm-6'><div class='product__item " + id + "'><div class='product__item__pic set-bg' style='height:300px!important'><span style='background-color:black;color:white;'class='label'>" + '-' + item.giaTriKM + '%' + "</span><a href='/Home/ProductDetail?idSanPham=" + item.id + "' > <img style='width:260px;height:300px;' src='/img/product/" + item.image + "'></a></div><div class='product__item__text'><h6>" + item.ten + "</h6><a onclick=\"addCart('" + item.idChiTietSanPham + "')\" class='add-cart' style='cursor:pointer'> + Thêm vào giỏ hàng </a><div class='stars-outer'> <div class='stars-inner'></div> <span class='number-rating'></span> </div><h5> " + Intl.NumberFormat().format(item.giaBan) + ' ' + 'VNĐ' + " </h5><span style='font - size: 14px; color:#3a3b3c; '> <del>" + Intl.NumberFormat().format(item.giaGoc) + ' ' + 'VNĐ' + "</del> </span></div></div></div>");
+                        } else {
+                            $("#filtered-products").append("<div class='col-lg-4 col-md-6 col-sm-6'><div class='product__item " + id + "'><div class='product__item__pic set-bg' style='height:300px!important'><a href='/Home/ProductDetail?idSanPham=" + item.id + "' > <img style='width:260px;height:300px;' src='/img/product/" + item.image + "'></a></div><div class='product__item__text'><h6>" + item.ten + "</h6><a onclick=\"addCart('" + item.idChiTietSanPham + "')\" class='add-cart' style='cursor:pointer'> + Thêm vào giỏ hàng </a><div class='stars-outer'> <div class='stars-inner'></div> <span class='number-rating'></span> </div><h5> " + Intl.NumberFormat().format(item.giaBan) + ' ' + 'VNĐ' + " </h5></div></div></div>");
                         }
-                    }else{
+                    } else {
                         $("#filtered-products").append("<div class='col-lg-4 col-md-6 col-sm-6'><div class='product__item " + id + "'><div class='product__item__pic set-bg' style='height:300px!important'><span style='background-color:red;color:white;'class='label'>" + 'Hết hàng' + "</span><a href='/Home/ProductDetail?idSanPham=" + item.id + "' > <img style='width:260px;height:300px;' src='/img/product/" + item.image + "'></a></div><div class='product__item__text'><h6>" + item.ten + "</h6><a onclick=\"addCartSoLuongBangKhong()\" class='add-cart' style='cursor:pointer'> + Thêm vào giỏ hàng </a><div class='stars-outer'> <div class='stars-inner'></div> <span class='number-rating'></span> </div><h5> " + Intl.NumberFormat().format(item.giaBan) + ' ' + 'VNĐ' + " </h5><span style='font - size: 14px; color:#3a3b3c; '> </span></div></div></div>");
                     }
-                    
+
                     getRatings(id, item.soSao);
                 });
                 pagingsp(response.total, function () {
@@ -318,17 +319,17 @@
         $("#pagination-demo").twbsPagination({
             totalPages: totalgages,
             visiblePages: 7,
-            first:'Đầu',
-            last:'Cuối',
-            prev:'Trước',
-            next:'Tiếp',
+            first: 'Đầu',
+            last: 'Cuối',
+            prev: 'Trước',
+            next: 'Tiếp',
             onPageClick: function (event, page) {
                 pageIndex = page;
                 setTimeout(callback, 200);
             }
         });
     }
-    function addCartSoLuongBangKhong(){
+    function addCartSoLuongBangKhong() {
         toastr.error('Sản phẩm đã hết hàng', 'Error Alert', { timeOut: 300 });
     }
     function addCart(idBT) {
@@ -341,7 +342,7 @@
             success: function (response) {
                 if (response.success == true) {
                     toastr.success(response.message, 'Success Alert', { timeOut: 300 });
-                    
+
                 } else {
                     toastr.error(response.message, 'Error Alert', { timeOut: 300 });
                 }
@@ -355,18 +356,18 @@
             async: true,
             type: 'POST',
             dataType: "json",
-            data: { sl:1 },
+            data: { sl: 1 },
             url: '/Home/TongSoLuong',
             success: function (response) {
                 if (response.success == true) {
                     $('#tongsoluong').text(response.sl);
-                   
+
                 } else {
-                    
+
                 }
             },
             error: function (response) {
-                
+
             }
         });
 
@@ -376,7 +377,7 @@
         var valuesort = sort.value;
         return valuesort;
     }
-    function LocSort(){
+    function LocSort() {
         $("#pagination-demo").twbsPagination('destroy');
         loadsp();
     }

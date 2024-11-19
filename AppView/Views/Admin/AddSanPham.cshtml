@@ -179,13 +179,13 @@
     }
     function themKichCo(count, element) {
         $("#lstKichCo").append(`<div class="row" style='width:450px' id="size${count}">
-                <div class="col-lg-10" style='padding-right:0px'>
-                <input name="KichCos[${count}]" class="form-control" list="kichCo" id="tenkc${count}" autocomplete="off" />
-                </div>
-                <div class="col-lg-2" style='padding-left:0px'>
-                <input type="button" class= "form-control" value="-" hidden id="xoasize${count}" onclick="xoaSize(${count})"/>
-                </div>
-                </div><input type='button' class='form-control' onclick='themKichCo(${count + 1},this)' value='+' / > `);
+                    <div class="col-lg-10" style='padding-right:0px'>
+                    <input name="KichCos[${count}]" class="form-control" list="kichCo" id="tenkc${count}" autocomplete="off" />
+                    </div>
+                    <div class="col-lg-2" style='padding-left:0px'>
+                    <input type="button" class= "form-control" value="-" hidden id="xoasize${count}" onclick="xoaSize(${count})"/>
+                    </div>
+                    </div><input type='button' class='form-control' onclick='themKichCo(${count + 1},this)' value='+' / > `);
         document.getElementById("xoasize" + (count - 1)).hidden = false;
         element.remove();
     }
@@ -195,7 +195,7 @@
         countMauSac++;
     }
     function xoaMau(count) {
-        document.getElementById("mau"+count).hidden = true;
+        document.getElementById("mau" + count).hidden = true;
         document.getElementById("tenMau" + count).value = 'Deleted';
     }
     function xoaSize(count) {

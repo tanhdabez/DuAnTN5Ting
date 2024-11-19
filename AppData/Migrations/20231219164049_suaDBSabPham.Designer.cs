@@ -485,10 +485,10 @@ namespace AppData.Migrations
                         {
                             ID = new Guid("2ec27ab7-5f67-4ed5-ae67-52f9c9726ebf"),
                             DiaChi = "Ha Noi",
-                            Email = "tamncph25588@fpt.edu.vn",
+                            Email = "5tingclothes@gmail.com",
                             IDVaiTro = new Guid("b4996b2d-a343-434b-bfe9-09f8efbb3852"),
                             PassWord = "$2a$10$SkimxxBIlrv/l33hTFvbkutV/.jF4rlwd9APgp1ZZjNEgVDYXvHa6",
-                            SDT = "0988143310",
+                            SDT = "0123456789",
                             Ten = "Admin",
                             TrangThai = 1
                         });

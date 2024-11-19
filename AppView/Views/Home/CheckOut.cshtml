@@ -209,20 +209,19 @@
     var diemTich = 0;
     $(document).ready(function () {
         var tienHang = @tongtien;
-    document.getElementById("tienHang").innerHTML = tienHang.toLocaleString('it-IT', { style: 'currency', currency: 'VND' });
+        document.getElementById("tienHang").innerHTML = tienHang.toLocaleString('it-IT', { style: 'currency', currency: 'VND' });
         document.getElementById("total").innerHTML = tienHang.toLocaleString('it-IT', { style: 'currency', currency: 'VND' });
         $.ajax({
             type: "GET",
             url: "/Home/GetAllVoucherByTien",
             dataType: "json",
-            data: { tongTien : tienHang},
+            data: { tongTien: tienHang },
             success: function (response) {
-                $.each(response.ketQua, function (i,item) {
+                $.each(response.ketQua, function (i, item) {
                     if (item.hinhThucGiamGia == 1) {
                         $("#vouchers").append(`<option value='${item.ten}'>(-${item.giaTri}%)</option>`)
-                    } 
-                    else 
-                    {
+                    }
+                    else {
                         $("#vouchers").append(`<option value='${item.ten}'>(-${item.giaTri.toLocaleString('it-IT', { style: 'currency', currency: 'VND' })})</option>`)
                     }
                 });
@@ -299,7 +298,7 @@
             xa = document.getElementById(value1).innerHTML;
             $.ajax({
                 type: "GET",
-                url: "https://online-gateway.ghn.vn/shiip/public-api/v2/shipping-order/fee?shop_id=4643378?to_ward_code=" + value1 + "&to_district_id=" + value2 + "&weight="+500*@soLuong+"&service_type_id=2",
+                url: "https://online-gateway.ghn.vn/shiip/public-api/v2/shipping-order/fee?shop_id=4643378?to_ward_code=" + value1 + "&to_district_id=" + value2 + "&weight=" + 500 * @soLuong+"&service_type_id=2",
                 headers: { token: '9f4e42e4-fde8-11ed-a281-3aa62a37e0a5' },
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
@@ -403,7 +402,7 @@
         }
 
         else {
-            var objHoaDon = { Ten: ten, Email: email, SDT: sdt, DiaChi: diachi + ", " + xa + ", " + huyen + ", " + tinh, TienShip: tienShip, PhuongThucThanhToan: pttt, TongTien: tienShip + @tongtien-tienVoucher - tienDiem, TenVoucher: voucher, Diem: diemTich, GhiChu: ghiChu};
+            var objHoaDon = { Ten: ten, Email: email, SDT: sdt, DiaChi: diachi + ", " + xa + ", " + huyen + ", " + tinh, TienShip: tienShip, PhuongThucThanhToan: pttt, TongTien: tienShip + @tongtien-tienVoucher - tienDiem, TenVoucher: voucher, Diem: diemTich, GhiChu: ghiChu };
             $.ajax({
                 async: false,
                 type: 'POST',
@@ -423,9 +422,9 @@
         }
     }
 
-    function usevoucher() { 
+    function usevoucher() {
         value = $("#voucher").val();
-        $.ajax({          
+        $.ajax({
             async: true,
             type: 'GET',
             dataType: 'json',
@@ -469,10 +468,10 @@
         // }
         // $("#error-message").text("");
         var value = $("#diemTich").val();
-        if (value > @(loginInfor.DiemTich==null?0:loginInfor.DiemTich)) {
+        if (value > @(loginInfor.DiemTich == null ? 0 : loginInfor.DiemTich)) {
             alert("Số điểm của bạn không đủ");
         }
-        else if (value<0) {
+        else if (value < 0) {
             alert("Số điểm không thể âm");
         } else if (isNaN(value)) {
             alert("Giá trị không hợp lệ");
@@ -492,7 +491,7 @@
                         tienDiem = response.soTienGiam;
                         ipDiem.innerHTML = "Số tiền giảm (Điểm)<span>" + tienDiem.toLocaleString('it-IT', { style: 'currency', currency: 'VND' }) + "</span>";
                         var total = tienShip + @tongtien-tienVoucher - tienDiem;
-                        if(total < 0){
+                        if (total < 0) {
                             total = 0
                         }
                         document.getElementById("total").innerHTML = total.toLocaleString('it-IT', { style: 'currency', currency: 'VND' });
@@ -505,7 +504,7 @@
                     alert("Error");
                 }
             });
-        }       
+        }
     }
 </script>
 
