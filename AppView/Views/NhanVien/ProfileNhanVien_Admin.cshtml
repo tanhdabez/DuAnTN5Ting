@@ -146,7 +146,7 @@
             url: '/NhanVien/UpdateProfile',
             success: function (response) {
                 if (response.success == true) {
-                    toastr.success(response.message, 'Success Alert', { timeOut: 300 });
+                    toastr.success(response.message, 'Success Alert', { timeOut: 1000 });
                     document.getElementById("ten").disabled = true;
                     document.getElementById("email").disabled = true;
                     document.getElementById("sdt").disabled = true;
