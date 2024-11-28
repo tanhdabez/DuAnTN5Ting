@@ -9,42 +9,41 @@
     int stt = 1;
 }
 <h1 style="text-align:center"><b>Quản lý khuyến mãi </b></h1>
-
-<div class="col-8">
-    <a class="btn btn-primary" asp-action="Create">Thêm mới</a>
-</div>
 <br />
-<form asp-action="TimKiemTenKM" asp-controller="QuanLyKM" method="get" enctype="multipart/form-data">
-    <div class="input-group">
-        <input type="text" name="TenKM" class="form-control" placeholder="Tìm kiếm khuyến mãi theo mã">
-        <div class="input-group-append">
-            <span class="input-group-text bg-transparent text-primary">
-                <button type="submit" class="fa fa-search"></button>
-            </span>
+<div class="row mb-3">
+<div class="col-7">
+    <a class="btn btn-success" asp-action="Create">Thêm mới khuyến mãi</a>
+</div>
+<div class="col-5">
+    <form asp-action="TimKiemTenKM" asp-controller="QuanLyKM" method="get" style="margin-left: 30px; text-align:end" enctype="multipart/form-data">
+        <div class="input-group">
+                <input style="width: 150px;" type="text" name="TenKM" class="form-control" placeholder="Tìm kiếm khuyến mãi">
+                <button type="submit" class="btn btn-outline-info"><i class="bi bi-search"></i></button>
         </div>
-    </div>
-</form>
-<table class="table" style="margin-left: 20px">
+    </form>
+</div>
+</div>
+<table class="table">
     <thead>
         <tr>
-            <th style=" background-color: darkslategray;
+            <th style=" background-color: #3b83ff;
     color: white;">STT</th>
 
-            <th style=" background-color: darkslategray;
+            <th style=" background-color: #3b83ff;
     color: white;">Mã</th>
-            <th style=" background-color: darkslategray;
+            <th style=" background-color: #3b83ff;
     color: white;">Giá trị</th>
-            <th style=" background-color: darkslategray;
+            <th style=" background-color: #3b83ff;
     color: white;">Ngày áp dụng</th>
-            <th style=" background-color: darkslategray;
+            <th style=" background-color: #3b83ff;
     color: white;">ngày kết thúc</th>
-            <th style=" background-color: darkslategray;
+            <th style=" background-color: #3b83ff;
     color: white;">Mô tả</th>
-            <th style=" background-color: darkslategray;
+            <th style=" background-color: #3b83ff;
     color: white;">Tình trạng</th>
-            <th style=" background-color: darkslategray;
+            <th style=" background-color: #3b83ff;
     color: white;">Trạng thái</th>
-            <th style=" background-color: darkslategray;
+            <th style=" background-color: #3b83ff;
     color: white;"></th>
         </tr>
     </thead>
@@ -106,13 +105,13 @@
                     }
                     else if (item.TrangThai == 2 || item.TrangThai == 3)
                     {
-                        <div style="color:red">Không sử dụng</div>
+                        <div style="color:red">Dừng</div>
                     }
                 </td>
 
-                <td>
-                    <button class="btn btn-success">
-                        @Html.ActionLink("Sửa", "Update", new { id = item.ID }, new { @style = "color:white;" })
+                <td style="display: flex; justify-content: space-between; align-items: center;">
+                    <button class="btn btn-info">
+                        @Html.ActionLink("Sửa", "Update", new { id = item.ID }, new { @style = "color:black;" })
                     </button>
 
                     
@@ -122,7 +121,7 @@
                             @Html.ActionLink("Chi tiết", "GetSPByIdKM", new { id = item.ID }, new { @style = "color:white;" })
                         </button>
                         <button class="btn btn-danger">
-                            @Html.ActionLink("Không sử dụng", "KoSuDung", new { id = item.ID }, new { @style = "color:white;" })
+                            @Html.ActionLink("Dừng", "KoSuDung", new { id = item.ID }, new { @style = "color:white;" })
                         </button>
 
                     }

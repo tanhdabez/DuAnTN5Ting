@@ -61,7 +61,6 @@ namespace AppView.Controllers
                             var temp = JsonConvert.DeserializeObject<GioHangViewModel>(response.Content.ReadAsStringAsync().Result);
 
 
-                            // lam end
 
                             TempData["TrangThai"] = "false";
                             return View(temp.GioHangs);
@@ -84,12 +83,9 @@ namespace AppView.Controllers
                         {
                             var temp = JsonConvert.DeserializeObject<GioHangViewModel>(response.Content.ReadAsStringAsync().Result);
 
-
-                            // lam them
                             int cout = temp.GioHangs.Sum(c => c.SoLuong);
 
                             TempData["SoLuong"] = cout.ToString();
-                            // lam end
                             TempData["TrangThai"] = "true";
                             return View(temp.GioHangs);
                         }
@@ -1480,8 +1476,12 @@ namespace AppView.Controllers
         {
             try
             {
+                if (string.IsNullOrEmpty(email))
+                {
+                    return View();
+                }
                 var khachHang = JsonConvert.DeserializeObject<KhachHangViewModel>(_httpClient.GetAsync(_httpClient.BaseAddress + "KhachHang/GetKhachHangByEmail?email=" + email).Result.Content.ReadAsStringAsync().Result);
-                if (khachHang.Id != null)
+                if (khachHang.Email != null)
                 {
                     string ma = Guid.NewGuid().ToString().Substring(0, 5);
                     MailData mailData = new MailData() { EmailToId = email, EmailToName = email, EmailSubject = "Khôi Phục Mật Khẩu", EmailBody = "Mã xác nhận của bạn là: " + ma };
@@ -1493,7 +1493,11 @@ namespace AppView.Controllers
                     }
                     else return BadRequest();
                 }
-                else return BadRequest("Không tìm thấy email");
+                else 
+                {
+                    ViewData["EmailError"] = "Email không tồn tại trong hệ thống";
+                    return View();
+                }
             }
             catch
             {

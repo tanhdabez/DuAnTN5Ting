@@ -75,6 +75,7 @@ namespace AppAPI.Services
                 item.KichCo = chiTietSanPham.KichCo;
                 item.Anh = chiTietSanPham.Anh;
                 item.HetHang = chiTietSanPham.SoLuong < item.SoLuong ? false : chiTietSanPham.TrangThai < 1 ? false : true;
+                item.SoLuongConLai = chiTietSanPham.SoLuong;
                 tongTien += item.DonGia.Value * item.SoLuong;
             }
             response.GioHangs = request;

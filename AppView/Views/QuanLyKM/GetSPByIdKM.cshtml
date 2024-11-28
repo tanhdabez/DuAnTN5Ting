@@ -12,37 +12,41 @@
          ".png", ".jpg", ".jpeg", ".gif", ".tiff", ".pdf",".webp",".jfif"
     };
 }
-<div class="col-8">
+
+<h1 style="text-align:center"><b> Các sản phẩm có trong khuyến mãi</b></h1>
+<hr />
+
+<button class="btn btn-primary mt-2">
+    <a asp-action="GetAllKM" style="color:white;">Quay lại</a>
+</button>
+<div class="col-8 mt-2 mb-2">
     <a class="btn btn-primary" asp-action="GetSPNoKM">Thêm khuyến mãi sản phẩm</a>
 </div>
-<h1 style="text-align:center"><b> Các sản phẩm có trong khuyến mãi</b></h1>
-
-
-<table class="table" style="margin-left: 20px">
+<table class="table">
     <thead>
         <tr>
-            <th style=" background-color: darkslategray;
+            <th style=" background-color: #3b83ff;
     color: white;">STT</th>
-            <th style=" background-color: darkslategray;
+            <th style=" background-color: #3b83ff;
     color: white;">Mã sản phẩm</th>
-            <th style=" background-color: darkslategray;
+            <th style=" background-color: #3b83ff;
     color: white;">Tên sản phẩm</th>
 
 
-            <th style=" background-color: darkslategray;
+            <th style=" background-color: #3b83ff;
     color: white;">Tên ảnh</th>
 
 
-            <th style=" background-color: darkslategray;
+            <th style=" background-color: #3b83ff;
     color: white;">Giá bán</th>
-            <th style=" background-color: darkslategray;
+            <th style=" background-color: #3b83ff;
     color: white;">Tên loại sản phẩm</th>
 
-            <th style=" background-color: darkslategray;
+            <th style=" background-color: #3b83ff;
     color: white;">Tên chất liệu</th>
-            <th style=" background-color: darkslategray;
+            <th style=" background-color: #3b83ff;
     color: white;">Trạng thái</th>
-            <th style=" background-color: darkslategray;
+            <th style=" background-color: #3b83ff;
     color: white;"></th>
         </tr>
     </thead>
@@ -129,6 +133,3 @@
     </nav>
 </div>
 <br />
-<button class="btn btn-primary">
-   <a asp-action="GetAllKM" style="color:white;">Quay lại</a>
-</button>

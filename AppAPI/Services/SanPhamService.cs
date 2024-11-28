@@ -426,7 +426,7 @@ namespace AppAPI.Services
                 }
                 foreach (var item in mauSacs.Distinct().ToList())
                 {
-                    chiTietSanPham.MauSacs.Add(new GiaTriViewModel() { GiaTri = item.Ma, ID = item.ID.Value });
+                    chiTietSanPham.MauSacs.Add(new GiaTriViewModel() { GiaTri = item.Ma, ID = item.ID.Value, TenMau = item.Ten });
                 }
                 foreach (var item in kichCos.Distinct().OrderByDescending(x => x.Ten).ToList())
                 {

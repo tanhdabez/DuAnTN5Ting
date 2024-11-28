@@ -6,12 +6,15 @@
 }
 
 <h1>Quản lý ảnh</h1>
-
-<div style="margin-bottom:10px">
-    <label for="image" class="btn btn-primary">Thêm ảnh</label>
+<br />
+<a class="btn btn-primary" onclick="history.back();">
+    <i class="bi bi-chevron-double-left"></i> Quay Lại
+</a>
+<div style="margin-bottom:10px ;margin-top:10px">
+    <label for="image" class="btn btn-success"><i class="bi bi-image"></i> Thêm ảnh</label>
     <input id="image" style="visibility:hidden;" type="file" onchange="AddImage(event)">
 </div>
-<table class="table" style="width:500px">
+<table class="table" style="width:100%">
     <thead>
         <tr>
             <th>
@@ -41,11 +44,11 @@
                     <input type="color" value="@item.MaMau" style="border:none;width:27px;height:25px" disabled />
                 </td>
                 <td style="padding-right:2px;width:50px">
-                    <label for="update_@item.ID" class="btn btn-success">Sửa</label><br />
+                    <label for="update_@item.ID" class="btn btn-warning"><i class="bi bi-pencil-square"></i></label><br />
                     <input id="update_@item.ID" style="visibility:hidden;width:50px" type="file" onchange="UpdateImage(event,'@item.ID','@item.DuongDan')">
                 </td>
                 <td style="padding-left:2px">
-                    <a asp-action="DeleteImage" class="btn btn-danger" asp-route-id="@item.ID" asp-route-idSanPham="@id" asp-route-duongDan="@item.DuongDan">Xoá</a>
+                    <a asp-action="DeleteImage" class="btn btn-danger" asp-route-id="@item.ID" asp-route-idSanPham="@id" asp-route-duongDan="@item.DuongDan"><i class="bi bi-trash"></i></a>
                 </td>
             </tr>
         }
