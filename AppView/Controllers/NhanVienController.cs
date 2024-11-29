@@ -170,14 +170,6 @@ namespace AppView.Controllers
                 return RedirectToAction("Show");
             }
             return RedirectToAction("Show");
-            //else
-            //{
-            //    // Log the error to the console.
-            //    Console.WriteLine(reposen.StatusCode);
-            //    Console.WriteLine(reposen.ReasonPhrase);
-            //}
-
-            //return View("DeleteError");
         }
         public async Task<IActionResult> Sua(Guid id)
         {
@@ -220,7 +212,6 @@ namespace AppView.Controllers
             {
                 var session = HttpContext.Session.GetString("LoginInfor");
                 LoginViewModel loginViewModel = JsonConvert.DeserializeObject<LoginViewModel>(session);
-                //LoginViewModel loginViewModel = JsonConvert.DeserializeObject<LoginViewModel>(loginInfor);
                 return View(loginViewModel);
             }
             catch (Exception)
