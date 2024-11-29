@@ -260,15 +260,27 @@ namespace AppView.Controllers
                 khachhang.IsAccountLocked = JsonConvert.DeserializeObject<LoginViewModel>(session).IsAccountLocked;
                 khachhang.Message = "lmao";
                 var response = _httpClient.PutAsJsonAsync("https://localhost:7095/api/" + "QuanLyNguoiDung/UpdateProfile1", khachhang).Result;
-                
+                if (response.IsSuccessStatusCode)
+                {
+                    HttpContext.Session.Remove("LoginInfor");
+                    HttpContext.Session.SetString("LoginInfor", response.Content.ReadAsStringAsync().Result);
+                    return Json(new { success = true, message = "Cập nhật thông tin cá nhân thành công" });
+                }
+                else
+                {
+                    return Json(new { success = false, message = "Cập nhật thông tin cá nhân thất bại" });
+                }
             }
             catch (Exception)
             {
 
                 return Json(new { success = false, message = "Cập nhật thông tin cá nhân thất bại" });
             }
-
+            
         }
-     
+        public IActionResult ChangePassword()
+        {
+            return PartialView("ChangePassword");
+        }
     }
 }
