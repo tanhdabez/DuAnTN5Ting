@@ -229,6 +229,46 @@ namespace AppView.Controllers
             }
             
         }
-       
+        [HttpPut]
+        public ActionResult UpdateProfile(string ten, string email, string sdt, string? diachi)
+        {
+            try
+            {
+                if (ten == null || email == null)
+                {
+                    return Json(new { success = false, message = "Không được để trống thông tin" });
+                }
+                Regex regex = new Regex(@"^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$");
+                Match match = regex.Match(email);
+                if (!match.Success)
+                {
+                    return Json(new { success = false, message = "Email sai" });
+                }
+                if (Regex.Match(sdt, @"^(\+[0-9])$").Success)
+                {
+                    return Json(new { success = false, message = "Số điện thoại sai sai" });
+                }
+                var session = HttpContext.Session.GetString("LoginInfor");
+                LoginViewModel khachhang = new LoginViewModel();
+                khachhang.Id = JsonConvert.DeserializeObject<LoginViewModel>(session).Id;
+                khachhang.Ten = ten;
+                khachhang.Email = email;
+                khachhang.SDT = sdt;
+                khachhang.DiaChi = diachi;
+                khachhang.DiemTich = JsonConvert.DeserializeObject<LoginViewModel>(session).DiemTich;
+                khachhang.vaiTro = JsonConvert.DeserializeObject<LoginViewModel>(session).vaiTro;
+                khachhang.IsAccountLocked = JsonConvert.DeserializeObject<LoginViewModel>(session).IsAccountLocked;
+                khachhang.Message = "lmao";
+                var response = _httpClient.PutAsJsonAsync("https://localhost:7095/api/" + "QuanLyNguoiDung/UpdateProfile1", khachhang).Result;
+                
+            }
+            catch (Exception)
+            {
+
+                return Json(new { success = false, message = "Cập nhật thông tin cá nhân thất bại" });
+            }
+
+        }
+     
     }
 }
