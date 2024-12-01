@@ -92,7 +92,7 @@ namespace AppAPI.Services
             foreach (var item in lstChiTietGioHang)
             {
                 chiTietSanPham = _iSanPhamService.GetChiTietSanPhamByID(item.IDCTSP);
-                lst.Add(new GioHangRequest() { IDChiTietSanPham = chiTietSanPham.ID, SoLuong = item.SoLuong, DonGia = chiTietSanPham.GiaBan, Ten = chiTietSanPham.Ten, MauSac = chiTietSanPham.MauSac, KichCo = chiTietSanPham.KichCo, Anh = chiTietSanPham.Anh , HetHang = chiTietSanPham.SoLuong < item.SoLuong ? false : true});
+                lst.Add(new GioHangRequest() { IDChiTietSanPham = chiTietSanPham.ID, SoLuong = item.SoLuong, SoLuongConLai = chiTietSanPham.SoLuong, DonGia = chiTietSanPham.GiaBan, Ten = chiTietSanPham.Ten, MauSac = chiTietSanPham.MauSac, KichCo = chiTietSanPham.KichCo, Anh = chiTietSanPham.Anh , HetHang = chiTietSanPham.SoLuong < item.SoLuong ? false : true});
                 tongTien += chiTietSanPham.GiaBan * item.SoLuong;
             }
             response.GioHangs = lst;

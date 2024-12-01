@@ -196,9 +196,17 @@
                                     }
                             }
                             } else {
-                                if (validateElement) {
-                                    validateElement.innerHTML = `Sản phẩm đã hết hàng`;
-                                    validateElement.style.display = "block";
+                                if (item.soLuongConLai <= 5) {
+                                    if (validateElement) {
+                                        validateElement.innerHTML = `Chỉ còn ${item.soLuongConLai} sản phẩm`;
+                                        validateElement.style.display = "block";
+                                    }
+                                    if (item.soLuongConLai == 0) {
+                                        if (validateElement) {
+                                            validateElement.innerHTML = `Sản phẩm đã hết hàng`;
+                                            validateElement.style.display = "block";
+                                        }
+                                    }
                                 }
                             }
                         }
