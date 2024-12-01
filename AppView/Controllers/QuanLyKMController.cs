@@ -211,7 +211,7 @@ namespace AppView.Controllers
 
             return View("GetAllKM", new PhanTrangKhuyenMai
             {
-                listkms = roles.Where(x => x.Ten.Contains(TenKM.Trim()))
+                listkms = roles.Where(x => string.IsNullOrEmpty(TenKM) || x.Ten.Contains(TenKM.Trim()))
                         .Skip((ProductPage - 1) * PageSize).Take(PageSize),
                 PagingInfo = new PagingInfo
                 {
@@ -484,11 +484,7 @@ namespace AppView.Controllers
             var response1 = await _httpClient.GetAsync(apiURL1);
             var apiData1 = await response1.Content.ReadAsStringAsync();
             var bienthes = JsonConvert.DeserializeObject<List<AllViewSp>>(apiData1);
-            
-           
-            
-           
-           
+
             return View(new PhanTrangAllQLKMSP
             {
                 listallsp = bienthes.Where(x=>x.TrangThai==1)

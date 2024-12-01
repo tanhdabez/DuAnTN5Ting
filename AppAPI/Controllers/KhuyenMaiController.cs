@@ -1,11 +1,9 @@
 ﻿using AppAPI.IServices;
 using AppAPI.Services;
-using AppData.IRepositories;
 using AppData.Models;
 using AppData.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using System.Text.RegularExpressions;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -43,12 +41,12 @@ namespace AppAPI.Controllers
                                  select new AllViewCTSP()
                                  {
                                      ID = CTSP.ID,
-                                     MaCTSP=CTSP.Ma,
+                                     MaCTSP = CTSP.Ma,
                                      TenSanPham = sp.Ten,
                                      TenAnh = (from anh in _dbcontext.Anhs where sp.ID == anh.IDSanPham && mausac.ID == anh.IDMauSac select anh.DuongDan).FirstOrDefault(),
                                      IdKhuyenMai = (from km in _dbcontext.KhuyenMais where CTSP.IDKhuyenMai == km.ID select CTSP.IDKhuyenMai).FirstOrDefault(),
                                      TenMauSac = mausac.Ten,
-                                     MaMauSac=mausac.Ma,
+                                     MaMauSac = mausac.Ma,
                                      TenKichCo = size.Ten,
                                      GiaGoc = CTSP.GiaBan,
                                      GiaKhuyenMai = CTSP.GiaBan,
@@ -97,14 +95,15 @@ namespace AppAPI.Controllers
                             .Join(_dbcontext.LoaiSPs, sp => sp.sp_cl.IDLoaiSP, lsp => lsp.ID, (sp, lsp) => new { sp_cl_lsp = sp, loaisps = lsp })
                             .Join(_dbcontext.ChiTietSanPhams, sp => sp.sp_cl_lsp.sp_cl.ID, ctsp => ctsp.IDSanPham, (sp, ctsp) => new { sp_cl_lsp_ctsp = sp, chitietsps = ctsp })
                             .GroupBy(x => x.sp_cl_lsp_ctsp.sp_cl_lsp.sp_cl.ID)
-                            .Select(group => new AllViewSp {
+                            .Select(group => new AllViewSp
+                            {
                                 ID = group.FirstOrDefault().sp_cl_lsp_ctsp.sp_cl_lsp.sp_cl.ID,
                                 SoLuongCTSP = group.Sum(x => x.chitietsps.ID != null ? 1 : 0),
                                 Ten = group.FirstOrDefault().sp_cl_lsp_ctsp.sp_cl_lsp.sp_cl.Ten,
                                 MoTa = group.FirstOrDefault().sp_cl_lsp_ctsp.sp_cl_lsp.sp_cl.MoTa,
                                 TenAnh = (from anhs in _dbcontext.Anhs where @group.FirstOrDefault().sp_cl_lsp_ctsp.sp_cl_lsp.sp_cl.ID == anhs.IDSanPham select anhs.DuongDan).FirstOrDefault(),
                                 IdKhuyenMai = (from km in _dbcontext.KhuyenMais where @group.FirstOrDefault().chitietsps.IDKhuyenMai == km.ID select km.ID).FirstOrDefault(),
-                                
+
                                 GiaBan = group.FirstOrDefault().chitietsps.GiaBan,
                                 IDLoaiSP = group.FirstOrDefault().sp_cl_lsp_ctsp.loaisps.ID,
                                 IDLoaiSPCha = group.FirstOrDefault().sp_cl_lsp_ctsp.loaisps.IDLoaiSPCha,
@@ -116,62 +115,65 @@ namespace AppAPI.Controllers
         }
         [Route("GetAllSPByKhuyenMai")]
         [HttpGet]
-        //public List<AllViewSp> GetAllSPByKhuyenMai(Guid idkm)
-        //{
-        //    if (!_dbcontext.KhuyenMais.Any(c => c.ID == idkm)) throw new Exception($"Không tìm thấy sản phẩm có id khuyến mãi:{idkm}");
-        //    var result = _dbcontext.SanPhams
-
-        //                   .Join(_dbcontext.ChatLieus, sp => sp.IDChatLieu, cl => cl.ID, (sp, cl) => new { sp_cl = sp, chatlieus = cl })
-        //                   .Join(_dbcontext.LoaiSPs, sp => sp.sp_cl.IDLoaiSP, lsp => lsp.ID, (sp, lsp) => new { sp_cl_lsp = sp, loaisps = lsp })
-        //                   .Join(_dbcontext.ChiTietSanPhams, sp => sp.sp_cl_lsp.sp_cl.ID, ctsp => ctsp.IDSanPham, (sp, ctsp) => new { sp_cl_lsp_ctsp = sp, chitietsps = ctsp }).Where(x => x.chitietsps.TrangThai == 1 || x.chitietsps.TrangThai == 2)
-        //                   .GroupBy(x => x.sp_cl_lsp_ctsp.sp_cl_lsp.sp_cl.ID)
-        //                   .Select(group => new AllViewSp
-        //                   {
-        //                       ID = group.FirstOrDefault().sp_cl_lsp_ctsp.sp_cl_lsp.sp_cl.ID,
-        //                       MaSP = group.FirstOrDefault().sp_cl_lsp_ctsp.sp_cl_lsp.sp_cl.Ma,
-        //                       SoLuongCTSP = group.Sum(x => x.chitietsps.ID != null ? 1 : 0),
-        //                       Ten = group.FirstOrDefault().sp_cl_lsp_ctsp.sp_cl_lsp.sp_cl.Ten,
-        //                       MoTa = group.FirstOrDefault().sp_cl_lsp_ctsp.sp_cl_lsp.sp_cl.MoTa,
-        //                       TenAnh = (from anhs in _dbcontext.Anhs where @group.FirstOrDefault().sp_cl_lsp_ctsp.sp_cl_lsp.sp_cl.ID == anhs.IDSanPham select anhs.DuongDan).FirstOrDefault(),
-        //                       IdKhuyenMai = (from km in _dbcontext.KhuyenMais where @group.FirstOrDefault().chitietsps.IDKhuyenMai == km.ID select km.ID).FirstOrDefault(),
-
-        //                       GiaBan = group.FirstOrDefault().chitietsps.GiaBan,
-        //                       IDLoaiSP = group.FirstOrDefault().sp_cl_lsp_ctsp.loaisps.ID,
-        //                       IDLoaiSPCha = group.FirstOrDefault().sp_cl_lsp_ctsp.loaisps.IDLoaiSPCha,
-        //                       IDChatLieu = group.FirstOrDefault().sp_cl_lsp_ctsp.sp_cl_lsp.chatlieus.ID,
-        //                       TrangThai = group.FirstOrDefault().sp_cl_lsp_ctsp.sp_cl_lsp.sp_cl.TrangThai
-        //                   }).Where(x => x.IdKhuyenMai == idkm).Where(x => x.TrangThai == 1).ToList().ToList();
-        //    return result;
-
-        //}
         public List<AllViewSp> GetAllSPByKhuyenMai(Guid idkm)
         {
-            if (!_dbcontext.KhuyenMais.Any(c => c.ID == idkm)) throw new Exception($"Không tìm thấy sản phẩm với ID khuyến mãi:{idkm}");
-
+            if (!_dbcontext.KhuyenMais.Any(c => c.ID == idkm)) throw new Exception($"Không tìm thấy sản phẩm có id khuyến mãi:{idkm}");
             var result = _dbcontext.SanPhams
-                .Join(_dbcontext.ChatLieus, sp => sp.IDChatLieu, cl => cl.ID, (sp, cl) => new { sp_cl = sp, chatlieus = cl })
-                .Join(_dbcontext.LoaiSPs, sp => sp.sp_cl.IDLoaiSP, lsp => lsp.ID, (sp, lsp) => new { sp_cl_lsp = sp, loaisps = lsp })
-                .Join(_dbcontext.ChiTietSanPhams, sp => sp.sp_cl_lsp.sp_cl.ID, ctsp => ctsp.IDSanPham, (sp, ctsp) => new { sp_cl_lsp_ctsp = sp, chitietsps = ctsp })
-                .Where(x => x.chitietsps.TrangThai == 1 || x.chitietsps.TrangThai == 2)
-                .Where(x => x.chitietsps.IDKhuyenMai == idkm) // Chỉ lọc theo khuyến mãi
-                .Select(x => new AllViewSp
-                {
-                    ID = x.sp_cl_lsp_ctsp.sp_cl_lsp.sp_cl.ID,
-                    MaSP = x.sp_cl_lsp_ctsp.sp_cl_lsp.sp_cl.Ma,
-                    Ten = x.sp_cl_lsp_ctsp.sp_cl_lsp.sp_cl.Ten,
-                    MoTa = x.sp_cl_lsp_ctsp.sp_cl_lsp.sp_cl.MoTa,
-                    TenAnh = (from anhs in _dbcontext.Anhs where x.sp_cl_lsp_ctsp.sp_cl_lsp.sp_cl.ID == anhs.IDSanPham select anhs.DuongDan).FirstOrDefault(),
-                    IdKhuyenMai = x.chitietsps.IDKhuyenMai,
-                    GiaBan = x.chitietsps.GiaBan,
-                    IDLoaiSP = x.sp_cl_lsp_ctsp.loaisps.ID,
-                    IDLoaiSPCha = x.sp_cl_lsp_ctsp.loaisps.IDLoaiSPCha,
-                    IDChatLieu = x.sp_cl_lsp_ctsp.sp_cl_lsp.chatlieus.ID,
-                    TrangThai = x.sp_cl_lsp_ctsp.sp_cl_lsp.sp_cl.TrangThai
-                })
-                .ToList();
 
+                           .Join(_dbcontext.ChatLieus, sp => sp.IDChatLieu, cl => cl.ID, (sp, cl) => new { sp_cl = sp, chatlieus = cl })
+                           .Join(_dbcontext.LoaiSPs, sp => sp.sp_cl.IDLoaiSP, lsp => lsp.ID, (sp, lsp) => new { sp_cl_lsp = sp, loaisps = lsp })
+                           .Join(_dbcontext.ChiTietSanPhams, sp => sp.sp_cl_lsp.sp_cl.ID, ctsp => ctsp.IDSanPham, (sp, ctsp) => new { sp_cl_lsp_ctsp = sp, chitietsps = ctsp }).Where(x => x.chitietsps.TrangThai == 1 || x.chitietsps.TrangThai == 2)
+                           .Where(x => x.chitietsps.IDKhuyenMai == idkm)
+                           .GroupBy(x => x.sp_cl_lsp_ctsp.sp_cl_lsp.sp_cl.ID)
+                           .Select(group => new AllViewSp
+                           {
+                               ID = group.FirstOrDefault().sp_cl_lsp_ctsp.sp_cl_lsp.sp_cl.ID,
+                               MaSP = group.FirstOrDefault().sp_cl_lsp_ctsp.sp_cl_lsp.sp_cl.Ma,
+                               SoLuongCTSP = group.Sum(x => x.chitietsps.ID != null ? 1 : 0),
+                               Ten = group.FirstOrDefault().sp_cl_lsp_ctsp.sp_cl_lsp.sp_cl.Ten,
+                               MoTa = group.FirstOrDefault().sp_cl_lsp_ctsp.sp_cl_lsp.sp_cl.MoTa,
+                               TenAnh = (from anhs in _dbcontext.Anhs where @group.FirstOrDefault().sp_cl_lsp_ctsp.sp_cl_lsp.sp_cl.ID == anhs.IDSanPham select anhs.DuongDan).FirstOrDefault(),
+                               IdKhuyenMai = group.Where(x => x.chitietsps.IDKhuyenMai != null)
+                                 .Select(x => x.chitietsps.IDKhuyenMai)
+                                .FirstOrDefault(),
+                               GiaBan = group.FirstOrDefault().chitietsps.GiaBan,
+                               IDLoaiSP = group.FirstOrDefault().sp_cl_lsp_ctsp.loaisps.ID,
+                               IDLoaiSPCha = group.FirstOrDefault().sp_cl_lsp_ctsp.loaisps.IDLoaiSPCha,
+                               IDChatLieu = group.FirstOrDefault().sp_cl_lsp_ctsp.sp_cl_lsp.chatlieus.ID,
+                               TrangThai = group.FirstOrDefault().sp_cl_lsp_ctsp.sp_cl_lsp.sp_cl.TrangThai
+                           }).Where(x => x.IdKhuyenMai == idkm).Where(x => x.TrangThai == 1).ToList().ToList();
             return result;
+
         }
+        //public List<AllViewSp> GetAllSPByKhuyenMai(Guid idkm)
+        //{
+        //    if (!_dbcontext.KhuyenMais.Any(c => c.ID == idkm)) throw new Exception($"Không tìm thấy sản phẩm với ID khuyến mãi:{idkm}");
+
+        //    var result = _dbcontext.SanPhams
+        //        .Join(_dbcontext.ChatLieus, sp => sp.IDChatLieu, cl => cl.ID, (sp, cl) => new { sp_cl = sp, chatlieus = cl })
+        //        .Join(_dbcontext.LoaiSPs, sp => sp.sp_cl.IDLoaiSP, lsp => lsp.ID, (sp, lsp) => new { sp_cl_lsp = sp, loaisps = lsp })
+        //        .Join(_dbcontext.ChiTietSanPhams, sp => sp.sp_cl_lsp.sp_cl.ID, ctsp => ctsp.IDSanPham, (sp, ctsp) => new { sp_cl_lsp_ctsp = sp, chitietsps = ctsp })
+        //        .Where(x => x.chitietsps.TrangThai == 1 || x.chitietsps.TrangThai == 2)
+        //        .Where(x => x.chitietsps.IDKhuyenMai == idkm) // Chỉ lọc theo khuyến mãi
+        //        .Select(x => new AllViewSp
+        //        {
+        //            ID = x.sp_cl_lsp_ctsp.sp_cl_lsp.sp_cl.ID,
+        //            MaSP = x.sp_cl_lsp_ctsp.sp_cl_lsp.sp_cl.Ma,
+        //            Ten = x.sp_cl_lsp_ctsp.sp_cl_lsp.sp_cl.Ten,
+        //            MoTa = x.sp_cl_lsp_ctsp.sp_cl_lsp.sp_cl.MoTa,
+        //            TenAnh = (from anhs in _dbcontext.Anhs where x.sp_cl_lsp_ctsp.sp_cl_lsp.sp_cl.ID == anhs.IDSanPham select anhs.DuongDan).FirstOrDefault(),
+        //            IdKhuyenMai = x.chitietsps.IDKhuyenMai,
+        //            GiaBan = x.chitietsps.GiaBan,
+        //            IDLoaiSP = x.sp_cl_lsp_ctsp.loaisps.ID,
+        //            IDLoaiSPCha = x.sp_cl_lsp_ctsp.loaisps.IDLoaiSPCha,
+        //            IDChatLieu = x.sp_cl_lsp_ctsp.sp_cl_lsp.chatlieus.ID,
+        //            TrangThai = x.sp_cl_lsp_ctsp.sp_cl_lsp.sp_cl.TrangThai
+        //        })
+        //        .OrderBy(x => x.MaSP)
+        //        .ToList();
+
+        //    return result;
+        //}
 
         [Route("GetAllSPByKmLoaiSPChatLieu")]
         [HttpGet]
@@ -200,12 +202,14 @@ namespace AppAPI.Controllers
             {
                 AllCTSP = AllCTSP.AsNoTracking().Where(x => x.chatlieu.ID == idChatLieu);
             }
-            var result = await AllCTSP.AsNoTracking().Select(c => new AllViewSp() { ID = c.SP.ID,
+            var result = await AllCTSP.AsNoTracking().Select(c => new AllViewSp()
+            {
+                ID = c.SP.ID,
                 Ten = c.SP.Ten,
                 MoTa = c.SP.MoTa,
                 TenAnh = c.anh.DuongDan,
                 IdKhuyenMai = c.km.ID,
-              
+
                 GiaBan = c.CTSP.GiaBan,
                 IDLoaiSP = c.SP.IDLoaiSP,
                 IDLoaiSPCha = c.loaisp.IDLoaiSPCha,
@@ -225,7 +229,7 @@ namespace AppAPI.Controllers
 
                            .Join(_dbcontext.ChatLieus, sp => sp.IDChatLieu, cl => cl.ID, (sp, cl) => new { sp_cl = sp, chatlieus = cl })
                            .Join(_dbcontext.LoaiSPs, sp => sp.sp_cl.IDLoaiSP, lsp => lsp.ID, (sp, lsp) => new { sp_cl_lsp = sp, loaisps = lsp })
-                           .Join(_dbcontext.ChiTietSanPhams, sp => sp.sp_cl_lsp.sp_cl.ID, ctsp => ctsp.IDSanPham, (sp, ctsp) => new { sp_cl_lsp_ctsp = sp, chitietsps = ctsp }).Where(x=>x.chitietsps.TrangThai == 1 || x.chitietsps.TrangThai == 2)
+                           .Join(_dbcontext.ChiTietSanPhams, sp => sp.sp_cl_lsp.sp_cl.ID, ctsp => ctsp.IDSanPham, (sp, ctsp) => new { sp_cl_lsp_ctsp = sp, chitietsps = ctsp }).Where(x => x.chitietsps.TrangThai == 1 || x.chitietsps.TrangThai == 2)
                            .GroupBy(x => x.sp_cl_lsp_ctsp.sp_cl_lsp.sp_cl.ID)
                            .Select(group => new AllViewSp
                            {
@@ -236,7 +240,7 @@ namespace AppAPI.Controllers
                                MoTa = group.FirstOrDefault().sp_cl_lsp_ctsp.sp_cl_lsp.sp_cl.MoTa,
                                TenAnh = (from anhs in _dbcontext.Anhs where @group.FirstOrDefault().sp_cl_lsp_ctsp.sp_cl_lsp.sp_cl.ID == anhs.IDSanPham select anhs.DuongDan).FirstOrDefault(),
                                IdKhuyenMai = (from km in _dbcontext.KhuyenMais where @group.FirstOrDefault().chitietsps.IDKhuyenMai == km.ID select km.ID).FirstOrDefault(),
-                              
+
                                GiaBan = group.FirstOrDefault().chitietsps.GiaBan,
                                IDLoaiSP = group.FirstOrDefault().sp_cl_lsp_ctsp.loaisps.ID,
                                IDLoaiSPCha = group.FirstOrDefault().sp_cl_lsp_ctsp.loaisps.IDLoaiSPCha,
@@ -301,7 +305,7 @@ namespace AppAPI.Controllers
                                MoTa = group.FirstOrDefault().sp_cl_lsp_ctsp.sp_cl_lsp.sp_cl.MoTa,
                                TenAnh = (from anhs in _dbcontext.Anhs where @group.FirstOrDefault().sp_cl_lsp_ctsp.sp_cl_lsp.sp_cl.ID == anhs.IDSanPham select anhs.DuongDan).FirstOrDefault(),
                                IdKhuyenMai = (from km in _dbcontext.KhuyenMais where @group.FirstOrDefault().chitietsps.IDKhuyenMai == km.ID select km.ID).FirstOrDefault(),
-                              
+
                                GiaBan = group.FirstOrDefault().chitietsps.GiaBan,
                                IDLoaiSP = group.FirstOrDefault().sp_cl_lsp_ctsp.loaisps.ID,
                                IDLoaiSPCha = group.FirstOrDefault().sp_cl_lsp_ctsp.loaisps.IDLoaiSPCha,
@@ -364,7 +368,7 @@ namespace AppAPI.Controllers
             var khuyenmai = _khuyenmai.GetById(kmv.ID);
             if (khuyenmai != null)
             {
-                return _khuyenmai.Update(kmv);  
+                return _khuyenmai.Update(kmv);
             }
             else
             {
