@@ -101,13 +101,13 @@
         var passwordValue = passwordInput.val();
         if (passwordValue.trim() !== "" && passwordValue.length < 8) {
             passwordInput.addClass("is-invalid");
-            $("#passwordErrorMessage").text("Password phai lon hon 8 ki tu.");
+            $("#passwordErrorMessage").text("Password phải có hơn 8 kí tự.");
             return false;
         }
 
         var sdtInput = $("input[name='SDT']");
         var sdtValue = sdtInput.val();
-        var sdtRegex = /^(0)\d{9}$/;
+        var sdtRegex = /^(0[3|5|7|8|9]{1}[0-9]{7})$/;
         if (sdtValue.trim() !== "" && (!(/^\d+$/.test(sdtValue)) || !sdtRegex.test(sdtValue))) {
             sdtInput.addClass("is-invalid");
             $("#sdtErrorMessage").text("Số điện thoại không đúng định dạng."); // Thêm dòng này

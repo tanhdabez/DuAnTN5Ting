@@ -15,26 +15,26 @@
 </h1>
 <div class="row" style=" margin: 5px">
     <div class="col-7">
-        <a class="btn btn-primary" asp-action="Create">Thêm mới</a>
+        <a class="btn btn-success" asp-action="Create">Thêm mới</a>
     </div>
     <div class="col-5">
         <form asp-action="SearchTheoTen" asp-controller="KichCo" method="get" enctype="multipart/form-data" style="margin-left: 30px;text-align:end">
             <input class="tk1" type="text" name="Ten" placeholder="Tìm kiếm theo tên " autocomplete="off" />
-            <input class="btn btn-primary" type="submit" value="Tìm kiếm" style="margin-bottom: 3px;" />
+            <input class="btn btn-outline-secondary" type="submit" value="Tìm kiếm" style="margin-bottom: 3px;" />
         </form>
     </div>
     <div id="searchErrorMessage" class="alert alert-warning" role="alert" style="display: @(ViewData["SearchError"] != null ? "block" : "none") ; margin-top: 10px; margin-left: 11px">@ViewData["SearchError"]</div>
 </div>
 <table class="table" style="margin-left: 20px">
-    <thead style=" background-color: darkslategray">
+    <thead style=" background-color: #3b83ff">
         <tr>
-            <th style=" background-color: darkslategray;
+            <th style=" background-color: #3b83ff;
     color: white;">STT</th>
-            <th style=" background-color: darkslategray;
+            <th style=" background-color: #3b83ff;
     color: white;">Tên</th>
-            <th style=" background-color: darkslategray;
+            <th style=" background-color: #3b83ff;
     color: white;">Trạng thái</th>
-            <th style=" background-color: darkslategray"></th>
+            <th style=" background-color: #3b83ff"></th>
         </tr>
     </thead>
     <tbody>
@@ -55,11 +55,11 @@
                     }
                 </td>
                 <td style="text-align:end">
-                    <button type="button" class="btn btn-success" onclick="return confirm('Bạn có muốn đổi trạng thái kích cỡ @item.Ten sang trạng thái @(item.TrangThai == 1 ? "Không hoạt động" : "Hoạt động") không?');">
-                        @Html.ActionLink("Đổi", "Sua", new { id = item.ID }, new { @style = "color:white;" })
-                    </button>
-                    <button class="btn btn-success" style="text-align:end">
+                    <button class="btn btn-info" style="text-align:end">
                         @Html.ActionLink("Sửa", "Edit", new { id= item.ID }, new { @style = "color:white;"})
+                    </button>
+                    <button type="button" class="btn btn-danger" onclick="return confirm('Bạn có muốn đổi trạng thái kích cỡ @item.Ten sang trạng thái @(item.TrangThai == 1 ? "Không hoạt động" : "Hoạt động") không?');">
+                        @Html.ActionLink("Dừng", "Sua", new { id = item.ID }, new { @style = "color:white;" })
                     </button>
                 </td>
                 @{

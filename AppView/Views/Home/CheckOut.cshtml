@@ -7,6 +7,21 @@
     if (session != null)
     {
         loginInfor = JsonConvert.DeserializeObject<LoginViewModel>(Context.Session.GetString("LoginInfor"));
+        // Gọi API để lấy thông tin người dùng
+        string apiUrl = $"https://localhost:7095/api/KhachHang/GetById?id={loginInfor.Id}";
+        using (var client = new System.Net.Http.HttpClient())
+        {
+            var response = client.GetAsync(apiUrl).Result; // Gọi API đồng bộ
+            if (response.IsSuccessStatusCode)
+            {
+                var apiResponse = response.Content.ReadAsStringAsync().Result; // Đọc dữ liệu trả về
+                var user = JsonConvert.DeserializeObject<KhachHangViewModel>(apiResponse);
+                if (user != null)
+                {
+                    loginInfor.DiemTich = user.DiemTich; // Cập nhật điểm tích lũy từ database
+                }
+            }
+        }
     }
     string? tongtien = TempData.Peek("TongTien") as string;
     string? soLuong = TempData.Peek("Quantity") as string;

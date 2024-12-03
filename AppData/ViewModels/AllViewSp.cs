@@ -11,7 +11,7 @@ namespace AppData.ViewModels
     {
         [Key]
         public Guid ID { get; set; }
-        [StringLength(40, ErrorMessage = "Ten san pham khong duoc dai qua 40 tu.")]
+        [StringLength(40, ErrorMessage = "Tên sản phẩm không dài quá 40 ký tự")]
         public string? MaSP { get; set; }
         public int SoLuongCTSP { get; set; }
         public string Ten { get; set; }

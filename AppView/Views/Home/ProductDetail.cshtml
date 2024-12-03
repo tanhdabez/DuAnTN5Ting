@@ -218,7 +218,8 @@
                     </div>
 
                     <div class="mt-3">
-                        <span class="fw-bold">Màu Sắc</span>
+                        <span class="fw-bold">Màu Sắc:</span>
+                        <span id="color-name" style="margin-left: 5px; font-weight: bold;"></span>
                         <div class="colors" id="filter-color">
                             @foreach (var item in Model.MauSacs)
                             {
@@ -248,7 +249,7 @@
                         </div>
                     </div>
                     <div class="mt-3">
-                        <span class="fw-bold">Số lượng</span>
+                        <span class="fw-bold">Số lượng: <strong id="slSP">@Model.ChiTietSanPhams.First(x => x.TrangThai == 1).SoLuong</strong> sản phẩm có sẵn</span>
                         <div class="colors">
                             <ul id="sizes" style="height:35px">
                                 <td class="quantity__item">
@@ -408,6 +409,7 @@
     var anhs = @Html.Raw(Json.Serialize(Model.Anhs));
     var chiTietSanPhams = @Html.Raw(Json.Serialize(Model.ChiTietSanPhams));
     var kichCos = @Html.Raw(Json.Serialize(Model.KichCos));
+    var mauSacs = @Html.Raw(Json.Serialize(Model.MauSacs));
     var color = "";
     var size = "";
     $(document).ready(function () {
@@ -427,6 +429,7 @@
             document.getElementById("prev-slide").style.display = "none";
         }
         document.getElementById("maSP").innerHTML = chiTietSanPham.maCTSP;
+        document.getElementById("slSP").innerHTML = chiTietSanPham.soLuong;
         document.getElementById("giaCTSP").innerHTML = Intl.NumberFormat().format(chiTietSanPham.giaBan) + " " + "VNĐ";
         if (chiTietSanPham.giaTriKM != null) {
             document.getElementById("giaTKM").style.display = "block";
@@ -463,8 +466,6 @@
     }
     function getMauSac(element) {
         color = element.value;
-        //console.log(kichCos);
-        //console.log(chiTietSanPhams);
         for (let i = 0; i < kichCos.length; i++) {
             var chiTietSP = chiTietSanPhams.find(x => x.mauSac == element.value && x.kichCo == kichCos[i].id);
             console.log(chiTietSP);
@@ -472,13 +473,17 @@
                 if (chiTietSP.soLuong > 0) {
                     if (chiTietSP.trangThai > 0) {
                         var giatrikichco = kichCos.find(x => x.id == chiTietSP.kichCo).giaTri;
+                        var giatrimausac = mauSacs.find(x => x.id == chiTietSP.mauSac).tenMau;
+                        document.getElementById("color-name").innerHTML = giatrimausac;
                         document.getElementById("rd_" + giatrikichco).disabled = false;
                         document.getElementById("rd_" + giatrikichco).checked = false;
-                        document.getElementById("trangthai").innerHTML = "Còn hàng"
+                        document.getElementById("trangthai").innerHTML = "Còn hàng";
                         document.getElementById("label_" + giatrikichco).style.opacity = "1";
                         document.getElementById("label_" + giatrikichco).style.cursor = "pointer";
                     } else {
                         var giatrikichco = kichCos.find(x => x.id == chiTietSP.kichCo).giaTri;
+                        var giatrimausac = mauSacs.find(x => x.id == chiTietSP.mauSac).tenMau;
+                        document.getElementById("color-name").innerHTML = giatrimausac;
                         console.log(giatrikichco);
                         document.getElementById("rd_" + giatrikichco).disabled = true;
                         document.getElementById("rd_" + giatrikichco).checked = false;
@@ -488,6 +493,8 @@
                     }
                 } else {
                     var giatrikichco = kichCos.find(x => x.id == chiTietSP.kichCo).giaTri;
+                    var giatrimausac = mauSacs.find(x => x.id == chiTietSP.mauSac).tenMau;
+                    document.getElementById("color-name").innerHTML = giatrimausac;
                     console.log(giatrikichco);
                     document.getElementById("rd_" + giatrikichco).disabled = true;
                     document.getElementById("rd_" + giatrikichco).checked = false;
@@ -498,6 +505,8 @@
                 }
             } else {
                 var giatrikichco = kichCos.find(x => x.id == kichCos[i].id).giaTri;
+                var giatrimausac = mauSacs.find(x => x.id == chiTietSP.mauSac).tenMau;
+                document.getElementById("color-name").innerHTML = giatrimausac;
                 console.log(giatrikichco);
                 document.getElementById("rd_" + giatrikichco).disabled = true;
                 document.getElementById("rd_" + giatrikichco).checked = false;
@@ -512,14 +521,17 @@
         var anh = anhs.find(x => x.maMau == element.value);
         var lstMauSacElement = document.getElementById("filter-color").children;
         for (let i = 0; i < lstMauSacElement.length; i++) {
-            if (lstMauSacElement[i].children[1].style.border = "1px black solid") {
+            // if (lstMauSacElement[i].children[1].style.border = "1px black solid") {
                 lstMauSacElement[i].children[1].style.border = "1px gray solid";
-            }
+                lstMauSacElement[i].children[1].style.boxShadow = "none";
+            // }
         }
         var label = document.getElementById("label_" + element.value);
         label.style.border = "2px black solid";
+        label.style.boxShadow = "inset 0 0 0 2px white";
         document.getElementById("main_product_image").src = "/img/product/" + anh.duongDan;
         document.getElementById("maSP").innerHTML = chiTietSP.maCTSP;
+        document.getElementById("slSP").innerHTML = chiTietSP.soLuong;
         document.getElementById("giaCTSP").innerHTML = Intl.NumberFormat().format(chiTietSP.giaBan) + " " + "VNĐ";
         if (chiTietSP.soLuong > 0) {
             if (chiTietSP.trangThai > 0) {
@@ -548,18 +560,8 @@
     function getKichCo(element) {
         size = kichCos.find(x => x.giaTri == element.value).id;
         var chiTietSP = chiTietSanPhams.find(x => x.kichCo == size && x.mauSac == color);
-        //if (document.getElementById("rd_" + size).checked = true) {
-        //    document.getElementById("label_" + size).style.color = "white";
-        //}
-        //var lstKichCoElement = document.getElementById("sizes").children;
-        //for (let i = 0; i < lstKichCoElement.length; i++) {
-        //    if (lstKichCoElement[i].children[0].style.border = "2px black solid") {
-        //        lstKichCoElement[i].children[0].style.border = "1px solid gray";
-        //    }
-        //}
-        //var ip = document.getElementById(element.value);
-        //ip.style.border = "2px black solid";
         document.getElementById("maSP").innerHTML = chiTietSP.maCTSP;
+        document.getElementById("slSP").innerHTML = chiTietSP.soLuong;
         document.getElementById("giaCTSP").innerHTML = Intl.NumberFormat().format(chiTietSP.giaBan) + " " + "VNĐ";
         if (chiTietSP.soLuong > 0) {
             document.getElementById("trangthai").innerHTML = "Còn hàng";

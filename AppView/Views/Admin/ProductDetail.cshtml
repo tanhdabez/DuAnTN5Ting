@@ -4,17 +4,18 @@
 }
 
 <h1>Chi tiết sản phẩm</h1>
+<br />
 <div class="row d-flex justify-content-between align-items-center mb-3">
     <!-- Nút Quay Lại -->
     <div class="col-auto">
-        <a asp-action="ProductManager" class="btn btn-primary"><i class="bi bi-chevron-double-left"></i>Quay Lại</a>
+        <a asp-action="ProductManager" class="btn btn-primary"><i class="bi bi-caret-left-fill"></i>Quay Lại</a>
     </div>
 
     <!-- Phần tìm kiếm -->
     <div class="col-lg-6 d-flex justify-content-end align-items-center">
         <!-- Label -->
         <div class="me-2">
-            <p style="text-align:end; margin-top:5px; margin-bottom:0;">Sắp xếp: </p>
+            <p style="text-align:end ; margin-top: 5px; margin-right: 5px;">Sắp xếp</p>
         </div>
 
         <!-- Dropdown -->
@@ -138,13 +139,13 @@
                 $("#list_productdetails").empty();
                 $.each(response.data, function (i, item) {
                     if (item.trangThai == 1) {
-                        $("#list_productdetails").append(`<tr><td>${item.ma}</td><td>${item.tenMauSac}</td><td><input type="color" value="${item.maMauSac}" style="border:none;width:27px;height:25px" disabled></td><td>${item.tenKichCo}</td><td style="width:100px"><input type="number" value="${item.soLuong}" style="border:none;width:100%" id="soLuong_${item.id}" onchange="changeSoLuong('${item.id}')"></td><td style="width:100px"><input type="number" value="${item.giaGoc}" style="border:none;width:100%" id="giaGoc_${item.id}" onchange="changeGiaBan('${item.id}')"></td><td id="giaBan_${item.id}">${item.giaBan}</td><td style="text-align:center">${item.giaTriKhuyenMai == null ? "0" : item.giaTriKhuyenMai}</td><td><input type="radio" name="macDinh" checked id="trangThai_${item.id}" onclick="changeTrangThai('${item.id}')" /></td><td id="hoatDong_${item.id}" style="width:150px"><span style="color:green">Hoạt động</span></td><td id="xoa_${item.id}" style="width:150px"><a href="/Admin/GenerateQRCode?id=${item.id}&ma=${item.ma}" class="btn btn-secondary">Tạo mã QR</a><button type="button" class="btn btn-danger" onclick="xoa('${item.id}')">Xóa</button></td></tr>`);
+                        $("#list_productdetails").append(`<tr><td>${item.ma}</td><td>${item.tenMauSac}</td><td><input type="color" value="${item.maMauSac}" style="border:none;width:27px;height:25px" disabled></td><td>${item.tenKichCo}</td><td style="width:100px"><input type="number" value="${item.soLuong}" style="border:none;width:100%" id="soLuong_${item.id}" onchange="changeSoLuong('${item.id}')"></td><td style="width:100px"><input type="number" value="${item.giaGoc}" style="border:none;width:100%" id="giaGoc_${item.id}" onchange="changeGiaBan('${item.id}')"></td><td id="giaBan_${item.id}">${item.giaBan}</td><td style="text-align:center">${item.giaTriKhuyenMai == null ? "0" : item.giaTriKhuyenMai}</td><td><input class="form-check-input" type="radio" name="macDinh" checked id="trangThai_${item.id}" onclick="changeTrangThai('${item.id}')" /></td><td id="hoatDong_${item.id}" style="width:150px"><span style="color:green">Hoạt động</span></td><td id="xoa_${item.id}" style="width:150px"><a href="/Admin/GenerateQRCode?id=${item.id}&ma=${item.ma}" class="btn btn-secondary"><i class="bi bi-qr-code-scan"></i></a><button type="button" class="btn btn-danger" onclick="xoa('${item.id}')"><i class="bi bi-trash"></i></button></td></tr>`);
                     }
                     else if (item.trangThai == 2) {
-                        $("#list_productdetails").append(`<tr><td>${item.ma}</td><td>${item.tenMauSac}</td><td><input type="color" value="${item.maMauSac}" style="border:none;width:27px;height:25px" disabled></td><td>${item.tenKichCo}</td><td style="width:100px"><input type="number" value="${item.soLuong}" style="border:none;width:100%" id="soLuong_${item.id}" onchange="changeSoLuong('${item.id}')"></td><td style="width:100px"><input type="number" value="${item.giaGoc}" style="border:none;width:100%" id="giaGoc_${item.id}" onchange="changeGiaBan('${item.id}')"></td><td id="giaBan_${item.id}">${item.giaBan}</td><td style="text-align:center">${item.giaTriKhuyenMai == null ? "0" : item.giaTriKhuyenMai}</td><td><input type="radio" name="macDinh" id="trangThai_${item.id}" onclick="changeTrangThai('${item.id}')" /></td><td id="hoatDong_${item.id}" style="width:150px"><span style="color:green">Hoạt động</span></td><td id="xoa_${item.id}" style="width:150px"><a href="/Admin/GenerateQRCode?id=${item.id}&ma=${item.ma}" class="btn btn-secondary">Tạo mã QR</a><button type="button" class="btn btn-danger" onclick="xoa('${item.id}')">Xóa</button></td></tr>`);
+                        $("#list_productdetails").append(`<tr><td>${item.ma}</td><td>${item.tenMauSac}</td><td><input type="color" value="${item.maMauSac}" style="border:none;width:27px;height:25px" disabled></td><td>${item.tenKichCo}</td><td style="width:100px"><input type="number" value="${item.soLuong}" style="border:none;width:100%" id="soLuong_${item.id}" onchange="changeSoLuong('${item.id}')"></td><td style="width:100px"><input type="number" value="${item.giaGoc}" style="border:none;width:100%" id="giaGoc_${item.id}" onchange="changeGiaBan('${item.id}')"></td><td id="giaBan_${item.id}">${item.giaBan}</td><td style="text-align:center">${item.giaTriKhuyenMai == null ? "0" : item.giaTriKhuyenMai}</td><td><input class="form-check-input" type="radio" name="macDinh" id="trangThai_${item.id}" onclick="changeTrangThai('${item.id}')" /></td><td id="hoatDong_${item.id}" style="width:150px"><span style="color:green">Hoạt động</span></td><td id="xoa_${item.id}" style="width:150px"><a href="/Admin/GenerateQRCode?id=${item.id}&ma=${item.ma}" class="btn btn-secondary"><i class="bi bi-qr-code-scan"></i></a><button type="button" class="btn btn-danger" onclick="xoa('${item.id}')"><i class="bi bi-trash"></i></button></td></tr>`);
                     }
                     else {
-                        $("#list_productdetails").append(`<tr><td>${item.ma}</td><td>${item.tenMauSac}</td><td><input type="color" value="${item.maMauSac}" style="border:none;width:27px;height:25px" disabled></td><td>${item.tenKichCo}</td><td style="width:100px"><input type="number" value="${item.soLuong}" style="border:none;width:100%" id="soLuong_${item.id}" onchange="changeSoLuong('${item.id}')"></td><td style="width:100px"><input type="number" value="${item.giaGoc}" style="border:none;width:100%" id="giaGoc_${item.id}" onchange="changeGiaBan('${item.id}')"></td><td id="giaBan_${item.id}">${item.giaBan}</td><td style="text-align:center">${item.giaTriKhuyenMai == null ? "0" : item.giaTriKhuyenMai}</td><td><input type="radio" name="macDinh" id="trangThai_${item.id}" onclick="changeTrangThai('${item.id}')" /></td><td id="hoatDong_${item.id}" style="width:150px"><span style="color:red">Không hoạt động</span></td><td id="xoa_${item.id}" style="width:150px"><a href="/Admin/GenerateQRCode?id=${item.id}&ma=${item.ma}" class="btn btn-secondary">Tạo mã QR</a><button type="button" class="btn btn-success" onclick="undo('${item.id}')">Hoàn tác</button></td></tr>`);
+                        $("#list_productdetails").append(`<tr><td>${item.ma}</td><td>${item.tenMauSac}</td><td><input type="color" value="${item.maMauSac}" style="border:none;width:27px;height:25px" disabled></td><td>${item.tenKichCo}</td><td style="width:100px"><input type="number" value="${item.soLuong}" style="border:none;width:100%" id="soLuong_${item.id}" onchange="changeSoLuong('${item.id}')"></td><td style="width:100px"><input type="number" value="${item.giaGoc}" style="border:none;width:100%" id="giaGoc_${item.id}" onchange="changeGiaBan('${item.id}')"></td><td id="giaBan_${item.id}">${item.giaBan}</td><td style="text-align:center">${item.giaTriKhuyenMai == null ? "0" : item.giaTriKhuyenMai}</td><td><input class="form-check-input" type="radio" name="macDinh" id="trangThai_${item.id}" onclick="changeTrangThai('${item.id}')" /></td><td id="hoatDong_${item.id}" style="width:150px"><span style="color:red">Không hoạt động</span></td><td id="xoa_${item.id}" style="width:150px"><a href="/Admin/GenerateQRCode?id=${item.id}&ma=${item.ma}" class="btn btn-secondary"><i class="bi bi-qr-code-scan"></i></a><button type="button" class="btn btn-success" onclick="undo('${item.id}')"><i class="bi bi-arrow-counterclockwise"></i></button></td></tr>`);
                     }
                 });
                 pagingsp(response.total, function () {
@@ -229,7 +230,7 @@
                     document.getElementById("hoatDong_" + idSP).innerHTML = '<span style="color:green">Hoạt động</span>';
                     var ip = document.getElementById("xoa_" + idSP);
                     ip.removeChild(ip.children[1]);
-                    $("#xoa_" + idSP).append("<button type='button' class='btn btn-danger' onclick = \"xoa('" + idSP + "')\">Xoá</button>");
+                    $("#xoa_" + idSP).append("<button type='button' class='btn btn-danger' onclick = \"xoa('" + idSP + "')\"><i class='bi bi-trash'></i></button>");
                 }
             }
         });
@@ -246,7 +247,7 @@
                     document.getElementById("hoatDong_" + idSP).innerHTML = '<span style="color:red">Không hoạt động</span>';
                     var ip = document.getElementById("xoa_" + idSP);
                     ip.removeChild(ip.children[1]);
-                    $("#xoa_" + idSP).append("<button type='button' class='btn btn-success' onclick = \"undo('" + idSP + "')\">Hoàn tác</button>");
+                    $("#xoa_" + idSP).append("<button type='button' class='btn btn-success' onclick = \"undo('" + idSP + "')\"><i class='bi bi-arrow-counterclockwise'></i></button>");
                 }
                 else {
                     alert(response.loi);
@@ -266,7 +267,7 @@
                     document.getElementById("hoatDong_" + idSP).innerHTML = '<span style="color:green">Hoạt động</span>';
                     var ip = document.getElementById("xoa_" + idSP);
                     ip.removeChild(ip.children[1]);
-                    $("#xoa_" + idSP).append("<button type='button' class='btn btn-danger' onclick = \"xoa('" + idSP + "')\">Xoá</button>");
+                    $("#xoa_" + idSP).append("<button type='button' class='btn btn-danger' onclick = \"xoa('" + idSP + "')\"><i class='bi bi-trash'></i></button>");
                 }
             }
         });

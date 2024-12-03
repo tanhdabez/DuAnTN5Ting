@@ -14,13 +14,13 @@
 <table class="table">
     <thead>
         <tr>
-            <th style=" background-color: darkslategray;color: white;">
+            <th style=" background-color: #3b83ff;color: white;">
                 STT
             </th>
-            <th style=" background-color: darkslategray;color: white;">
+            <th style=" background-color: #3b83ff;color: white;">
                 Tên
             </th>
-            <th style=" background-color: darkslategray"></th>
+            <th style=" background-color: #3b83ff"></th>
         </tr>
     </thead>
     <tbody>
@@ -34,7 +34,7 @@
                     @Html.DisplayFor(modelItem => item.Ten)
                 </td>
                 <td style="text-align:end">
-                    <button class="btn btn-success ">
+                    <button class="btn btn-info ">
                         @Html.ActionLink("Sửa", "EditLoaiSPCon", new { id= item.ID }, new { @style = "color:white;"})
                     </button>
                 </td>

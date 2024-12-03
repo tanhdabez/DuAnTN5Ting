@@ -109,7 +109,7 @@ namespace AppAPI.Controllers
             }
             else
             {
-                return BadRequest("Loi khi gui mail");
+                return BadRequest("Lỗi khi gửi mail");
             }
         }
         private bool IsValidEmailAddress(string email)

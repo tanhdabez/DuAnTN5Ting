@@ -5,7 +5,20 @@
             data: {
                 labels: labelsArray,
                 datasets: [{
-                    backgroundColor: ["red", "green", "blue", "orange", "brown"],
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.55)',
+                        'rgba(255, 159, 64, 0.55)',
+                        'rgba(255, 205, 86, 0.55)',
+                        'rgba(75, 192, 192, 0.55)',
+                        'rgba(54, 162, 235, 0.55)'
+                    ],
+                    borderColor: [
+                        'rgb(255, 99, 132)',
+                        'rgb(255, 159, 64)',
+                        'rgb(255, 205, 86)',
+                        'rgb(75, 192, 192)',
+                        'rgb(54, 162, 235)'
+                    ],
                     data:datasArray
                 }]
             },
@@ -33,8 +46,8 @@
             data: {
                 labels: labelsArray,
                 datasets: [{
-                    backgroundColor: "rgba(0,0,255,1.0)",
-                    borderColor: "rgba(0,0,255,0.1)",
+                    backgroundColor: "rgb(75, 192, 192)",
+                    borderColor: "rgb(75, 192, 192)",
                     data: datasArray
                 }]
             },
@@ -64,7 +77,8 @@
             data: {
                 labels: labelsArray,
                 datasets: [{
-                    backgroundColor: ["red", "green"],
+                    backgroundColor: ['rgb(75, 192, 192)',
+                        'rgb(255, 99, 132)'],
                     data: datasArray
                 }]
             },

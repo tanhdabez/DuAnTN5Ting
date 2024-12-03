@@ -211,7 +211,7 @@ namespace AppView.Controllers
 
             return View("GetAllKM", new PhanTrangKhuyenMai
             {
-                listkms = roles.Where(x => x.Ten.Contains(TenKM.Trim()))
+                listkms = roles.Where(x => string.IsNullOrEmpty(TenKM) || x.Ten.Contains(TenKM.Trim()))
                         .Skip((ProductPage - 1) * PageSize).Take(PageSize),
                 PagingInfo = new PagingInfo
                 {
@@ -484,11 +484,7 @@ namespace AppView.Controllers
             var response1 = await _httpClient.GetAsync(apiURL1);
             var apiData1 = await response1.Content.ReadAsStringAsync();
             var bienthes = JsonConvert.DeserializeObject<List<AllViewSp>>(apiData1);
-            
-           
-            
-           
-           
+
             return View(new PhanTrangAllQLKMSP
             {
                 listallsp = bienthes.Where(x=>x.TrangThai==1)
@@ -525,7 +521,7 @@ namespace AppView.Controllers
 
             });
         }
-        //https://localhost:7095/api/KhuyenMai/GetAllSPNoKMByLoaiSPChatLieu?id=a034b1a2-1f42-43f2-b87a-138f8722cdcb&idLoaiSP=49ed4761-81c4-4f7d-a5c6-b051ed1ecdb6&idChatLieu=276b52d1-ce55-4027-b185-f6d5db4017b3
+
         [HttpGet]
         public async Task<IActionResult> GetSPNoKMLoaiSPCL(Guid? idloaisp, Guid? idchatlieu, int ProductPage = 1)
         {

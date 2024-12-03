@@ -10,15 +10,15 @@ namespace AppData.ViewModels.SanPham
 {
     public class SanPhamRequest
     {
-        [Required]
+        [Required(ErrorMessage = "Thiếu tên sản phẩm")]
         public string Ten { get; set; }
         public string? MoTa { get; set; }
-        [Required]
+        [Required(ErrorMessage = "Thiếu chất liệu sản phẩm")]
         public string TenChatLieu { get; set; }
         public List<MauSac> MauSacs { get; set; }
         public List<string> KichCos {  get; set; }
-        [Required]
         public string TenLoaiSPCha { get; set; }
+        [Required(ErrorMessage = "Thiếu loại sản phẩm con (nhánh)")]
         public string TenLoaiSPCon { get; set; }
     }
 }
