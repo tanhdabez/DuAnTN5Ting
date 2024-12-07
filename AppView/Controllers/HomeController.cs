@@ -1,26 +1,15 @@
 ﻿using AppData.Models;
 using AppData.ViewModels;
-using AppData.ViewModels.BanOffline;
 using AppData.ViewModels.Mail;
 using AppData.ViewModels.QLND;
 using AppData.ViewModels.SanPham;
 using AppData.ViewModels.VNPay;
-using DocumentFormat.OpenXml.Office2016.Excel;
-using JetBrains.Annotations;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.CodeAnalysis;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Newtonsoft.Json;
-using System.Collections.Generic;
-using System.Globalization;
 using System.Net;
-using System.Net.Http.Json;
 using System.Text;
 using System.Text.RegularExpressions;
-using System.Web.Helpers;
-using TechTalk.SpecFlow.Infrastructure;
-using X.PagedList;
 
 
 namespace AppView.Controllers
@@ -466,7 +455,7 @@ namespace AppView.Controllers
 
                     }
                     // laam them
-                    int cout = lstGioHang.Sum(c => c.SoLuong) + sl.Value;
+                    int cout = lstGioHang.Sum(c => c.SoLuong);
                     TempData["SoLuong"] = cout.ToString();
 
                     if (Request.Cookies["Cart"] != null)
@@ -475,7 +464,7 @@ namespace AppView.Controllers
                         if (response.IsSuccessStatusCode)
                         {
                             var temp = JsonConvert.DeserializeObject<GioHangViewModel>(response.Content.ReadAsStringAsync().Result);
-                            cout = temp.GioHangs.Sum(c => c.SoLuong) + sl.Value;
+                            cout = temp.GioHangs.Sum(c => c.SoLuong);
                             TempData["SoLuong"] = cout.ToString();
                             // lam end
 
@@ -501,7 +490,8 @@ namespace AppView.Controllers
                             }
 
                             // lam them
-                            int cout = temp.GioHangs.Sum(c => c.SoLuong) + sl.Value;
+                            int cout = temp.GioHangs.Sum(c => c.SoLuong);
+
 
                             TempData["SoLuong"] = cout.ToString();
                             // lam end
@@ -685,7 +675,7 @@ namespace AppView.Controllers
             }
         }
         [HttpPost]
-        public ActionResult AddToCart(string id, int? sl)
+        public ActionResult AddToCart(string id, int? sl, int? slcl)
         {
             try
             {
@@ -696,7 +686,6 @@ namespace AppView.Controllers
                 {
                     if (string.IsNullOrEmpty(result))
                     {
-                        //chiTietSanPham.SoLuong = (sl != null)?sl.Value:1;
                         lstGioHang = new List<GioHangRequest>() { new GioHangRequest() { IDChiTietSanPham = new Guid(id), SoLuong = (sl != null) ? sl.Value : 1 } };
                     }
                     else
@@ -705,14 +694,18 @@ namespace AppView.Controllers
                         var tempBienThe = lstGioHang.FirstOrDefault(x => x.IDChiTietSanPham == new Guid(id));
                         if (tempBienThe != null)
                         {
-                            //Sua 
+                            // Kiểm tra nếu số lượng muốn thêm vượt quá tồn kho
+                            if (sl != null && tempBienThe.SoLuong + sl.Value > slcl.Value)
+                            {
+                                return Json(new { success = false, message = $"Bạn đã có {tempBienThe.SoLuong} sản phẩm trong giỏ hàng. Không thể thêm số lượng đã chọn vào giỏ hàng vì sẽ vượt quá giới hạn mua hàng của bạn." });
+                            }
                             if (sl == null)
                             {
                                 tempBienThe.SoLuong++;
                             }
                             else
                             {
-                                tempBienThe.SoLuong = tempBienThe.SoLuong + sl.Value;
+                                tempBienThe.SoLuong += sl.Value;
                             }
 
                         }
@@ -727,15 +720,25 @@ namespace AppView.Controllers
                     return Json(new { success = true, message = "Thêm vào giỏ hàng thành công" });
                 }
                 else
-                {
+                { //backup nếu có lỗi
                     var loginInfor = JsonConvert.DeserializeObject<LoginViewModel>(session);
                     if (loginInfor.vaiTro == 1)
                     {
                         var chiTietGioHang = new ChiTietGioHang() { ID = Guid.NewGuid(), SoLuong = (sl != null) ? sl.Value : 1, IDCTSP = new Guid(id), IDNguoiDung = loginInfor.Id };
                         var response = _httpClient.PostAsJsonAsync(_httpClient.BaseAddress + "GioHang/AddCart", chiTietGioHang).Result;
 
-                        if (response.IsSuccessStatusCode) return Json(new { success = true, message = "Thêm vào giỏ hàng thành công" });
-                        else return Json(new { success = false, message = "Thêm vào giỏ hàng thất bại" });
+                        if (response.IsSuccessStatusCode)
+                        {
+                            var responseContent = response.Content.ReadFromJsonAsync<dynamic>().Result;
+                            var message = responseContent.GetProperty("message").GetString();
+                            return Json(new { success = true, message = message });
+                        }
+                        else
+                        {
+                            var responseContent = response.Content.ReadFromJsonAsync<dynamic>().Result;
+                            var message = responseContent.GetProperty("message").GetString();
+                            return Json(new { success = false, message = message });
+                        }
                     }
                     else return Json(new { success = false, message = "Chỉ khách hàng mới thêm được vào giỏ hàng" });
                 }
@@ -1493,7 +1496,7 @@ namespace AppView.Controllers
                     }
                     else return BadRequest();
                 }
-                else 
+                else
                 {
                     ViewData["EmailError"] = "Email không tồn tại trong hệ thống";
                     return View();

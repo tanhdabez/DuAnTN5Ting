@@ -97,7 +97,7 @@ namespace AppView.Controllers
                 }
                 else if (reponsen.StatusCode == HttpStatusCode.BadRequest)
                 {
-                    ViewBag.ErrorMessage = "Kích cỡ này đã có trong danh sách";
+                    ViewBag.ErrorMessage = "Kích cỡ này đã có trong danh sách hoặc không khả dụng";
                     return View();
                 }
                 return View(kc);
@@ -172,10 +172,34 @@ namespace AppView.Controllers
         {
             try
             {
+                var timkiemctsp = dBContext.ChiTietSanPhams.Where(x => x.IDKichCo == id).ToList();
                 var timkiem = dBContext.KichCos.FirstOrDefault(x => x.ID == id);
                 if (timkiem != null)
                 {
                     timkiem.TrangThai = timkiem.TrangThai == 0 ? 1 : 0;
+                    if (timkiem.TrangThai == 0)
+                    {
+                        var sanPhamDangSuDung = timkiemctsp.Where(x => x.TrangThai == 1).ToList();
+                        if (sanPhamDangSuDung.Any())
+                        {
+                            var idSanPhamList = sanPhamDangSuDung.Select(x => x.IDSanPham).Distinct().ToList();
+                            var danhSachTenSanPham = dBContext.SanPhams.Where(x => idSanPhamList.Contains(x.ID)).Select(x => x.Ten).ToList();
+                            // Tạo thông báo cảnh báo
+                            string thongBao = "Có sản phẩm sau đang sử dụng size này: " + string.Join(", ", danhSachTenSanPham);
+
+                            // Trả về thông báo (ví dụ: View kèm dữ liệu hoặc sử dụng TempData)
+                            TempData["ThongBao"] = thongBao;
+                            return RedirectToAction("Show");
+                        }
+                        else
+                        {
+                            foreach (var item in timkiemctsp)
+                            {
+                                item.TrangThai = 0;
+                            }
+                            dBContext.ChiTietSanPhams.UpdateRange(timkiemctsp);
+                        }
+                    }
                     dBContext.KichCos.Update(timkiem);
                     dBContext.SaveChanges();
                     return RedirectToAction("Show");

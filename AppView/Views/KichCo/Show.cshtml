@@ -25,6 +25,10 @@
     </div>
     <div id="searchErrorMessage" class="alert alert-warning" role="alert" style="display: @(ViewData["SearchError"] != null ? "block" : "none") ; margin-top: 10px; margin-left: 11px">@ViewData["SearchError"]</div>
 </div>
+<p id="notificationMessage" class="alert alert-danger" role="alert"
+   style="display: @(TempData["ThongBao"] != null ? "block" : "none"); margin-top: 10px; margin-left: 11px">
+    @TempData["ThongBao"]
+</p>
 <table class="table" style="margin-left: 20px">
     <thead style=" background-color: #3b83ff">
         <tr>
@@ -51,7 +55,7 @@
                     }
                     else
                     {
-                        <div style="color:black">Hoạt động</div>
+                        <div style="color:green">Hoạt động</div>
                     }
                 </td>
                 <td style="text-align:end">

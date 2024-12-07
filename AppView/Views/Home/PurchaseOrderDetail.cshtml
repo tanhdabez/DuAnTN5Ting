@@ -87,6 +87,10 @@
                         {
                             <li class="breadcrumb-item active" aria-current="page">Đang giao hàng</li>
                         }
+                        else if (Model.FirstOrDefault().TrangThaiGiaoHang == 11)
+                        {
+                            <li class="breadcrumb-item active" aria-current="page">Giao hàng không thành công</li>
+                        }
                         else if (Model.FirstOrDefault().TrangThaiGiaoHang == 4)
                         {
                             <li class="breadcrumb-item active" aria-current="page">Đang hoàn hàng</li>

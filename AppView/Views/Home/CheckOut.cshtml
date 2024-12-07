@@ -370,7 +370,7 @@
         }
         else if (!phoneNumberRegex.test(sdt)) {
             $('#phone').addClass('is-invalid');
-            $('#phone').next('.invalid-feedback').text('Số điện thoại không hợp lệ (độ dài từ 8 - 15 ký tự, không chứa ký tự đặc biệt và khoảng trắng)');
+            $('#phone').next('.invalid-feedback').text('Số điện thoại không hợp lệ (độ dài từ 9 - 11 ký tự, không chứa ký tự đặc biệt và khoảng trắng)');
             hasError = true;
         }
         var emailRegex = /^[a-zA-Z0-9._%+-]+@@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;

@@ -22,6 +22,7 @@
          * 1-đơn nháp
          * 2-Chờ xác nhận
          * 3-Đang giao hàng//ko đc hủy
+         * 11-Giao không thành công
          * 6-thành công //nhận hàng thành công// đc đánh giá // đc hủy nếu ngày thanh toán < 3
          
          --Hoàn hàng

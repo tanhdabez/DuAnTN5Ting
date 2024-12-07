@@ -332,36 +332,7 @@
                             </div>
                         </div>
                         <div id="danhgia">
-                            @*<div class="container" style="border-top:1px solid #dee2e6;padding-top:15px;">
-                            <div class="row" style="border-bottom:1px solid #dee2e6;padding-bottom:20px;padding-top:20px;">
-                            <div class="col-2">
-                            <h4 style="text-align: center; width: 60px; height: 60px; vertical-align: middle; background-color: gray; border-radius: 50%; display: table-cell;">T</h4>
-                            </div>
-                            <div class="col-10">
-                            <div>
-                            <span>TenKH</span>
-                            </div>
-                            <div>
-                            <i class="fas fa-star text-warning"></i><i class="fas fa-star text-warning"></i><i class="fas fa-star text-warning"></i><i class="fas fa-star text-warning"></i><i class="fas fa-star text-warning"></i>
-                            </div>
-                            <div style="margin-top:6px;">
-                            <span style="color:gray">NgayDanhGia</span>
-                            </div>
-                            <div style="margin-top:6px;">
-                            <span style="color:gray">Chất liệu: </span>ChatLieu
-                            </div>
-                            <div style="margin-top:6px;">
-                            <span style="color:gray">Màu sắc: </span>MauSac
-                            </div>
-                            <div style="margin-top:6px;">
-                            <span style="color:gray">Kích cỡ: </span>KichCo
-                            </div>
-                            <div style="margin-top:6px;">
-                            <span>BinhLuan</span>
-                            </div>
-                            </div>
-                            </div>
-                            </div>*@
+                           
                         </div>
                     </div>
                     <div class="row">
@@ -482,8 +453,8 @@
                         document.getElementById("label_" + giatrikichco).style.cursor = "pointer";
                     } else {
                         var giatrikichco = kichCos.find(x => x.id == chiTietSP.kichCo).giaTri;
-                        var giatrimausac = mauSacs.find(x => x.id == chiTietSP.mauSac).tenMau;
-                        document.getElementById("color-name").innerHTML = giatrimausac;
+                        // var giatrimausac = mauSacs.find(x => x.id == chiTietSP.mauSac).tenMau;
+                        // document.getElementById("color-name").innerHTML = giatrimausac;
                         console.log(giatrikichco);
                         document.getElementById("rd_" + giatrikichco).disabled = true;
                         document.getElementById("rd_" + giatrikichco).checked = false;
@@ -493,8 +464,8 @@
                     }
                 } else {
                     var giatrikichco = kichCos.find(x => x.id == chiTietSP.kichCo).giaTri;
-                    var giatrimausac = mauSacs.find(x => x.id == chiTietSP.mauSac).tenMau;
-                    document.getElementById("color-name").innerHTML = giatrimausac;
+                    // var giatrimausac = mauSacs.find(x => x.id == chiTietSP.mauSac).tenMau;
+                    // document.getElementById("color-name").innerHTML = giatrimausac;
                     console.log(giatrikichco);
                     document.getElementById("rd_" + giatrikichco).disabled = true;
                     document.getElementById("rd_" + giatrikichco).checked = false;
@@ -505,8 +476,8 @@
                 }
             } else {
                 var giatrikichco = kichCos.find(x => x.id == kichCos[i].id).giaTri;
-                var giatrimausac = mauSacs.find(x => x.id == chiTietSP.mauSac).tenMau;
-                document.getElementById("color-name").innerHTML = giatrimausac;
+                // var giatrimausac = mauSacs.find(x => x.id == chiTietSP.mauSac).tenMau;
+                // document.getElementById("color-name").innerHTML = giatrimausac;
                 console.log(giatrikichco);
                 document.getElementById("rd_" + giatrikichco).disabled = true;
                 document.getElementById("rd_" + giatrikichco).checked = false;
@@ -602,57 +573,60 @@
     function addCart() {
         var ctsp = chiTietSanPhams.find(p => p.maCTSP == document.getElementById("maSP").innerHTML);
         var idctsp = ctsp.id;
+        var slctsp = ctsp.soLuong;
         var kichco = KichCo();
         var mausac = MauSac();
         var soLuong = parseInt(document.getElementById("sl").value);
-        if (mausac.length != 0 && kichco.length != 0) {
-            if (ctsp.soLuong < soLuong) {
-                toastr.error('Số lượng không đủ vui lòng giảm số lượng', 'Error Alert', { timeOut: 1000 });
-            } else if (soLuong == 0 || isNaN(soLuong) == true) {
-                toastr.error('Vui lòng chọn lại số lượng', 'Error Alert', { timeOut: 1000 });
-            } else {
-                $.ajax({
-                    async: true,
-                    type: 'POST',
-                    dataType: "json",
-                    data: { id: idctsp, sl: document.getElementById("sl").value },
-                    url: '/Home/AddToCart',
-                    success: function (response) {
-                        if (response.success == true) {
-                            toastr.success(response.message, 'Success Alert', { timeOut: 1000 });
-
-                        } else {
-                            toastr.error(response.message, 'Error Alert', { timeOut: 1000 });
-                        }
-                    },
-                    error: function (response) {
-                        toastr.error(response.message, 'Error Alert', { timeOut: 1000 });
-                    }
-                });
-                $.ajax({
-                    async: true,
-                    type: 'POST',
-                    dataType: "json",
-                    data: { sl: document.getElementById("sl").value },
-                    url: '/Home/TongSoLuong',
-                    success: function (response) {
-                        if (response.success == true) {
-                            $('#tongsoluong').text(response.sl);
-
-                        } else {
-
-                        }
-                    },
-                    error: function (response) {
-
-                    }
-                });
-            }
-
-        } else {
+        if (mausac.length === 0 || kichco.length === 0) {
             toastr.error('Vui lòng chọn biến thể', 'Error Alert', { timeOut: 1000 });
+            return;
         }
 
+        if (soLuong <= 0 || isNaN(soLuong)) {
+            toastr.error('Vui lòng đặt số lượng > 0', 'Error Alert', { timeOut: 1000 });
+            return;
+        }
+
+        if (soLuong > slctsp) {
+            toastr.error('Số lượng không đủ, vui lòng giảm số lượng', 'Error Alert', { timeOut: 1000 });
+            return;
+        }
+
+        // Gọi AJAX thêm vào giỏ hàng
+        $.ajax({
+            async: true,
+            type: 'POST',
+            dataType: "json",
+            data: { id: idctsp, sl: soLuong, slcl: slctsp },
+            url: '/Home/AddToCart',
+            success: function (response) {
+                if (response.success) {
+                    toastr.success(response.message, 'Success Alert', { timeOut: 1000 });
+
+                    // Chỉ gọi AJAX cập nhật tổng số lượng nếu thêm giỏ hàng thành công
+                    $.ajax({
+                        async: true,
+                        type: 'POST',
+                        dataType: "json",
+                        data: { sl: soLuong },
+                        url: '/Home/TongSoLuong',
+                        success: function (response) {
+                            if (response.success) {
+                                $('#tongsoluong').text(response.sl);
+                            }
+                        },
+                        error: function () {
+                            toastr.error('Lỗi khi cập nhật tổng số lượng', 'Error Alert', { timeOut: 3000 });
+                        }
+                    });
+                } else {
+                    toastr.error(response.message, 'Error Alert', { timeOut: 3000 });
+                }
+            },
+            error: function () {
+                toastr.error('Lỗi khi thêm vào giỏ hàng', 'Error Alert', { timeOut: 3000 });
+            }
+        });
     }
     function buyNow() {
         var ctsp = chiTietSanPhams.find(p => p.maCTSP == document.getElementById("maSP").innerHTML);
@@ -664,7 +638,7 @@
             if (ctsp.soLuong < soLuong) {
                 toastr.error('Số lượng không đủ vui lòng giảm số lượng', 'Error Alert', { timeOut: 1000 });
             } else if (soLuong == 0 || isNaN(soLuong) == true) {
-                toastr.error('Vui lòng chọn lại số lượng', 'Error Alert', { timeOut: 1000 });
+                toastr.error('Vui lòng chọn số lượng > 0', 'Error Alert', { timeOut: 1000 });
             } else {
                 $.ajax({
                     async: true,

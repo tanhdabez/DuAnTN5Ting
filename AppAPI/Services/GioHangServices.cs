@@ -4,6 +4,7 @@ using AppData.Models;
 using AppData.Repositories;
 using AppData.ViewModels;
 using AppData.ViewModels.SanPham;
+using Microsoft.AspNetCore.Mvc;
 
 namespace AppAPI.Services
 {
@@ -92,40 +93,49 @@ namespace AppAPI.Services
             foreach (var item in lstChiTietGioHang)
             {
                 chiTietSanPham = _iSanPhamService.GetChiTietSanPhamByID(item.IDCTSP);
-                lst.Add(new GioHangRequest() { IDChiTietSanPham = chiTietSanPham.ID, SoLuong = item.SoLuong, SoLuongConLai = chiTietSanPham.SoLuong, DonGia = chiTietSanPham.GiaBan, Ten = chiTietSanPham.Ten, MauSac = chiTietSanPham.MauSac, KichCo = chiTietSanPham.KichCo, Anh = chiTietSanPham.Anh , HetHang = chiTietSanPham.SoLuong < item.SoLuong ? false : true});
+                lst.Add(new GioHangRequest() { IDChiTietSanPham = chiTietSanPham.ID, SoLuong = item.SoLuong, SoLuongConLai = chiTietSanPham.SoLuong, DonGia = chiTietSanPham.GiaBan, Ten = chiTietSanPham.Ten, MauSac = chiTietSanPham.MauSac, KichCo = chiTietSanPham.KichCo, Anh = chiTietSanPham.Anh, HetHang = chiTietSanPham.SoLuong < item.SoLuong ? false : true });
                 tongTien += chiTietSanPham.GiaBan * item.SoLuong;
             }
             response.GioHangs = lst;
             response.TongTien = tongTien;
             return response;
         }
-        public async Task<bool> AddCart(ChiTietGioHang chiTietGioHang)
+        public async Task<IActionResult> AddCart(ChiTietGioHang chiTietGioHang) //backup nếu có lỗi
         {
             try
             {
                 var temp = context.ChiTietGioHangs.FirstOrDefault(x => x.IDNguoiDung == chiTietGioHang.IDNguoiDung && x.IDCTSP == chiTietGioHang.IDCTSP);
                 if (temp != null)
                 {
-                    temp.SoLuong += chiTietGioHang.SoLuong;
-                    context.ChiTietGioHangs.Update(temp);
+                    var ctsp = context.ChiTietSanPhams.FirstOrDefault(x => x.ID == temp.IDCTSP).SoLuong;
+                    if ((temp.SoLuong + chiTietGioHang.SoLuong) > ctsp)
+                    {
+                        return new BadRequestObjectResult(new { success = false, message = "Bạn đã có " + temp.SoLuong + " sản phẩm trong giỏ hàng. Không thể thêm số lượng đã chọn vào giỏ hàng vì sẽ vượt quá giới hạn mua hàng của bạn." });
+                    }
+                    else
+                    {
+                        temp.SoLuong += chiTietGioHang.SoLuong;
+                        context.ChiTietGioHangs.Update(temp);
+
+                    }
                 }
                 else
                 {
                     context.ChiTietGioHangs.Add(chiTietGioHang);
                 }
                 await context.SaveChangesAsync();
-                return true;
+                return new OkObjectResult(new { success = true, message = "Thêm vào giỏ hàng thành công" });
             }
-            catch (Exception e)
+            catch (Exception)
             {
-                return false;
+                return new BadRequestObjectResult(new { success = false, message = "Đã xảy ra lỗi trong quá trình thêm sản phẩm vào giỏ hàng." });
             }
         }
         public async Task<bool> DeleteCart(Guid idNguoiDung)
         {
             try
             {
-                var lstChiTietGioHang = context.ChiTietGioHangs.Where(x => x.IDNguoiDung== idNguoiDung).ToList();
+                var lstChiTietGioHang = context.ChiTietGioHangs.Where(x => x.IDNguoiDung == idNguoiDung).ToList();
                 context.ChiTietGioHangs.RemoveRange(lstChiTietGioHang);
                 await context.SaveChangesAsync();
                 return true;

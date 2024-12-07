@@ -17,6 +17,11 @@ namespace AppAPI.Services
         {
             try
             {
+                string[] commonSizes = new string[] { "XS", "S", "M", "L", "XL", "XXL", "XXXL", "4XL", "5XL", "6XL" };
+                if (!commonSizes.Contains(ten.Trim().ToUpper()))
+                {
+                    return null; 
+                }
                 var existingColor = await _dbContext.KichCos.FirstOrDefaultAsync(x => x.Ten.Trim().ToUpper() == ten.Trim().ToUpper());
                 if (existingColor != null)
                 {
