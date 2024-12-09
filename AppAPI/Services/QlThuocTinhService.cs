@@ -65,7 +65,7 @@ namespace AppAPI.Services
                 var nv = await _dbContext.KichCos.FirstOrDefaultAsync(x => x.ID == id);
                 if (nv != null)
                 {
-                    var existingColor = await _dbContext.KichCos.FirstOrDefaultAsync(x => x.Ten.Trim().ToUpper() == ten.Trim().ToUpper());
+                    var existingColor = await _dbContext.KichCos.FirstOrDefaultAsync(x => x.Ten.Trim().ToUpper() == ten.Trim().ToUpper() && x.ID != id);
                     if (existingColor != null)
                     {
                         return null; // Trả về null để báo hiệu tên trùng
@@ -177,7 +177,7 @@ namespace AppAPI.Services
                 var nv = await _dbContext.MauSacs.FirstOrDefaultAsync(x => x.ID == id);
                 if (nv != null)
                 {
-                    var existingColor = await _dbContext.MauSacs.FirstOrDefaultAsync(x => x.Ten.Trim().ToUpper() == ten.Trim().ToUpper());
+                    var existingColor = await _dbContext.MauSacs.FirstOrDefaultAsync(x => x.Ten.Trim().ToUpper() == ten.Trim().ToUpper() && x.ID != id);
                     if (existingColor != null)
                     {
                         return null;

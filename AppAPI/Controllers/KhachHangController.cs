@@ -33,7 +33,7 @@ namespace AppAPI.Controllers
         [HttpGet]
         public List<KhachHang> GetAllKhachHang(string? Ten, string? SDT)
         {
-            return _dbcontext.KhachHangs.Where(x=>x.SDT.Contains(SDT)|| x.Ten.Contains(Ten)|| x.SDT.Contains(SDT) || x.Ten.Contains(Ten)).ToList();
+            return _dbcontext.KhachHangs.Where(x=>x.SDT.Contains(SDT)|| x.Ten.Contains(Ten)).ToList();
         }
         [Route("GetById")]
         [HttpGet]
