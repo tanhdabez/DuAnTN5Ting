@@ -56,6 +56,12 @@
                 </li>
                 <li class="item">
                     <span class="checkbox">
+                        <i class="fa-solid fa-check check-icon" data-value="11"></i>
+                    </span>
+                    <span class="item-text">Giao hàng không thành công</span>
+                </li>
+                <li class="item">
+                    <span class="checkbox">
                         <i class="fa-solid fa-check check-icon" data-value="6"></i>
                     </span>
                     <span class="item-text">Thành công</span>
@@ -300,6 +306,7 @@
                                        ${response.data[i].trangThai === 2 ? '<label class="badge bg-info">Chờ xác nhận</label>' :
                                 response.data[i].trangThai === 10 ? '<label class="badge bg-info">Đang đóng hàng</label>' :
                                     response.data[i].trangThai === 3 ? '<label class="badge bg-primary">Đang giao hàng</label>' :
+                                        response.data[i].trangThai === 11 ? '<label class="badge bg-primary">Giao hàng không thành công</label>' :
                                         response.data[i].trangThai === 4 ? '<label class="badge bg-danger">Đang hoàn hàng</label>' :
                                             response.data[i].trangThai === 5 ? '<label class="badge bg-danger">Hoàn hàng thành công</label>' :
                                                 response.data[i].trangThai === 6 ? '<label class="badge bg-success">Thành công</label>' :

@@ -1,4 +1,6 @@
-﻿namespace AppData.Models
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace AppData.Models
 {
     public class ChiTietGioHang
     {

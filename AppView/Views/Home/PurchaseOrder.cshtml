@@ -235,6 +235,7 @@
                             <td>
                                 ${response.data[i].trangThaiGiaoHang === 2 ? '<label>Chờ xác nhận</label>' :
                                     response.data[i].trangThaiGiaoHang === 3 ? '<label>Đang giao hàng</label>' :
+                                    response.data[i].trangThaiGiaoHang === 11 ? '<label>Giao hàng không thành công</label>' :
                                     response.data[i].trangThaiGiaoHang === 4 ? '<label>Đang hoàn hàng</label>' :
                                     response.data[i].trangThaiGiaoHang === 5 ? '<label>Hoàn hàng thành công</label>' :
                                     response.data[i].trangThaiGiaoHang === 6 ? '<label>Hoàn thành</label>' :
@@ -243,6 +244,7 @@
                                     response.data[i].trangThaiGiaoHang === 9 ? '<label>Chờ xác nhận hoàn hàng</label>' :
                                     response.data[i].trangThaiGiaoHang === 10 ? '<label>Chờ đóng hàng</label>' :
                                     '<label>Chờ xác nhận hoàn hàng</label>'}
+
                             </td>
                             <td>${response.data[i].loaiHoaDon === 0 ? '<label>Mua hàng online</label>' : '<label>Mua hàng tại quầy</label>'}</td>
                         </tr>`);

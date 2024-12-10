@@ -90,10 +90,12 @@ namespace AppAPI.Controllers
         {
             return gioHangServices.GetCartLogin(idNguoiDung);
         }
+        //backup nếu có lỗi
         [HttpPost("AddCart")]
-        public bool AddCart(ChiTietGioHang chiTietGioHang)
+        public async Task<IActionResult> AddCart(ChiTietGioHang chiTietGioHang)
         {
-            return gioHangServices.AddCart(chiTietGioHang).Result;
+            var result = await gioHangServices.AddCart(chiTietGioHang);
+            return result;
         }
     }
 }
