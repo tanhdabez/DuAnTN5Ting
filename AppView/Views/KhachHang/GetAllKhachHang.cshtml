@@ -67,18 +67,18 @@
                 <td>
                     @if (item.GioiTinh == 0)
                     {
-                        <div style="color:red">Nữ</div>
+                        <div style="color:black">Nữ</div>
                     }
                     @if(item.GioiTinh == 1)
                     {
-                        <div style="color:green">Nam</div>
+                        <div style="color:black">Nam</div>
                     }
                     @if (item.GioiTinh == null){
                         <div style="color:green"></div>
                     }
                 </td>
                 <td>
-                    @item.NgaySinh
+                    @item.NgaySinh?.ToString("dd/MM/yyyy")
                 </td>
                 <td>
                     <div>@item.Email</div>

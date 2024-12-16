@@ -586,7 +586,10 @@
             toastr.error('Vui lòng đặt số lượng > 0', 'Error Alert', { timeOut: 1000 });
             return;
         }
-
+        if (soLuong > 15) {
+        toastr.error('Giới hạn đặt cho sản phẩm này dưới 15', 'Error Alert', { timeOut: 1000 });
+        return;
+        }
         if (soLuong > slctsp) {
             toastr.error('Số lượng không đủ, vui lòng giảm số lượng', 'Error Alert', { timeOut: 1000 });
             return;
@@ -629,58 +632,122 @@
         });
     }
     function buyNow() {
-        var ctsp = chiTietSanPhams.find(p => p.maCTSP == document.getElementById("maSP").innerHTML);
-        var idctsp = ctsp.id;
-        var kichco = KichCo();
-        var mausac = MauSac();
-        var soLuong = parseInt(document.getElementById("sl").value);
-        if (mausac.length != 0 && kichco.length != 0) {
-            if (ctsp.soLuong < soLuong) {
-                toastr.error('Số lượng không đủ vui lòng giảm số lượng', 'Error Alert', { timeOut: 1000 });
-            } else if (soLuong == 0 || isNaN(soLuong) == true) {
-                toastr.error('Vui lòng chọn số lượng > 0', 'Error Alert', { timeOut: 1000 });
-            } else {
-                $.ajax({
-                    async: true,
-                    type: 'POST',
-                    dataType: "json",
-                    data: { id: idctsp, soLuong: document.getElementById("sl").value },
-                    url: '/Home/BuyNow',
-                    success: function (response) {
-                        if (response.success == true) {
-                            location.href = 'ShoppingCart';
+    var ctsp = chiTietSanPhams.find(p => p.maCTSP == document.getElementById("maSP").innerHTML);
+    var idctsp = ctsp.id;
+    var slctsp = ctsp.soLuong;
+    var kichco = KichCo();
+    var mausac = MauSac();
+    var soLuong = parseInt(document.getElementById("sl").value);
 
-                        } else {
-                            toastr.error(response.message, 'Error Alert', { timeOut: 1000 });
-                        }
-                    },
-                    error: function (response) {
-                        toastr.error(response.message, 'Error Alert', { timeOut: 1000 });
-                    }
-                });
+    if (mausac.length === 0 || kichco.length === 0) {
+        toastr.error('Vui lòng chọn biến thể', 'Error Alert', { timeOut: 1000 });
+        return;
+    }
+    if (soLuong <= 0 || isNaN(soLuong)) {
+        toastr.error('Vui lòng đặt số lượng > 0', 'Error Alert', { timeOut: 1000 });
+        return;
+    }
+    if (soLuong > 15) {
+    toastr.error('Giới hạn đặt cho sản phẩm này dưới 15', 'Error Alert', { timeOut: 1000 });
+    return;
+    }
+    if (soLuong > slctsp) {
+        toastr.error('Số lượng không đủ, vui lòng giảm số lượng', 'Error Alert', { timeOut: 1000 });
+        return;
+    }
+
+    // Gọi AJAX để mua ngay
+    $.ajax({
+        async: true,
+        type: 'POST',
+        dataType: "json",
+        data: { id: idctsp, soLuong: soLuong, slcl: slctsp },
+        url: '/Home/BuyNow',
+        success: function (response) {
+            if (response.success) {
+                toastr.success(response.message, 'Success Alert', { timeOut: 1000 });
+                // Cập nhật tổng số lượng nếu mua ngay thành công
                 $.ajax({
                     async: true,
                     type: 'POST',
                     dataType: "json",
-                    data: { sl: document.getElementById("sl").value },
+                    data: { sl: soLuong },
                     url: '/Home/TongSoLuong',
                     success: function (response) {
-                        if (response.success == true) {
+                        if (response.success) {
                             $('#tongsoluong').text(response.sl);
-
-                        } else {
-
                         }
                     },
-                    error: function (response) {
-
+                    error: function () {
+                        toastr.error('Lỗi khi cập nhật tổng số lượng', 'Error Alert', { timeOut: 3000 });
                     }
                 });
+
+                // Chuyển hướng tới trang giỏ hàng
+                location.href = 'ShoppingCart';
+            } else {
+                toastr.error(response.message, 'Error Alert', { timeOut: 3000 });
             }
-        } else {
-            toastr.error('Vui lòng chọn biến thể', 'Error Alert', { timeOut: 1000 });
+        },
+        error: function () {
+            toastr.error('Lỗi khi thực hiện mua ngay', 'Error Alert', { timeOut: 3000 });
         }
-    }
+    });
+}
+
+    // function buyNow() {
+    //     var ctsp = chiTietSanPhams.find(p => p.maCTSP == document.getElementById("maSP").innerHTML);
+    //     var idctsp = ctsp.id;
+    //     var kichco = KichCo();
+    //     var mausac = MauSac();
+    //     var soLuong = parseInt(document.getElementById("sl").value);
+    //     if (mausac.length != 0 && kichco.length != 0) {
+    //         if (ctsp.soLuong < soLuong) {
+    //             toastr.error('Số lượng không đủ vui lòng giảm số lượng', 'Error Alert', { timeOut: 1000 });
+    //         } else if (soLuong == 0 || isNaN(soLuong) == true) {
+    //             toastr.error('Vui lòng chọn số lượng > 0', 'Error Alert', { timeOut: 1000 });
+    //         } else {
+    //             $.ajax({
+    //                 async: true,
+    //                 type: 'POST',
+    //                 dataType: "json",
+    //                 data: { id: idctsp, soLuong: document.getElementById("sl").value },
+    //                 url: '/Home/BuyNow',
+    //                 success: function (response) {
+    //                     if (response.success == true) {
+    //                         location.href = 'ShoppingCart';
+
+    //                     } else {
+    //                         toastr.error(response.message, 'Error Alert', { timeOut: 1000 });
+    //                     }
+    //                 },
+    //                 error: function (response) {
+    //                     toastr.error(response.message, 'Error Alert', { timeOut: 1000 });
+    //                 }
+    //             });
+    //             $.ajax({
+    //                 async: true,
+    //                 type: 'POST',
+    //                 dataType: "json",
+    //                 data: { sl: document.getElementById("sl").value },
+    //                 url: '/Home/TongSoLuong',
+    //                 success: function (response) {
+    //                     if (response.success == true) {
+    //                         $('#tongsoluong').text(response.sl);
+
+    //                     } else {
+
+    //                     }
+    //                 },
+    //                 error: function (response) {
+
+    //                 }
+    //             });
+    //         }
+    //     } else {
+    //         toastr.error('Vui lòng chọn biến thể', 'Error Alert', { timeOut: 1000 });
+    //     }
+    // }
     //----
 
 

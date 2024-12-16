@@ -155,7 +155,7 @@ namespace AppAPI.Controllers
                 
                 kh.Ten = khv.Ten?.Trim();
                 //kh.Password = MaHoaMatKhau(khv.Password);
-                //kh.GioiTinh = khv.GioiTinh;
+                kh.GioiTinh = khv.GioiTinh;
                 kh.NgaySinh = khv.NgaySinh;
                 //kh.Email = khv.Email;
                 kh.DiaChi = khv.DiaChi?.Trim();

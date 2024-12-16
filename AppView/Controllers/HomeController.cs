@@ -692,16 +692,30 @@ namespace AppView.Controllers
                     {
                         lstGioHang = JsonConvert.DeserializeObject<List<GioHangRequest>>(result);
                         var tempBienThe = lstGioHang.FirstOrDefault(x => x.IDChiTietSanPham == new Guid(id));
+                        //var idSP = 
                         if (tempBienThe != null)
                         {
                             // Kiểm tra nếu số lượng muốn thêm vượt quá tồn kho
-                            if (sl != null && tempBienThe.SoLuong + sl.Value > slcl.Value)
+                            if (sl != null)
                             {
-                                return Json(new { success = false, message = $"Bạn đã có {tempBienThe.SoLuong} sản phẩm trong giỏ hàng. Không thể thêm số lượng đã chọn vào giỏ hàng vì sẽ vượt quá giới hạn mua hàng của bạn." });
+                                if (tempBienThe.SoLuong + sl.Value > slcl.Value)
+                                {
+                                    return Json(new { success = false, message = $"Bạn đã có {tempBienThe.SoLuong} sản phẩm trong giỏ hàng. Không thể thêm số lượng đã chọn vào giỏ hàng vì sẽ vượt quá giới hạn mua hàng của bạn." });
+                                }
+                                if (tempBienThe.SoLuong + sl > 15)
+                                {
+                                    return Json(new { success = false, message = $"Bạn chỉ có thể thêm tối đa 15 sản phẩm này vào giỏ hàng" });
+                                }
+
                             }
                             if (sl == null)
                             {
                                 tempBienThe.SoLuong++;
+                                if ( tempBienThe.SoLuong > 15)
+                                {
+                                    tempBienThe.SoLuong--;
+                                    return Json(new { success = false, message = $"Bạn chỉ có thể thêm tối đa 15 sản phẩm này vào giỏ hàng" }); 
+                                }
                             }
                             else
                             {
@@ -816,48 +830,57 @@ namespace AppView.Controllers
 
         }
         [HttpPost]
-        public ActionResult BuyNow(string id, int soLuong)
+        public ActionResult BuyNow(string id, int soLuong, int? slcl)
         {
             try
             {
                 HttpResponseMessage response = _httpClient.GetAsync(_httpClient.BaseAddress + $"SanPham/GetChiTietSanPhamByID?id=" + id).Result;
                 if (response.IsSuccessStatusCode)
                 {
-                    //moiw
-                    List<GioHangRequest> lstGioHang;
-                    //ChiTietSanPhamViewModel chiTietSanPham = JsonConvert.DeserializeObject<ChiTietSanPhamViewModel>(response.Content.ReadAsStringAsync().Result);
-                    string? result = Request.Cookies["Cart"];
-                    if (string.IsNullOrEmpty(result))
-                    {
-                        //chiTietSanPham.SoLuong = (sl != null)?sl.Value:1;
-                        lstGioHang = new List<GioHangRequest>() { new GioHangRequest() { IDChiTietSanPham = new Guid(id), SoLuong = (soLuong != null) ? soLuong : 1 } };
-                    }
-                    else
-                    {
-                        lstGioHang = JsonConvert.DeserializeObject<List<GioHangRequest>>(result);
-                        var tempBienThe = lstGioHang.FirstOrDefault(x => x.IDChiTietSanPham == new Guid(id));
-                        if (tempBienThe != null)
-                        {
-                            //Sua 
-                            if (soLuong == null)
-                            {
-                                tempBienThe.SoLuong++;
-                            }
-                            else
-                            {
-                                tempBienThe.SoLuong = tempBienThe.SoLuong + soLuong;
-                            }
-
-                        }
-                        else
-                        {
-                            //chiTietSanPham.SoLuong = (sl != null) ? sl.Value : 1;
-                            lstGioHang.Add(new GioHangRequest() { IDChiTietSanPham = new Guid(id), SoLuong = (soLuong != null) ? soLuong : 1 });
-                        }
-                    }
                     var session = HttpContext.Session.GetString("LoginInfor");
                     if (session == null)
                     {
+                        //moiw
+                        List<GioHangRequest> lstGioHang;
+                        //ChiTietSanPhamViewModel chiTietSanPham = JsonConvert.DeserializeObject<ChiTietSanPhamViewModel>(response.Content.ReadAsStringAsync().Result);
+                        string? result = Request.Cookies["Cart"];
+                        if (string.IsNullOrEmpty(result))
+                        {
+                            //chiTietSanPham.SoLuong = (sl != null)?sl.Value:1;
+                            lstGioHang = new List<GioHangRequest>() { new GioHangRequest() { IDChiTietSanPham = new Guid(id), SoLuong = (soLuong != null) ? soLuong : 1 } };
+                        }
+                        else
+                        {
+                            lstGioHang = JsonConvert.DeserializeObject<List<GioHangRequest>>(result);
+                            var tempBienThe = lstGioHang.FirstOrDefault(x => x.IDChiTietSanPham == new Guid(id));
+                            if (tempBienThe != null)
+                            {
+                                // Kiểm tra nếu số lượng muốn thêm vượt quá tồn kho
+                                if (soLuong != null && tempBienThe.SoLuong + soLuong > slcl.Value)
+                                {
+                                    return Json(new { success = false, message = $"Bạn đã có {tempBienThe.SoLuong} sản phẩm trong giỏ hàng. Không thể thêm số lượng đã chọn vào giỏ hàng vì sẽ vượt quá giới hạn mua hàng của bạn." });
+                                }
+                                if (soLuong != null && tempBienThe.SoLuong + soLuong > 15)
+                                {
+                                    return Json(new { success = false, message = $"Bạn chỉ có thể thêm tối đa 15 sản phẩm này vào giỏ hàng" });
+                                }
+                                if (soLuong == null)
+                                {
+                                    tempBienThe.SoLuong++;
+                                }
+                                else
+                                {
+                                    tempBienThe.SoLuong += soLuong;
+                                }
+
+                            }
+                            else
+                            {
+                                //chiTietSanPham.SoLuong = (sl != null) ? sl.Value : 1;
+                                lstGioHang.Add(new GioHangRequest() { IDChiTietSanPham = new Guid(id), SoLuong = (soLuong != null) ? soLuong : 1 });
+                            }
+                        }
+
                         CookieOptions cookie = new CookieOptions();
                         cookie.Expires = DateTime.Now.AddDays(30);
                         Response.Cookies.Append("Cart", JsonConvert.SerializeObject(lstGioHang), cookie);
@@ -870,8 +893,18 @@ namespace AppView.Controllers
                         {
                             var chiTietGioHang = new ChiTietGioHang() { ID = Guid.NewGuid(), SoLuong = (soLuong != null) ? soLuong : 1, IDCTSP = new Guid(id), IDNguoiDung = loginInfor.Id };
                             var response1 = _httpClient.PostAsJsonAsync(_httpClient.BaseAddress + "GioHang/AddCart", chiTietGioHang).Result;
-                            if (response1.IsSuccessStatusCode) return Json(new { success = true, message = "Thêm vào giỏ hàng thành công" });
-                            else return Json(new { success = false, message = "Thêm vào giỏ hàng thất bại" });
+                            if (response1.IsSuccessStatusCode)
+                            {
+                                var responseContent = response1.Content.ReadFromJsonAsync<dynamic>().Result;
+                                var message = responseContent.GetProperty("message").GetString();
+                                return Json(new { success = true, message = message });
+                            }
+                            else
+                            {
+                                var responseContent = response1.Content.ReadFromJsonAsync<dynamic>().Result;
+                                var message = responseContent.GetProperty("message").GetString();
+                                return Json(new { success = false, message = message });
+                            }
                         }
                         else return Json(new { success = false, message = "Chỉ khách hàng mới thêm được vào giỏ hàng" });
                     }

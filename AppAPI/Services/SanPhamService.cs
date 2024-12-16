@@ -206,6 +206,11 @@ namespace AppAPI.Services
             {
                 var sanPham = await _context.SanPhams.FirstAsync(x => x.ID == id);
                 sanPham.TrangThai = trangThai;
+                var chitietsanpham = _context.ChiTietSanPhams.Where(x => x.IDSanPham == id).ToList();
+                foreach (var item in chitietsanpham)
+                {
+                    item.SoLuong = 0;
+                }
                 _context.SanPhams.Update(sanPham);
                 await _context.SaveChangesAsync();
                 return true;

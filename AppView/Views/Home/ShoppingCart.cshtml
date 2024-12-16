@@ -70,9 +70,6 @@
                             {
                                 <tr>
                                     <td>
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" id="customCheck">
-                                        </div>
                                     </td>
                                     <td class="product__cart__item">
                                         <div class="product__cart__item__pic">
@@ -181,7 +178,10 @@
 
                             if (input) {
                                 // Gán lại tồn kho cho thuộc tính data-max
-                                input.setAttribute("data-max", item.soLuongConLai);
+                                   input.setAttribute("data-max", Math.min(item.soLuongConLai, 15));
+                        
+                                // Thêm điều kiện giới hạn tối đa 15 sản phẩm
+                                   input.setAttribute("max", 15);
                             }
 
                             if (item.hetHang) {

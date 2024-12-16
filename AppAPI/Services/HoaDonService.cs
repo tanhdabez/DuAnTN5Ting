@@ -908,6 +908,16 @@ namespace AppAPI.Services
         {
             var update = reposHoaDon.GetAll().FirstOrDefault(p => p.ID == idHoaDon);
             List<ChiTietHoaDon> chitiethoadon = reposChiTietHoaDon.GetAll().Where(p => p.IDHoaDon == idHoaDon).ToList();
+            //var hoaDon = reposHoaDon.GetAll().FirstOrDefault(p => p.ID == idHoaDon).Email;
+            //if (hoaDon!= null)
+            //{
+            //    var chanHuyDon = reposHoaDon.GetAll().Where(p => p.Email == hoaDon && p.TrangThaiGiaoHang == 7
+            //        && p.NgayTao >= DateTime.Now.AddDays(-7)).ToList();
+            //    if (chanHuyDon.Count > 2)
+            //    {
+            //        return false; // Trả về false nếu có hơn 5 đơn
+            //    }
+            //}
             if (update != null)
             {
                 if (trangThai == 5)

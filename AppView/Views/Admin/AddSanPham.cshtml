@@ -22,7 +22,7 @@
                 </div>
                 <!-- Button Thêm bên phải -->
                 <div class="form-group">
-                    <button type="submit" class="btn btn-success">
+                    <button type="submit" class="btn btn-success" onclick="return confirmAddSanPham()">
                         Thêm <i class="bi bi-plus-circle"></i>
                     </button>
                 </div>
@@ -65,6 +65,7 @@
                 <div class="col-md-6">
                     <div class="form-group">
                         <p class="control-label mt-2 mb-2">Màu sắc</p>
+                        <span asp-validation-for="MauSacs" class="text-danger"></span>
                         <button type="button" class="btn btn-outline-primary mb-2" onclick="themMauSac(this)">
                             <i class="bi bi-eyedropper"></i> Thêm Màu
                         </button>
@@ -92,6 +93,7 @@
                     </div>
                     <div class="form-group" id="lstKichCo">
                         <label class="control-label mt-2 mb-2">Kích cỡ</label>
+                        <span asp-validation-for="KichCos" class="text-danger"></span>
                         <div class="row" style='width:450px' id="size0">
                             <div class="col-lg-10" style='padding-right:0px'>
                                 <input name="KichCos[0]" class="form-control" list="kichCo" id="tenkc0"
@@ -231,6 +233,9 @@
     function xoaSize(count) {
         document.getElementById("size" + count).hidden = true;
         document.getElementById("tenkc" + count).value = 'Deleted';
+    }
+    function confirmAddSanPham() {
+        return window.confirm("Bạn có chắc chắn muốn thêm sản phẩm không?");
     }
 </script>
 @section Scripts {

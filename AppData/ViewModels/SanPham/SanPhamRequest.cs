@@ -15,7 +15,9 @@ namespace AppData.ViewModels.SanPham
         public string? MoTa { get; set; }
         [Required(ErrorMessage = "Thiếu chất liệu sản phẩm")]
         public string TenChatLieu { get; set; }
+        [Required(ErrorMessage = "Thiếu màu sắc")]
         public List<MauSac> MauSacs { get; set; }
+        [Required(ErrorMessage = "Thiếu kích cỡ sản phẩm")]
         public List<string> KichCos {  get; set; }
         public string TenLoaiSPCha { get; set; }
         [Required(ErrorMessage = "Thiếu loại sản phẩm con (nhánh)")]
