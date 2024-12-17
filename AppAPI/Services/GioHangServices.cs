@@ -115,10 +115,10 @@ namespace AppAPI.Services
                     {
                         return new BadRequestObjectResult(new { success = false, message = "Bạn đã có " + temp.SoLuong + " sản phẩm trong giỏ hàng. Không thể thêm số lượng đã chọn vào giỏ hàng vì sẽ vượt quá giới hạn mua hàng của bạn." });
                     }
-                    if ((temp.SoLuong + chiTietGioHang.SoLuong) > 15)
-                    {
-                        return new BadRequestObjectResult(new { success = false, message = "Bạn chỉ có thể thêm tối đa 15 chiếc " + sp + " vào giỏ hàng" });
-                    }
+                    //if ((temp.SoLuong + chiTietGioHang.SoLuong) > 15)
+                    //{
+                    //    return new BadRequestObjectResult(new { success = false, message = "Bạn chỉ có thể thêm tối đa 15 chiếc " + sp + " vào giỏ hàng" });
+                    //}
                     else
                     {
                         temp.SoLuong += chiTietGioHang.SoLuong;

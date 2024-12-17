@@ -158,7 +158,8 @@ namespace AppAPI.Services
                             reposDanhGia.Add(danhGia);
                             reposChiTietHoaDon.Add(chiTietHoaDon);
                             var CTsanPham = repsCTSanPham.GetAll().FirstOrDefault(p => p.ID == x.IDChiTietSanPham);
-                            CTsanPham.SoLuong -= chiTietHoaDon.SoLuong;
+                            //backup
+                            //CTsanPham.SoLuong -= chiTietHoaDon.SoLuong;
                             if (CTsanPham.SoLuong < 0)
                             {
                                 CTsanPham.SoLuong += chiTietHoaDon.SoLuong;
@@ -929,6 +930,15 @@ namespace AppAPI.Services
                         repsCTSanPham.Update(CTsanPham);
                     }
                 }
+                if (trangThai == 11)
+                {
+                    foreach (var item in chitiethoadon)
+                    {
+                        var CTsanPham = repsCTSanPham.GetAll().FirstOrDefault(p => p.ID == item.IDCTSP);
+                        CTsanPham.SoLuong += item.SoLuong;
+                        repsCTSanPham.Update(CTsanPham);
+                    }
+                }
                 if (trangThai == 6)
                 {
                     var lstlstd = context.LichSuTichDiems.Where(c => c.IDHoaDon == idHoaDon).ToList();
@@ -945,6 +955,18 @@ namespace AppAPI.Services
                     }
                     update.NgayThanhToan = update.NgayThanhToan == null ? DateTime.Now : update.NgayThanhToan;
                     update.NgayNhanHang = update.NgayNhanHang == null ? DateTime.Now : update.NgayNhanHang;
+                }
+                if (trangThai == 10)
+                {
+                    foreach (var item in chitiethoadon)
+                    {
+                        var CTsanPham = repsCTSanPham.GetAll().FirstOrDefault(p => p.ID == item.IDCTSP);
+                        if (CTsanPham != null)
+                        {
+                            CTsanPham.SoLuong -= item.SoLuong; // Giảm số lượng sản phẩm
+                            repsCTSanPham.Update(CTsanPham);   // Cập nhật lại số lượng
+                        }
+                    }
                 }
                 update.TrangThaiGiaoHang = trangThai;
                 update.IDNhanVien = idNhanVien;

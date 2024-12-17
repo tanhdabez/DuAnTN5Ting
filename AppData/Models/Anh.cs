@@ -13,7 +13,7 @@ namespace AppData.Models
         public int TrangThai { get; set; }
         public Guid? IDMauSac { get; set; }
         public Guid? IDSanPham { get; set; }
-        public virtual MauSac? MauSac { get; set; }
+        //public virtual MauSac? MauSac { get; set; }
         public virtual SanPham? SanPham { get; set; }
     }
 }

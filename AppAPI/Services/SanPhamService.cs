@@ -4,7 +4,6 @@ using AppData.ViewModels;
 using AppData.ViewModels.BanOffline;
 using AppData.ViewModels.SanPham;
 using Microsoft.EntityFrameworkCore;
-using System.Diagnostics.Eventing.Reader;
 
 namespace AppAPI.Services
 {
@@ -89,7 +88,6 @@ namespace AppAPI.Services
             {
                 KhuyenMai? khuyenMai;
                 List<KhuyenMai> khuyenMais = _context.KhuyenMais.Where(x => x.NgayKetThuc > DateTime.Now && x.NgayApDung < DateTime.Now).ToList();
-
                 var lstSanPham = (from a in _context.SanPhams
                                   join b in _context.ChiTietSanPhams.Where(x => x.TrangThai == 1) on a.ID equals b.IDSanPham into sanpham
                                   from sp in sanpham.DefaultIfEmpty()
@@ -105,7 +103,9 @@ namespace AppAPI.Services
                                       Anh = sp == null ? "" : _context.Anhs.First(x => x.IDMauSac == sp.IDMauSac && x.IDSanPham == a.ID).DuongDan,
                                       ChatLieu = _context.ChatLieus.First(x => x.ID == a.IDChatLieu).Ten,
                                       GiaGoc = sp == null ? -999 : sp.GiaBan,
-                                      SoLuong = sp == null ? -999 : sp.SoLuong,
+                                      SoLuong = _context.ChiTietSanPhams
+                               .Where(x => x.IDSanPham == a.ID && (x.TrangThai == 1 || x.TrangThai == 2))
+                               .Sum(x => (int?)x.SoLuong) ?? 0, // Tính tổng số lượng
                                       IDKhuyenMai = sp == null ? null : sp.IDKhuyenMai,
                                   }).ToList();
                 foreach (var item in lstSanPham)
@@ -258,7 +258,7 @@ namespace AppAPI.Services
                         lst.Add(CreateChiTietSanPhamFromSanPham(x, y, null).Result);
                     }
                 }
-                return new ChiTietSanPhamUpdateRequest() { IDSanPham = sanPham.ID, ChiTietSanPhams = lst.GroupBy(x=> new {MauSac = x.IDMauSac,KichCo = x.IDKichCo}).Select(y=>y.First()).ToList(), Ma = sanPham.Ma, Location = 0 };
+                return new ChiTietSanPhamUpdateRequest() { IDSanPham = sanPham.ID, ChiTietSanPhams = lst.GroupBy(x => new { MauSac = x.IDMauSac, KichCo = x.IDKichCo }).Select(y => y.First()).ToList(), Ma = sanPham.Ma, Location = 0 };
             }
             catch { return new ChiTietSanPhamUpdateRequest(); }
         }

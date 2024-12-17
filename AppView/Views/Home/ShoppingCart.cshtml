@@ -178,10 +178,10 @@
 
                             if (input) {
                                 // Gán lại tồn kho cho thuộc tính data-max
-                                   input.setAttribute("data-max", Math.min(item.soLuongConLai, 15));
+                                   input.setAttribute("data-max",item.soLuongConLai);
                         
                                 // Thêm điều kiện giới hạn tối đa 15 sản phẩm
-                                   input.setAttribute("max", 15);
+                                   // input.setAttribute("max", 15);
                             }
 
                             if (item.hetHang) {

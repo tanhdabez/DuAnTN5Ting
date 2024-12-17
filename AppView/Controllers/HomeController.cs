@@ -702,20 +702,20 @@ namespace AppView.Controllers
                                 {
                                     return Json(new { success = false, message = $"Bạn đã có {tempBienThe.SoLuong} sản phẩm trong giỏ hàng. Không thể thêm số lượng đã chọn vào giỏ hàng vì sẽ vượt quá giới hạn mua hàng của bạn." });
                                 }
-                                if (tempBienThe.SoLuong + sl > 15)
-                                {
-                                    return Json(new { success = false, message = $"Bạn chỉ có thể thêm tối đa 15 sản phẩm này vào giỏ hàng" });
-                                }
+                                //if (tempBienThe.SoLuong + sl > 15)
+                                //{
+                                //    return Json(new { success = false, message = $"Bạn chỉ có thể thêm tối đa 15 sản phẩm này vào giỏ hàng" });
+                                //}
 
                             }
                             if (sl == null)
                             {
                                 tempBienThe.SoLuong++;
-                                if ( tempBienThe.SoLuong > 15)
-                                {
-                                    tempBienThe.SoLuong--;
-                                    return Json(new { success = false, message = $"Bạn chỉ có thể thêm tối đa 15 sản phẩm này vào giỏ hàng" }); 
-                                }
+                                //if ( tempBienThe.SoLuong > 15)
+                                //{
+                                //    tempBienThe.SoLuong--;
+                                //    return Json(new { success = false, message = $"Bạn chỉ có thể thêm tối đa 15 sản phẩm này vào giỏ hàng" }); 
+                                //}
                             }
                             else
                             {
@@ -860,10 +860,10 @@ namespace AppView.Controllers
                                 {
                                     return Json(new { success = false, message = $"Bạn đã có {tempBienThe.SoLuong} sản phẩm trong giỏ hàng. Không thể thêm số lượng đã chọn vào giỏ hàng vì sẽ vượt quá giới hạn mua hàng của bạn." });
                                 }
-                                if (soLuong != null && tempBienThe.SoLuong + soLuong > 15)
-                                {
-                                    return Json(new { success = false, message = $"Bạn chỉ có thể thêm tối đa 15 sản phẩm này vào giỏ hàng" });
-                                }
+                                //if (soLuong != null && tempBienThe.SoLuong + soLuong > 15)
+                                //{
+                                //    return Json(new { success = false, message = $"Bạn chỉ có thể thêm tối đa 15 sản phẩm này vào giỏ hàng" });
+                                //}
                                 if (soLuong == null)
                                 {
                                     tempBienThe.SoLuong++;

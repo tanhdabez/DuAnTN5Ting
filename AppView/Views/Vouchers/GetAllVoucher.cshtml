@@ -84,16 +84,16 @@ int stt = 1;
         }
       </td>
       <td>
-        <div style="color:green">@item.NgayApDung</div>
+        <div style="color:green">@item.NgayApDung.ToString("dd/MM/yyyy HH:mm")</div>
       </td>
       <td>
         @if (item.NgayKetThuc >= DateTime.Now)
         {
-        <div style="color:green">@item.NgayKetThuc</div>
+        <div style="color:green">@item.NgayKetThuc.ToString("dd/MM/yyyy HH:mm")</div>
         }
         else
         {
-        <div style="color:red">@item.NgayKetThuc</div>
+        <div style="color:red">@item.NgayKetThuc.ToString("dd/MM/yyyy HH:mm")</div>
         }
 
       </td>
