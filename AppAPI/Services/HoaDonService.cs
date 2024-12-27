@@ -570,14 +570,14 @@ namespace AppAPI.Services
                 context.SaveChanges();
 
                 // Cộng lại số lượng hàng
-                var lsthdct = context.ChiTietHoaDons.Where(c => c.IDHoaDon == idhd).ToList();
-                foreach (var hdct in lsthdct)
-                {
-                    var ctsp = context.ChiTietSanPhams.FirstOrDefault(c => c.ID == hdct.IDCTSP);
-                    ctsp.SoLuong += hdct.SoLuong;
-                    context.ChiTietSanPhams.Update(ctsp);
-                    context.SaveChanges();
-                }
+                //var lsthdct = context.ChiTietHoaDons.Where(c => c.IDHoaDon == idhd).ToList();
+                //foreach (var hdct in lsthdct)
+                //{
+                //    var ctsp = context.ChiTietSanPhams.FirstOrDefault(c => c.ID == hdct.IDCTSP);
+                //    ctsp.SoLuong += hdct.SoLuong;
+                //    context.ChiTietSanPhams.Update(ctsp);
+                //    context.SaveChanges();
+                //}
 
                 // Cộng lại số lượng voucher nếu áp dụng
                 if (hd.IDVoucher != null)
