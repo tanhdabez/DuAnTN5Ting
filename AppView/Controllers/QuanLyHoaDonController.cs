@@ -33,7 +33,7 @@ namespace AppView.Controllers
         public async Task<IActionResult> LoadAllHoaDon(FilterHD filter)
         {
             var listhdql = await _httpClient.GetFromJsonAsync<List<HoaDonQL>>("HoaDon/GetAllHDQly");
-            listhdql = listhdql.OrderByDescending(c => c.ThoiGian).ToList();
+            listhdql = listhdql.OrderBy(c => c.ThoiGian).ToList();
             //Lọc thời gian
             if (filter.ngaybd != null)
             {
